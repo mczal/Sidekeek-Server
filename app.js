@@ -11,6 +11,9 @@ var express = require("express"),
 var firstRegisterModel = require("./model/firstRegister.js");
 var secondRegisterModel = require("./model/secondRegister.js");
 var signUpModel = require("./model/signUp.js");
+var getCitiesModel = require("./model/getCities.js");
+var getProvinceModel = require("./model/getProvince.js");
+var getCategoriesModel = require("./model/getCategories.js");
 
 var app = express();
 var jwt = require("jsonwebtoken");
@@ -115,6 +118,9 @@ connect.prototype.configureExpress = function(connection) {
 			var firstRegister = new firstRegisterModel(router,connection);
 			var secondRegister = new secondRegisterModel(router,connection);
 			var signUp = new signUpModel(router,connection,md5);
+			var getCities = new getCitiesModel(router,connection);
+			var getProvince = new getProvinceModel(router,connection);
+			var getCategories = new getCategoriesModel(router,connection);
 
 			self.startServer();
 };
