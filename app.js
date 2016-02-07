@@ -14,6 +14,9 @@ var signUpModel = require("./model/signUp.js");
 var getCitiesModel = require("./model/getCities.js");
 var getProvinceModel = require("./model/getProvince.js");
 var getCategoriesModel = require("./model/getCategories.js");
+var getProfileModel = require("./model/getProfile.js");
+//var confirmationModel = require("./model/confirmation.js");
+//var editProfileSubmitModel = require("./model/editProfileSubmit.js");
 
 var app = express();
 var jwt = require("jsonwebtoken");
@@ -121,6 +124,9 @@ connect.prototype.configureExpress = function(connection) {
 			var getCities = new getCitiesModel(router,connection);
 			var getProvince = new getProvinceModel(router,connection);
 			var getCategories = new getCategoriesModel(router,connection);
+			var getProfile = new getProfileModel(router,connection);
+			//var confirmation = new confirmationModel(router,connection);
+			//var editProfileSubmit = new editProfileSubmitModel(router,connection);
 
 			self.startServer();
 };

@@ -5,6 +5,16 @@ function signUp(router,connection,md5){
   self.handleRoutes(router,connection,md5);
 }
 
+function generateUniqueCode(){
+    var text = "";
+    var possible = "[&900qnw@ml;kNI./UBI~`189`aklm3076IAKU-PASTI-BISA';l";
+
+    for( var i=0; i < 10; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 var self=this;
 
 signUp.prototype.handleRoutes = function(router,connection,md5){
@@ -35,8 +45,9 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                   //inserting and registering
                   var query="";
                   var query2="";
+                  var uniqueCode = generateUniqueCode();
                   if(myId==null || myId==undefined || myId==""){
-                    query="insert into `host` (email,password) values('"+email+"','"+password+"')";
+                    query="insert into `host` (email,password,unique_code) values('"+email+"','"+password+"','"+uniqueCode+"')";
                     connection.query(query,function(err,rows){
                       if(err){
                         res.json({"message":"err.. error in inserting host"});
@@ -49,7 +60,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                     });
                   }else{
                     query="update `host_temp` set email='"+email+"',password='"+password+"' where id_host="+myId;
-                    query2="insert into `host` (company_name,category,title,id_tipe,statusz) select company_name,category,title,id_tipe,0 from `host_temp` where id_host="+myId;
+                    query2="insert into `host` (email,password,company_name,category,title,id_tipe,statusz,unique_code) select email,password,company_name,category,title,id_tipe,0,'"+uniqueCode+"' from `host_temp` where id_host="+myId;
                     connection.query(query,function(err,rows){
                       if(err){
                         res.json({"message":"err.. error in updating host_temp"});
@@ -58,7 +69,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                           if(err){
                             res.json({"message":"err.. error in inserting host on q2"});
                           }else{
-                            res.json({"message":"success inserting new host on q2, please proceed with confirmation"});
+                            res.json({"message":"success inserting new host on q2, please proceed with confirmation","unique_code":uniqueCode,"email":email});
                           }
                         });
                       }
