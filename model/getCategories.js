@@ -6,7 +6,7 @@ function getCategories(router,connection){
 }
 
 getCategories.prototype.handleRoutes = function(router,connection){
-  router.get("/getCategories",function(req,res){
+  router.post("/getCategories",function(req,res){
     connection.query("select category_name from `bussiness_category` order by category_name asc",function(err,rows){
       if(err){
         res.json({"message":"err.. error on selecting cat"});
