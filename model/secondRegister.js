@@ -9,11 +9,11 @@ var self=this;
 
 secondRegister.prototype.handleRoutes = function(router,connection){
   router.post("/secondRegister",function(req,res){
-    var myId = req.body.myId;
     var cat = req.body.cat;
     var compTitle = req.body.compTitle;
     var threadTitle = req.body.threadTitle;
-    if(myId==null || myId==undefined || myId==""){
+    var statTemp = req.body.statTemp;
+    if(statTemp==null || statTemp==undefined || statTemp==""){
       res.json({"message":"err.. no params !!!"});
     }else{
       if(cat==null || cat==undefined || cat==""){
@@ -31,7 +31,7 @@ secondRegister.prototype.handleRoutes = function(router,connection){
                 if(threadTitle==null || threadTitle==undefined || threadTitle==""){
                   res.json({"message":"err.. no params thread title"});
                 }else{
-                  connection.query("update `host_temp`set category="+idCat+",company_name='"+compTitle+"',title='"+threadTitle+"' where id_host="+myId,function(err,rows){
+                  connection.query("update `host_temp`set category="+idCat+",company_name='"+compTitle+"',title='"+threadTitle+"' where stat_temp='"+statTemp+"'",function(err,rows){
                     if(err){
                       res.json({"message":"err.. error in updating hosttemp"});
                     }else{
