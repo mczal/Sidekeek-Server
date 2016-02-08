@@ -15,6 +15,7 @@ var getCitiesModel = require("./model/getCities.js");
 var getProvinceModel = require("./model/getProvince.js");
 var getCategoriesModel = require("./model/getCategories.js");
 var getProfileModel = require("./model/getProfile.js");
+var searchModel = require("./model/search.js");
 //var confirmationModel = require("./model/confirmation.js");
 //var editProfileSubmitModel = require("./model/editProfileSubmit.js");
 
@@ -125,6 +126,7 @@ connect.prototype.configureExpress = function(connection) {
 			var getProvince = new getProvinceModel(router,connection);
 			var getCategories = new getCategoriesModel(router,connection);
 			var getProfile = new getProfileModel(router,connection);
+			var search = new searchModel(router,connection);
 			//var confirmation = new confirmationModel(router,connection);
 			//var editProfileSubmit = new editProfileSubmitModel(router,connection);
 

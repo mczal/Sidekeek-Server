@@ -19,7 +19,7 @@ firstRegister.prototype.handleRoutes = function(router,connection){
         }else{
           if(rows.length>0){
             var idTipe=rows[0].id_tipe;
-            var randomUnique = Math.floor(Math.random()*500);
+            var randomUnique = Math.floor(Math.random()*9999);
             connection.query("insert into `host_temp` (random_unique,id_tipe) values ("+randomUnique+","+idTipe+")",function(err,rows){
               if(err){
                 res.json({"message":"err.. error on inserting"});
