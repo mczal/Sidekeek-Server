@@ -17,7 +17,7 @@ logout.prototype.handleRoutes = function(router,connection){
           }else{
             if(rows.length>0){
               var idSession = rows[0].id_session;
-              connection.query("delete `session_host` where id_session="+idSession,function(err,rows){
+              connection.query("delete from `session_host` where id_session="+idSession,function(err,rows){
                 if(err){
                   res.json({"message":"err.. error in deleting session"});
                 }else{

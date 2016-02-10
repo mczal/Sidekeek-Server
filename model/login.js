@@ -36,7 +36,7 @@ login.prototype.handleRoutes = function(router,connection,md5){
               if(err){
                 res.json({"message":"err.. error on checking availability session host"});
               }else{
-                if(rows[0].length>0){
+                if(rows.length>0){
                   connection.query("update `session_host` set session_code='"+sessionCode+"',last_activity='"+timestamp+"'",function(err,rows){
                     res.json({"message":"success updating session code, go on","session":sessionCode});
                   });
