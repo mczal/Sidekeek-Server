@@ -18,6 +18,7 @@ var getProfileModel = require("./model/getProfile.js");
 var searchModel = require("./model/search.js");
 var getIPModel = require("./model/getIP.js");
 var loginModel = require("./model/login.js");
+var logoutModel = require("./model/logout.js");
 //var confirmationModel = require("./model/confirmation.js");
 //var editProfileSubmitModel = require("./model/editProfileSubmit.js");
 
@@ -131,6 +132,7 @@ connect.prototype.configureExpress = function(connection) {
 			var search = new searchModel(router,connection);
 			var getIP = new getIPModel(router,connection);
 			var login = new loginModel(router,connection,md5);
+			var logout = new logoutModel(router,connection);
 			//var confirmation = new confirmationModel(router,connection);
 			//var editProfileSubmit = new editProfileSubmitModel(router,connection);
 

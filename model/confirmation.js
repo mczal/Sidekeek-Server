@@ -9,9 +9,9 @@ var self=this;
 //BINGUNGG...!!
 confirmation.prototype.handleRoutes = function(router,connection){
   router.get("/confirmation",function(req,res){
-    var uniqueId = req.body.uniqueId;
-    connection.query("",function(err,rows){
-      
+    var uniqueCode = req.body.uniqueCode;
+    connection.query("select ",function(err,rows){
+
     });
   });
 }

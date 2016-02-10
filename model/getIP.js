@@ -1,4 +1,6 @@
 
+
+// -- DEPRECATED --//
 function getIP(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
