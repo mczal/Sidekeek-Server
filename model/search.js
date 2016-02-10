@@ -33,7 +33,7 @@ search.prototype.handleRoutes = function(router,connection){
       tipe="";
       debugQ+="tipeNullIn | ";
     }
-    var query="select company_name,img_url,bussiness_category.category_name,tagline,city.city_name,province.province_name, address,title,tipe.name as tipe from host join city on host.location=city.id_city join province on city.province=province.id_province join tipe on host.id_host=tipe.id_tipe join bussiness_category on host.category=bussiness_category.id_cat where bussiness_category.category_name like '%"+category+"%' and province.province_name like '%"+locationProv+"%' and title like '%"+field+"%' and	tipe.name like '%"+tipe+"%' and statusz=1";
+    var query="select company_name,img_url,bussiness_category.category_name,tagline,city.city_name,province.province_name, address,title,tipe.name as tipe from host join city on host.location=city.id_city join province on city.province=province.id_province join tipe on host.id_host=tipe.id_tipe join bussiness_category on host.category=bussiness_category.id_cat where bussiness_category.category_name like '%"+category+"%' and province.province_name like '%"+locationProv+"%' and (title like '%"+field+"%' or host.profile_desc like '%"+field+"%') and	tipe.name like '%"+tipe+"%' and statusz=1";
     connection.query(query,function(err,rows){
       if(err){
         res.json({"message":"err.. error in selecting"});
