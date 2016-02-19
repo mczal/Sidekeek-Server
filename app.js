@@ -21,7 +21,7 @@ var loginModel = require("./model/login.js");
 var logoutModel = require("./model/logout.js");
 var checkModel = require("./model/integrityCheck.js");
 //var confirmationModel = require("./model/confirmation.js");
-//var editProfileSubmitModel = require("./model/editProfileSubmit.js");
+//var editProfileFullModel = require("./model/editProfileFull.js");
 
 var app = express();
 var jwt = require("jsonwebtoken");
@@ -136,7 +136,7 @@ connect.prototype.configureExpress = function(connection) {
 			var logout = new logoutModel(router,connection);
 			var check = new checkModel(router,connection);
 			//var confirmation = new confirmationModel(router,connection);
-			//var editProfileSubmit = new editProfileSubmitModel(router,connection);
+			//var editProfileFull = new editProfileFullModel(router,connection);
 
 			self.startServer();
 };
