@@ -4,7 +4,7 @@ function editProfile(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
 }
-
+//see on location line 28
 editProfile.prototype.handleRoutes = function(router,connection){
   router.post('/editProfile',function(req,res){
     var sessionCode = req.body.sessionCode;

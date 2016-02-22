@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 
-function editProfileFullProductDesc(router,connection){
+function addNewProductDesc(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
 }
@@ -17,8 +17,8 @@ function generateUniqueCode(){
     return text;
 }
 
-editProfileFullProductDesc.prototype.handleRoutes = function(router,connection){
-  router.post("/editProfileFullProductDesc",function(req,res){
+addNewProductDesc.prototype.handleRoutes = function(router,connection){
+  router.post("/addNewProductDesc",function(req,res){
     var sessionCode = req.body.sessionCode;
     var namaProduk = req.body.namaProduk;
     var harga = req.body.harga;
@@ -78,4 +78,4 @@ editProfileFullProductDesc.prototype.handleRoutes = function(router,connection){
   });
 }
 
-module.exports = editProfileFullProductDesc;
+module.exports = addNewProductDesc;

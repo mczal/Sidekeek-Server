@@ -21,15 +21,15 @@ editProfileFull.prototype.handleRoutes = function(router,connection){
             var idHost = rows[0].id_host;
             //step1
             var companyName = req.body.companyName;
-            var title = req.body.title;,
+            var title = req.body.title;
             var businessField = req.body.businessField; // <-- business category
             var tagline = req.body.tagline;
             var companyDesc = req.body.companyDesc;
             var region = req.body.region;
             var address = req.body.address;
-            //step2
+            //step2 -> define on edit profile full product model
             //var products = req.body.products; // <-- array
-            //step3
+            //step3 -> define on edit profile full product model
             //var portofolios = req.body.portofolios; // <-- array
 
             conenction.query("select id_cat from `bussiness_category` where category_name='"+businessField+"',",function(err,rows){
@@ -71,7 +71,7 @@ editProfileFull.prototype.handleRoutes = function(router,connection){
 
 
     //end of myFUNCTION
-    var email = "";
+    /*var email = "";
     var companyName = ;
     var imgUrl = ;
     var category = ;
@@ -81,7 +81,7 @@ editProfileFull.prototype.handleRoutes = function(router,connection){
     var address = req.body.address;
     var title = req.body.title;
     var idTipe = req.body.idTipe;
-
+    */
   });
 }
 

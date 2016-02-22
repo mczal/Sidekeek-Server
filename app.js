@@ -20,8 +20,13 @@ var getIPModel = require("./model/getIP.js");
 var loginModel = require("./model/login.js");
 var logoutModel = require("./model/logout.js");
 var checkModel = require("./model/integrityCheck.js");
+var getProductsModel = require("./model/getProducts.js");
+var getProductDetailModel = require("./model/getProductDetail.js");
+var addNewProductDescModel = require("./model/addNewProductDesc.js");
 //var confirmationModel = require("./model/confirmation.js");
-//var editProfileFullModel = require("./model/editProfileFull.js");
+var editProfileFullModel = require("./model/editProfileFull.js");
+var addNewPortofolioModel = require("./model/addNewPortofolio.js");
+var getPortofoliosModel = require("./model/getPortofolios.js");
 
 var app = express();
 var jwt = require("jsonwebtoken");
@@ -135,8 +140,13 @@ connect.prototype.configureExpress = function(connection) {
 			var login = new loginModel(router,connection,md5);
 			var logout = new logoutModel(router,connection);
 			var check = new checkModel(router,connection);
+			var getProducts = new getProductsModel(router,connection);
+			var getProductDetail = new getProductDetailModel(router,connection);
+			var addNewProductDesc = new addNewProductDescModel(router,connection);
 			//var confirmation = new confirmationModel(router,connection);
-			//var editProfileFull = new editProfileFullModel(router,connection);
+			var editProfileFull = new editProfileFullModel(router,connection);
+			var addNewPortofolio = new addNewPortofolioModel(router,connection);
+			var getPortofolios = new getPortofoliosModel(router,connection);
 
 			self.startServer();
 };
