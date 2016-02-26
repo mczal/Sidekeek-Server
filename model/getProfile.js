@@ -21,6 +21,7 @@ getProfile.prototype.handleRoutes = function(router,connection){
           if(rows.length>0){
             res.json(rows);
           }else{
+            
             res.json({"message":"err.. no rows in selecting all data","query":query});
           }
         }

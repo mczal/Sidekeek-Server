@@ -36,7 +36,7 @@ editProfileFull.prototype.handleRoutes = function(router,connection){
               //step3 -> define on edit profile full product model
               //var portofolios = req.body.portofolios; // <-- array
 
-              conenction.query("select id_cat from `bussiness_category` where category_name='"+businessField+"',",function(err,rows){
+              connection.query("select id_cat from `bussiness_category` where category_name='"+businessField+"'",function(err,rows){
                 if(err){
                   res.json({"message":"err.. error on selecting business Category"});
                 }else{
@@ -63,7 +63,7 @@ editProfileFull.prototype.handleRoutes = function(router,connection){
                             }
                           });
                         }else{
-                          res.json({"message":"err.. no rows in city"});
+                          res.json({"message":"err.. no rows in province"});
                         }
                       }
                     });

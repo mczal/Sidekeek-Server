@@ -8,6 +8,7 @@ function editProfile(router,connection){
 editProfile.prototype.handleRoutes = function(router,connection){
   router.post('/editProfile',function(req,res){
     var sessionCode = req.body.sessionCode;
+    var timestamp =req.body.timestamp;
     if(sessionCode==null || sessionCode==undefined || sessionCode==''){
       res.json({"message":"err.. error no params sessionCode rec"});
     }else{
@@ -37,9 +38,10 @@ editProfile.prototype.handleRoutes = function(router,connection){
                       }else{
                         if(rows.length>0){
                           var idProvince = rows[0].id_province;
-                          connection.query("update `host` set company_name='"+companyName+"',tagline='"+tagline+"',category="+idCat+",region="+location+" where id_host="idHost,function(err,rows){
+                          var query ="update `host` set company_name='"+companyName+"',tagline='"+tagline+"',category="+idCat+",region="+idProvince+" where id_host="+idHost;
+                          connection.query(query,function(err,rows){
                             if(err){
-                              res.json({"message":"err.. error on updating host"});
+                              res.json({"message":"err.. error on updating host","query": query});
                             }else{
                               //updating timestamp on session_host
                               connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){

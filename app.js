@@ -29,6 +29,7 @@ var addNewPortofolioModel = require("./model/addNewPortofolio.js");
 var getPortofoliosModel = require("./model/getPortofolios.js");
 var editPortofolioModel = require("./model/editPortofolio.js");
 var editProductDescModel = require("./model/editProductDesc.js");
+var editProfileModel = require("./model/editProfile.js");
 
 var app = express();
 var jwt = require("jsonwebtoken");
@@ -151,6 +152,7 @@ connect.prototype.configureExpress = function(connection) {
 			var getPortofolios = new getPortofoliosModel(router,connection);
 			var editPortofolio = new editPortofolioModel(router,connection);
 			var editProductDesc = new editProductDescModel(router,connection);
+			var editProfile = new editProfileModel(router,connection);
 
 			self.startServer();
 };
