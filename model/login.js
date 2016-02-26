@@ -33,34 +33,41 @@ login.prototype.handleRoutes = function(router,connection,md5){
           res.json({"message":"err.. no params t_s received"});
         }else{
           //---
-          connection.query("select password,id_host from `host` where email='"+email+"'",function(err,rows){
+          connection.query("select unique_code,password,id_host,statusz from `host` where email='"+email+"'",function(err,rows){
             if(err){
               res.json({"message":"err.. error in selecting first check"});
             }else{
               if(rows.length>0){
+                var statusz = rows[0].statusz;
+                var uniqueCode = rows[0].unique_code;
                 var idHost = rows[0].id_host;
                 if(password == rows[0].password){
-                  var sessionCode = generateUniqueCode();
-                  //lookup session dulu
-                  connection.query("select id_host from `session_host` where id_host="+idHost,function(err,rows){
-                    if(err){
-                      res.json({"message":"err.. error on checking availability session host"});
-                    }else{
-                      if(rows.length>0){
-                        connection.query("update `session_host` set session_code='"+sessionCode+"',last_activity='"+timestamp+"'",function(err,rows){
-                          res.json({"message":"success updating session code, go on","session":sessionCode});
-                        });
+                  if(statusz == 1){
+                    var sessionCode = generateUniqueCode();
+                    //lookup session dulu
+                    connection.query("select id_host from `session_host` where id_host="+idHost,function(err,rows){
+                      if(err){
+                        res.json({"message":"err.. error on checking availability session host"});
                       }else{
-                        connection.query("insert into `session_host` (id_host,session_code,last_activity) values ("+idHost+",'"+sessionCode+"','"+timestamp+"') ",function(err,rows){
-                          if(err){
-                            res.json({"message":"err.. error create new session"});
-                          }else{
-                            res.json({"message":"success create new session, go on","session":sessionCode});
-                          }
-                        });
+                        if(rows.length>0){
+                          connection.query("update `session_host` set session_code='"+sessionCode+"',last_activity='"+timestamp+"'",function(err,rows){
+                            res.json({"message":"success updating session code, go on","session":sessionCode});
+                          });
+                        }else{
+                          var query = "insert into `session_host` (id_host,session_code,last_activity) values ("+idHost+",'"+sessionCode+"','"+timestamp+"') ";
+                          connection.query(query,function(err,rows){
+                            if(err){
+                              res.json({"message":"err.. error create new session","query":query});
+                            }else{
+                              res.json({"message":"success create new session, go on","session":sessionCode});
+                            }
+                          });
+                        }
                       }
-                    }
-                  });
+                    });
+                  }else{
+                    res.json({"message":"you must do the confirmation first","uniqueCode":uniqueCode});
+                  }
                 }else{
                   res.json({"message":"invalid password"});
                 }
