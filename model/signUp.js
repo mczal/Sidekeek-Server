@@ -52,7 +52,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                         if(err){
                           res.json({"message":"err.. error in inserting host"});
                         }else{
-                          res.json({"message":"success inserting new host, please proceed with confirmation"});
+                          res.json({"message":"success inserting new host, please proceed with confirmation","status":0});
                           //DELETE TEMP HOST ATAU TIDAK...?? ---
 
                           //----
@@ -69,7 +69,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                             if(err){
                               res.json({"message":"err.. error in inserting host on q2"});
                             }else{
-                              res.json({"message":"success inserting new host on q2, please proceed with confirmation","unique_code":uniqueCode,"email":email});
+                              res.json({"message":"success inserting new host on q2, please proceed with confirmation","unique_code":uniqueCode,"email":email,"status":2});
                             }
                           });
                         }
