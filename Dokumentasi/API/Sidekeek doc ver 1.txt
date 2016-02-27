@@ -1,0 +1,56 @@
+
+**ket : 	
+		R = required field
+
+	API						PARAMETER				KEMBALIAN
+	
+/addNewPortofolio			sessionCode R
+							title R
+							description R
+							timestamp R
+							imgBase64
+
+/getPortofolios				email R
+
+/editPortofolio				sessionCode R
+							idPortofolio R
+							timestamp R
+							title
+							description
+							imgBase64
+							
+/addNewProductDesc			sessionCode R			idProduct
+							namaProduk R
+							harga R
+							productDesc R
+							timestamp R
+							
+/getProducts				email R
+
+/getProductDetail			idProduct R
+
+/editProductDesc			sessionCode R
+							idProduct R
+							timestamp R
+							namaProduk
+							harga
+							productDesc
+
+/login						email R					[if statusz=1] return:sessionCode
+							password R				[
+							timestamp R					if(statusz=0 yang berarti 
+														belum melakukan confirmation, 
+														maka tidak akan diberikan 
+														session dan akan mendapat 
+														kembalian uniqueCode)														
+													] return:uniqueCode
+
+/logout						sessionCode R
+
+/confirmation				uniqueCode R			
+
+
+
+
+
+
