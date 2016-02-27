@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-
+//TESTED 27 FEBRUARI 2016
 function secondRegister(router,connection){
   var self=this;
   self.handleRoutes(router,connection);

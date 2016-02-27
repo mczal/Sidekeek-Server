@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-
+//TESTED 27 FEBRUARI 2016
 function signUp(router,connection,md5){
   var self=this;
   self.handleRoutes(router,connection,md5);
@@ -47,12 +47,12 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                     var query2="";
                     var uniqueCode = generateUniqueCode();
                     if(statTemp==null || statTemp==undefined || statTemp==""){
-                      query="insert into `host` (email,password,unique_code) values('"+email+"','"+password+"','"+uniqueCode+"')";
+                      query="insert into `host` (email,password,unique_code,statusz) values('"+email+"','"+password+"','"+uniqueCode+"',0)";
                       connection.query(query,function(err,rows){
                         if(err){
                           res.json({"message":"err.. error in inserting host"});
                         }else{
-                          res.json({"message":"success inserting new host, please proceed with confirmation","status":0});
+                          res.json({"message":"success inserting new host, please proceed with confirmation","status":0}); //status 0 berarti signup doang
                           //DELETE TEMP HOST ATAU TIDAK...?? ---
 
                           //----
@@ -67,9 +67,9 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                         }else{
                           connection.query(query2,function(err,rows){
                             if(err){
-                              res.json({"message":"err.. error in inserting host on q2"});
+                              res.json({"message":"err.. error in inserting host on q2","query2":query2});
                             }else{
-                              res.json({"message":"success inserting new host on q2, please proceed with confirmation","unique_code":uniqueCode,"email":email,"status":2});
+                              res.json({"message":"success inserting new host on q2, please proceed with confirmation","unique_code":uniqueCode,"email":email,"status":1}); //status 1 berarti udah register dari awal
                             }
                           });
                         }

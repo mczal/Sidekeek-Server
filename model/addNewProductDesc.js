@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-
+//TESTED 27 FEBRUARI 2016
 function addNewProductDesc(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
@@ -46,7 +46,7 @@ addNewProductDesc.prototype.handleRoutes = function(router,connection){
                     if(rows.length>0){
                       var idHost = rows[0].id_host;
                       var codeUnique = generateUniqueCode();
-                      connection.query("insert into `product` (id_host,product_name,product_desc,price,unique_code) values("+idHost+",'"+namaProduk+"','"+productDesc+"',"+harga+",'"+uniqueCode+"')",function(err,rows){
+                      connection.query("insert into `product` (id_host,product_name,product_desc,price,unique_code) values("+idHost+",'"+namaProduk+"','"+productDesc+"',"+harga+",'"+codeUnique+"')",function(err,rows){
                         if(err){
                           res.json({"message":"err.. error inserting product"});
                         }else{

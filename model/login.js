@@ -1,6 +1,6 @@
-//BELUM DI MODIFFF !!!!
-var mysql   = require("mysql");
 
+var mysql   = require("mysql");
+//TESTED 27 FEBRUARI 2016
 function login(router,connection,md5) {
     var self = this;
     self.handleRoutes(router,connection,md5);
@@ -8,7 +8,7 @@ function login(router,connection,md5) {
 
 function generateUniqueCode(){
     var text = "";
-    var possible = "';:.,./,kmaso-0239_THIS IS SESSION(W_diopw'mSPM3-ASO)'IAKU-PASTI-BISA';l";
+    var possible = ":/kmaso-0239_THIS IS SESSION(W_dio*&^%$#@pwmSPM3-ASO)IAKU-PASTI-BISAl";
 
     for( var i=0; i < 10; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -50,8 +50,13 @@ login.prototype.handleRoutes = function(router,connection,md5){
                         res.json({"message":"err.. error on checking availability session host"});
                       }else{
                         if(rows.length>0){
-                          connection.query("update `session_host` set session_code='"+sessionCode+"',last_activity='"+timestamp+"'",function(err,rows){
-                            res.json({"message":"success updating session code, go on","session":sessionCode});
+                          var query = "update `session_host` set session_code='"+sessionCode+"',last_activity='"+timestamp+"'";
+                          connection.query(query,function(err,rows){
+                            if(err){
+                              res.json({"message":"err.. error on updating session host","query":query});
+                            }else{
+                                res.json({"message":"success updating session code, go on","session":sessionCode});
+                            }
                           });
                         }else{
                           var query = "insert into `session_host` (id_host,session_code,last_activity) values ("+idHost+",'"+sessionCode+"','"+timestamp+"') ";

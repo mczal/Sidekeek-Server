@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-
+//TESTED 27 FEBRUARI 2016
 function getProfile(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
@@ -21,8 +21,30 @@ getProfile.prototype.handleRoutes = function(router,connection){
           if(rows.length>0){
             res.json(rows);
           }else{
-            
-            res.json({"message":"err.. no rows in selecting all data","query":query});
+            connection.query("select email,company_name,img_base64,tagline,profile_desc,address,title,category,location,id_tipe,region from `host` where email='"+email+"'",function(err,rows){
+              if(err){
+                res.json({"message":"err.. error on selecting host by email"});
+              }else{
+                if(rows.length>0){
+                  // var companyName = rows[0].company_name;
+                  // var imgBase64 = rows[0].img_base64;
+                  // var tagline = rows[0].tagline;
+                  // var profileDesc = rows[0].profile_desc;
+                  // var address = rows[0].address;
+                  // var title = rows[0].title;
+                  // //id id-an
+                  // var idCat = rows[0].category;
+                  // var location = rows[0].location;
+                  // var idTipe = rows[0].id_tipe;
+                  // var region = rows[0].region;
+                  // //category lookup
+                  //
+                  res.json(rows);
+                }else{
+                  res.json({"message":"no rows mean no email registered in datas"});
+                }
+              }
+            });
           }
         }
       });
