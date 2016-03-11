@@ -48,7 +48,7 @@ editProfileFull.prototype.handleRoutes = function(router,connection){
                       }else{
                         if(rows.length>0){
                           var idProvince = rows[0].id_province;
-                          connection.query("update `host` set company_name='"+companyName+"',title='"+title+"',category="+idCat+",tagline='"+tagline+"',profile_desc='"+companyDesc+"',region="+idProvince+",address='"+address+"'",function(err,rows){
+                          connection.query("update `host` set company_name='"+companyName+"',title='"+title+"',category="+idCat+",tagline='"+tagline+"',profile_desc='"+companyDesc+"',region="+idProvince+",address='"+address+"' where id_host="+idHost,function(err,rows){
                             if(err){
                               res.json({"message":"err.. error in updating first step val"});
                             }else{
