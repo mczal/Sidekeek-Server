@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2016 at 11:29 AM
+-- Generation Time: Mar 11, 2016 at 11:14 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -129,13 +129,13 @@ CREATE TABLE IF NOT EXISTS `host` (
 --
 
 INSERT INTO `host` (`id_host`, `email`, `password`, `company_name`, `img_base64`, `category`, `tagline`, `profile_desc`, `location`, `address`, `title`, `id_tipe`, `statusz`, `unique_code`, `region`) VALUES
-(1, 'fahrizalseptrianto@gmail.com', '202cb962ac59075b964b07152d234b70', 'rev2 company name', 'http://localhost/sidekeek-server/img/img1.jpg', 10, 'rev2 tagline', 'rev2 COMPANY DESC ', 1, 'rev2 MYADDRESS', 'rev2 title', 1, 1, NULL, 1),
-(5, 'mczal@gmail.com', '202cb962ac59075b964b07152d234b70', 'rev2 company name', NULL, 10, 'rev2 tagline', 'rev2 COMPANY DESC ', NULL, 'rev2 MYADDRESS', 'rev2 title', 1, 0, 'lIAT--I7;A', 1),
-(6, 'siete@si.ete', '202cb962ac59075b964b07152d234b70', 'rev2 company name', NULL, 10, 'rev2 tagline', 'rev2 COMPANY DESC ', NULL, 'rev2 MYADDRESS', 'rev2 title', 1, 0, 'I6@B08BPS~', 1),
-(7, 'signupdoang@gamil.com', '202cb962ac59075b964b07152d234b70', 'rev2 company name', NULL, 10, 'rev2 tagline', 'rev2 COMPANY DESC ', NULL, 'rev2 MYADDRESS', 'rev2 title', NULL, NULL, '6A[0P9~-Ul', 1),
-(8, 'ijalijal@ijal.com', '202cb962ac59075b964b07152d234b70', 'rev2 company name', NULL, 10, 'rev2 tagline', 'rev2 COMPANY DESC ', NULL, 'rev2 MYADDRESS', 'rev2 title', NULL, NULL, '0[80Il.N/P', 1),
-(10, 'testing@testing.testing', '202cb962ac59075b964b07152d234b70', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '~N7InSlI~I', NULL),
-(11, 'testing2@testing2.com', '202cb962ac59075b964b07152d234b70', 'Seconf Regis TITLE TESTING', NULL, 3, NULL, NULL, NULL, NULL, 'seconf Regis Thread Title TEST', 2, 1, 'NlawmK/@0w', NULL);
+(1, 'fahrizalseptrianto@gmail.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', 'http://localhost/sidekeek-server/img/img1.jpg', 10, 'XX', 'XX', 1, 'XX', 'NEWT', 1, 1, NULL, 1),
+(5, 'mczal@gmail.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 1, 1, 'lIAT--I7;A', 1),
+(6, 'siete@si.ete', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 1, 0, 'I6@B08BPS~', 1),
+(7, 'signupdoang@gamil.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, NULL, '6A[0P9~-Ul', 1),
+(8, 'ijalijal@ijal.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, NULL, '0[80Il.N/P', 1),
+(10, 'testing@testing.testing', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, 1, '~N7InSlI~I', 1),
+(11, 'testing2@testing2.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 2, 1, 'NlawmK/@0w', 1);
 
 -- --------------------------------------------------------
 
@@ -206,9 +206,9 @@ CREATE TABLE IF NOT EXISTS `portofolio` (
 --
 
 INSERT INTO `portofolio` (`id_portofolio`, `id_host`, `title`, `description`, `img_base64`) VALUES
-(1, 1, 'TITLE PORTOFOLIO 1', 'DESCRIPTION PORTOFOLIO 1', 'imgbase6464646'),
-(2, 1, 'testing1 EDIT this is my title', 'testing1 EDIT this is my description', 'base64base64'),
-(3, 1, 'TESTING 2 TITLE', 'TESTING 2 DESC', 'hahu');
+(1, 1, 'hello', 'mydescbaru', '---'),
+(2, 5, 'I', 'testing1 EDIT this is my description', 'base64base64'),
+(3, 1, 'I', 'TESTING 2 DESC', 'hahu');
 
 -- --------------------------------------------------------
 
@@ -265,7 +265,14 @@ CREATE TABLE IF NOT EXISTS `session_host` (
   `session_code` varchar(100) NOT NULL,
   `signed_in_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_activity` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `session_host`
+--
+
+INSERT INTO `session_host` (`id_session`, `id_host`, `session_code`, `signed_in_at`, `last_activity`) VALUES
+(1, 1, 'N ST*AsAdO', '2016-02-29 16:23:24', '2016-10-10 05:12:12');
 
 -- --------------------------------------------------------
 
@@ -409,7 +416,7 @@ ALTER TABLE `province`
 -- AUTO_INCREMENT for table `session_host`
 --
 ALTER TABLE `session_host`
-  MODIFY `id_session` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_session` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tipe`
 --
