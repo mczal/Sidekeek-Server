@@ -30,7 +30,7 @@ editProductDesc.prototype.handleRoutes = function(router,connection){
                 var namaProduk = req.body.namaProduk;
                 var harga = req.body.harga;
                 var productDesc = req.body.productDesc;
-                var query = "update `product` set product_name='"+namaProduk+"',product_desc='"+productDesc+"',price="+harga+" where id_host="+idHost;
+                var query = "update `product` set product_name='"+namaProduk+"',product_desc='"+productDesc+"',price="+harga+" where id_host="+idHost+" and id_product="+idProduct;
                 connection.query(query,function(err,rows){
                   if(err){
                     res.json({"message":"err.. error on updating","query":query});
