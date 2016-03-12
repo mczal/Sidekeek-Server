@@ -21,7 +21,7 @@ getProfile.prototype.handleRoutes = function(router,connection){
           if(rows.length>0){
             res.json(rows);
           }else{
-            connection.query("select email,company_name,img_base64,tagline,profile_desc,address,title,category,location,id_tipe,region from `host` where email='"+email+"'",function(err,rows){
+            connection.query("select email,company_name,img_base64,tagline,profile_desc,address,title,category,location,id_tipe from `host` where email='"+email+"'",function(err,rows){
               if(err){
                 res.json({"message":"err.. error on selecting host by email"});
               }else{
