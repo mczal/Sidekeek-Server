@@ -9,7 +9,7 @@ getCities.prototype.handleRoutes = function(router,connection){
   router.post("/getCities",function(req,res){
     var province = req.body.province;
     if(province==null || province==undefined || province==""){
-      connection.query("select city_name from `city` order by city_name asc",function(err,rows){
+      connection.query("select id_city,city_name from `city` order by city_name asc",function(err,rows){
         if(err){
           res.json({"message":"err.. error in selecting city"});
         }else{
