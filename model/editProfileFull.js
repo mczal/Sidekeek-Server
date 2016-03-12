@@ -36,19 +36,19 @@ editProfileFull.prototype.handleRoutes = function(router,connection){
               //step3 -> define on edit profile full product model
               //var portofolios = req.body.portofolios; // <-- array
 
-              connection.query("select id_cat from `bussiness_category` where category_name='"+businessField+"'",function(err,rows){
-                if(err){
-                  res.json({"message":"err.. error on selecting business Category"});
-                }else{
-                  if(rows.length>0){
-                    var idCat = rows[0].id_cat;
-                    connection.query("select id_province from `province` where province_name='"+region+"'",function(err,rows){
-                      if(err){
-                        res.json({"message":"err.. error in selecting province id from region"});
-                      }else{
-                        if(rows.length>0){
-                          var idProvince = rows[0].id_province;
-                          connection.query("update `host` set company_name='"+companyName+"',title='"+title+"',category="+idCat+",tagline='"+tagline+"',profile_desc='"+companyDesc+"',region="+idProvince+",address='"+address+"' where id_host="+idHost,function(err,rows){
+              //connection.query("select id_cat from `bussiness_category` where category_name='"+businessField+"'",function(err,rows){
+                //if(err){
+                  //res.json({"message":"err.. error on selecting business Category"});
+                //}else{
+                  //if(rows.length>0){
+
+                    //connection.query("select id_province from `province` where province_name='"+region+"'",function(err,rows){
+                      //if(err){
+                        //res.json({"message":"err.. error in selecting province id from region"});
+                      //}else{
+                        //f(rows.length>0){
+                          //var idProvince = rows[0].id_province;
+                          connection.query("update `host` set company_name='"+companyName+"',title='"+title+"',category="+businessField+",tagline='"+tagline+"',profile_desc='"+companyDesc+"',region="+region+",address='"+address+"' where id_host="+idHost,function(err,rows){
                             if(err){
                               res.json({"message":"err.. error in updating first step val"});
                             }else{
@@ -62,16 +62,16 @@ editProfileFull.prototype.handleRoutes = function(router,connection){
                               });
                             }
                           });
-                        }else{
-                          res.json({"message":"err.. no rows in province"});
-                        }
-                      }
-                    });
-                  }else{
-                    res.json({"message":"err.. no rows in business category"});
-                  }
-                }
-              });
+                        //}else{
+                          //res.json({"message":"err.. no rows in province"});
+                        //}
+                      //}
+                    //});
+                  //}else{
+                  //  res.json({"message":"err.. no rows in business category"});
+                  //}
+                //}
+              //});
             }else{
               res.json({"message":"err.. no rows in host with given session"});
             }
