@@ -8,29 +8,31 @@ var express = require("express"),
 	https = require('https');
 	/*(END) BELUM DIPAKAI*/
 
-var firstRegisterModel = require("./model/firstRegister.js");
-var secondRegisterModel = require("./model/secondRegister.js");
-var signUpModel = require("./model/signUp.js");
+var firstRegisterModel = require("./model/registers/firstRegister.js");
+var secondRegisterModel = require("./model/registers/secondRegister.js");
+var signUpModel = require("./model/registers/signUp.js");
 var getCitiesModel = require("./model/getCities.js");
 var getProvinceModel = require("./model/getProvince.js");
 var getCategoriesModel = require("./model/getCategories.js");
-var getProfileModel = require("./model/getProfile.js");
+var getProfileModel = require("./model/profiles/getProfile.js");
 var searchModel = require("./model/search.js");
 var getIPModel = require("./model/getIP.js");
 var loginModel = require("./model/login.js");
 var logoutModel = require("./model/logout.js");
 var checkModel = require("./model/integrityCheck.js");
-var getProductsModel = require("./model/getProducts.js");
-var getProductDetailModel = require("./model/getProductDetail.js");
-var addNewProductDescModel = require("./model/addNewProductDesc.js");
-var confirmationModel = require("./model/confirmation.js");
-var editProfileFullModel = require("./model/editProfileFull.js");
-var addNewPortofolioModel = require("./model/addNewPortofolio.js");
-var getPortofoliosModel = require("./model/getPortofolios.js");
-var editPortofolioModel = require("./model/editPortofolio.js");
-var editProductDescModel = require("./model/editProductDesc.js");
-var editProfileModel = require("./model/editProfile.js");
-var getPortofolioDetailModel = require("./model/getPortofolioDetail.js");
+var getProductsModel = require("./model/products/getProducts.js");
+var getProductDetailModel = require("./model/products/getProductDetail.js");
+var addNewProductDescModel = require("./model/products/addNewProductDesc.js");
+var confirmationModel = require("./model/registers/confirmation.js");
+// var editProfileFullModel = require("./model/editProfileFull.js");
+var addNewPortofolioModel = require("./model/portofolios/addNewPortofolio.js");
+var getPortofoliosModel = require("./model/portofolios/getPortofolios.js");
+var editPortofolioModel = require("./model/portofolios/editPortofolio.js");
+var editProductDescModel = require("./model/products/editProductDesc.js");
+var editProfileModel = require("./model/profiles/editProfile.js");
+var getPortofolioDetailModel = require("./model/portofolios/getPortofolioDetail.js");
+
+var testingEmailModel = require("./model/testingEmail.js");
 
 var app = express();
 var jwt = require("jsonwebtoken");
@@ -148,13 +150,15 @@ connect.prototype.configureExpress = function(connection) {
 			var getProductDetail = new getProductDetailModel(router,connection);
 			var addNewProductDesc = new addNewProductDescModel(router,connection);
 			var confirmation = new confirmationModel(router,connection);
-			var editProfileFull = new editProfileFullModel(router,connection);
+			// var editProfileFull = new editProfileFullModel(router,connection);
 			var addNewPortofolio = new addNewPortofolioModel(router,connection);
 			var getPortofolios = new getPortofoliosModel(router,connection);
 			var editPortofolio = new editPortofolioModel(router,connection);
 			var editProductDesc = new editProductDescModel(router,connection);
 			var editProfile = new editProfileModel(router,connection);
 			var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
+
+			var testingEmail = new testingEmailModel(router,connection);
 
 			self.startServer();
 };

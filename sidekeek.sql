@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2016 at 11:14 PM
+-- Generation Time: Apr 03, 2016 at 08:45 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -61,14 +61,15 @@ CREATE TABLE IF NOT EXISTS `city` (
   `id_city` int(11) NOT NULL,
   `city_name` varchar(30) NOT NULL,
   `province` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `city`
 --
 
 INSERT INTO `city` (`id_city`, `city_name`, `province`) VALUES
-(1, 'Bandung', 1);
+(1, 'Bandung', 1),
+(2, 'Surabaya', 3);
 
 -- --------------------------------------------------------
 
@@ -110,11 +111,13 @@ CREATE TABLE IF NOT EXISTS `host` (
   `id_host` int(11) NOT NULL,
   `email` varchar(30) NOT NULL,
   `password` varchar(200) NOT NULL,
+  `handphone` varchar(15) NOT NULL,
   `company_name` varchar(30) NOT NULL,
+  `company_desc` varchar(1000) NOT NULL,
   `img_base64` varchar(200) DEFAULT NULL,
   `category` int(11) DEFAULT NULL,
   `tagline` varchar(100) DEFAULT NULL,
-  `profile_desc` varchar(200) DEFAULT NULL,
+  `about` varchar(1000) DEFAULT NULL,
   `location` int(11) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `title` varchar(30) DEFAULT NULL,
@@ -128,14 +131,14 @@ CREATE TABLE IF NOT EXISTS `host` (
 -- Dumping data for table `host`
 --
 
-INSERT INTO `host` (`id_host`, `email`, `password`, `company_name`, `img_base64`, `category`, `tagline`, `profile_desc`, `location`, `address`, `title`, `id_tipe`, `statusz`, `unique_code`, `region`) VALUES
-(1, 'fahrizalseptrianto@gmail.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', 'http://localhost/sidekeek-server/img/img1.jpg', 10, 'XX', 'XX', 1, 'XX', 'NEWT', 1, 1, NULL, 1),
-(5, 'mczal@gmail.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 1, 1, 'lIAT--I7;A', 1),
-(6, 'siete@si.ete', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 1, 0, 'I6@B08BPS~', 1),
-(7, 'signupdoang@gamil.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, NULL, '6A[0P9~-Ul', 1),
-(8, 'ijalijal@ijal.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, NULL, '0[80Il.N/P', 1),
-(10, 'testing@testing.testing', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, 1, '~N7InSlI~I', 1),
-(11, 'testing2@testing2.com', '202cb962ac59075b964b07152d234b70', 'rev2 company namesadadad', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 2, 1, 'NlawmK/@0w', 1);
+INSERT INTO `host` (`id_host`, `email`, `password`, `handphone`, `company_name`, `company_desc`, `img_base64`, `category`, `tagline`, `about`, `location`, `address`, `title`, `id_tipe`, `statusz`, `unique_code`, `region`) VALUES
+(1, 'fahrizalseptrianto@gmail.com', '202cb962ac59075b964b07152d234b70', '', 'NEWC', '', 'http://localhost/sidekeek-server/img/img1.jpg', 4, 'ZZ', 'ZZ', 2, 'ZZ', 'NEWT', 1, 1, NULL, 1),
+(5, 'mczal@gmail.com', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 1, 1, 'lIAT--I7;A', 1),
+(6, 'siete@si.ete', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 1, 0, 'I6@B08BPS~', 1),
+(7, 'signupdoang@gamil.com', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, NULL, '6A[0P9~-Ul', 1),
+(8, 'ijalijal@ijal.com', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, NULL, '0[80Il.N/P', 1),
+(10, 'testing@testing.testing', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, 1, '~N7InSlI~I', 1),
+(11, 'testing2@testing2.com', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 2, 1, 'NlawmK/@0w', 1);
 
 -- --------------------------------------------------------
 
@@ -265,14 +268,14 @@ CREATE TABLE IF NOT EXISTS `session_host` (
   `session_code` varchar(100) NOT NULL,
   `signed_in_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_activity` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `session_host`
 --
 
 INSERT INTO `session_host` (`id_session`, `id_host`, `session_code`, `signed_in_at`, `last_activity`) VALUES
-(1, 1, 'N ST*AsAdO', '2016-02-29 16:23:24', '2016-10-10 05:12:12');
+(3, 1, 'Sm- $M$-#^', '2016-04-03 16:07:44', '2016-03-04 16:07:44');
 
 -- --------------------------------------------------------
 
@@ -376,7 +379,7 @@ ALTER TABLE `bussiness_category`
 -- AUTO_INCREMENT for table `city`
 --
 ALTER TABLE `city`
-  MODIFY `id_city` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id_city` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `gallery_product`
 --
@@ -416,7 +419,7 @@ ALTER TABLE `province`
 -- AUTO_INCREMENT for table `session_host`
 --
 ALTER TABLE `session_host`
-  MODIFY `id_session` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id_session` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tipe`
 --
