@@ -83,7 +83,7 @@ connect.prototype.connectMysql = function() {
 connect.prototype.configureExpress = function(connection) {
 	// body...
 	var self = this;
-      app.use(bodyParser.urlencoded({ extended: true }));
+      app.use(bodyParser.urlencoded({ extended: true,limit: '50mb' }));
 			//mczal added test base64 raw
 		// 	app.use(function(req, res, next) {
 		//   req.rawBody = '';
@@ -98,7 +98,7 @@ connect.prototype.configureExpress = function(connection) {
 		//   });
 		// });
 		//EOF--mczal added test base64 raw
-      app.use(bodyParser.json());
+      app.use(bodyParser.json({limit: '50mb'}));
 
         // get an instance of the router for api routes
       var router = express.Router();
