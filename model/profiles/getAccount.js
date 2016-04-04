@@ -13,7 +13,7 @@ getAccount.prototype.handleRoutes = function(router,connection){
     if(email == null || email == undefined || email == ''){
       res.json({"message":"err.. no params ems rec"});
     }else{
-      connection.query("select company_name,about,handphone,city.city_name,address from `host` join `city` on host.location=city.id_city where email = '"+email+"'",function(err,rows){
+      connection.query("select company_name,about,handphone,city.city_name,host.location,address from `host` join `city` on host.location=city.id_city where email = '"+email+"'",function(err,rows){
         if(err){
           res.json({"message":"err.. error on selecting"});
         }else{
