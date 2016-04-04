@@ -10,6 +10,7 @@ var self=this;
 editAccount.prototype.handleRoutes = function(router,connection){
   router.post('/editAccount',function(req,res){
     var sessionCode = req.body.sessionCode;
+    var timestamp = req.body.timestamp;
     if(sessionCode == null || sessionCode == undefined || sessionCode == ''){
       res.json({"message":"err.. no params received"});
     }else{
@@ -48,7 +49,13 @@ editAccount.prototype.handleRoutes = function(router,connection){
                         if(err){
                           res.json({"message":"err.. error on updating","error":"error"});
                         }else{
-                          res.json({"message":"success updating new value","error":"success"});
+                          connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                            if(err){
+                              res.json({"message":"err.. error on update session last activity"});
+                            }else{
+                              res.json({"message":"success updating new value","error":"success"});
+                            }
+                          });
                         }
                       });
                     }

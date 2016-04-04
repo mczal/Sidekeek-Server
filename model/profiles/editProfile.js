@@ -9,33 +9,44 @@ editProfile.prototype.handleRoutes = function(router,connection){
   router.post('/editProfile',function(req,res){
     var sessionCode = req.body.sessionCode;
     var timestamp =req.body.timestamp;
+    var tipe = req.body.tipe;
     if(sessionCode==null || sessionCode==undefined || sessionCode==''){
       res.json({"message":"err.. error no params sessionCode rec"});
     }else{
       if(timestamp==null || timestamp==undefined || timestamp==''){
         res.json({"message":"err.. error no params timestamp rec"});
       }else{
-        connection.query("select id_host from `session_host` where session_code='"+sessionCode+"'",function(err,rows){
-          if(err){
-            res.json({"message":"err.. error selecting host from session"});
-          }else{
-            if(rows.length>0){
-              var idHost = rows[0].id_host;
-              var businessCategory = req.body.businessCategory;
-              var title = req.body.title;
-              var companyDesc = req.body.companyDesc;
-              connection.query("update `host` set category="+businessCategory+",title='"+title+"',company_desc='"+companyDesc+"' where id_host="+idHost,function(err,rows){
-                if(err){
-                  res.json({"message":"err.. error on updating host"});
-                }else{
-                  res.json({"message":"success updating profile","error":"success"});
-                }
-              });
+        if(tipe == null || tipe == undefined || tipe == ''){
+          res.json({"message":"err.. error no params rec"});
+        }else{
+          connection.query("select id_host from `session_host` where session_code='"+sessionCode+"'",function(err,rows){
+            if(err){
+              res.json({"message":"err.. error selecting host from session"});
             }else{
-              res.json({"message":"err.. no rows on host with given session"});
+              if(rows.length>0){
+                var idHost = rows[0].id_host;
+                var businessCategory = req.body.businessCategory;
+                var title = req.body.title;
+                var companyDesc = req.body.companyDesc;
+                connection.query("update `host` set id_tipe="+tipe+",category="+businessCategory+",title='"+title+"',company_desc='"+companyDesc+"' where id_host="+idHost,function(err,rows){
+                  if(err){
+                    res.json({"message":"err.. error on updating host"});
+                  }else{
+                    connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                      if(err){
+                        res.json({"message":"err.. error on update session last activity"});
+                      }else{
+                        res.json({"message":"success updating profile","error":"success"});
+                      }
+                    });
+                  }
+                });
+              }else{
+                res.json({"message":"err.. no rows on host with given session"});
+              }
             }
-          }
-        });
+          });
+        }
       }
     }
   });
