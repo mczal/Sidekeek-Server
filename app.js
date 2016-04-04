@@ -83,7 +83,7 @@ connect.prototype.connectMysql = function() {
 connect.prototype.configureExpress = function(connection) {
 	// body...
 	var self = this;
-      app.use(bodyParser.urlencoded({ extended: true,limit: '50mb' }));
+      app.use(bodyParser.urlencoded({ extended: true,limit: '5mb' }));
 			//mczal added test base64 raw
 		// 	app.use(function(req, res, next) {
 		//   req.rawBody = '';
@@ -98,7 +98,7 @@ connect.prototype.configureExpress = function(connection) {
 		//   });
 		// });
 		//EOF--mczal added test base64 raw
-      app.use(bodyParser.json({limit: '50mb'}));
+      app.use(bodyParser.json({limit: '5mb'}));
 
         // get an instance of the router for api routes
       var router = express.Router();
@@ -164,7 +164,7 @@ connect.prototype.configureExpress = function(connection) {
 
 			var getProfile = new getProfileModel(router,connection);
 			var editProfile = new editProfileModel(router,connection);
-			var editAccount = new editAccountModel(router,connection);
+			var editAccount = new editAccountModel(router,connection,fs);
 			var getAccount = new getAccountModel(router,connection);
 
 			var search = new searchModel(router,connection);
@@ -186,7 +186,7 @@ connect.prototype.configureExpress = function(connection) {
 			var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
 
 			var testingEmail = new testingEmailModel(router,connection);
-			var testingBase64 = new testingBase64Model(router,connection);
+			var testingBase64 = new testingBase64Model(router,connection,fs);
 
 			self.startServer();
 };
