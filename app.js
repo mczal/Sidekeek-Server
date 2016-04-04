@@ -14,25 +14,32 @@ var signUpModel = require("./model/registers/signUp.js");
 var getCitiesModel = require("./model/getCities.js");
 var getProvinceModel = require("./model/getProvince.js");
 var getCategoriesModel = require("./model/getCategories.js");
+
 var getProfileModel = require("./model/profiles/getProfile.js");
+var editProfileModel = require("./model/profiles/editProfile.js");
+var editAccountModel = require("./model/profiles/editAccount.js");
+var getAccountModel = require("./model/profiles/getAccount.js");
+
 var searchModel = require("./model/search.js");
 var getIPModel = require("./model/getIP.js");
 var loginModel = require("./model/login.js");
 var logoutModel = require("./model/logout.js");
 var checkModel = require("./model/integrityCheck.js");
+
 var getProductsModel = require("./model/products/getProducts.js");
 var getProductDetailModel = require("./model/products/getProductDetail.js");
 var addNewProductDescModel = require("./model/products/addNewProductDesc.js");
 var confirmationModel = require("./model/registers/confirmation.js");
 // var editProfileFullModel = require("./model/editProfileFull.js");
+
 var addNewPortofolioModel = require("./model/portofolios/addNewPortofolio.js");
 var getPortofoliosModel = require("./model/portofolios/getPortofolios.js");
 var editPortofolioModel = require("./model/portofolios/editPortofolio.js");
 var editProductDescModel = require("./model/products/editProductDesc.js");
-var editProfileModel = require("./model/profiles/editProfile.js");
 var getPortofolioDetailModel = require("./model/portofolios/getPortofolioDetail.js");
 
 var testingEmailModel = require("./model/testingEmail.js");
+var testingBase64Model = require("./model/testingBase64.js");
 
 var app = express();
 var jwt = require("jsonwebtoken");
@@ -140,25 +147,32 @@ connect.prototype.configureExpress = function(connection) {
 			var getCities = new getCitiesModel(router,connection);
 			var getProvince = new getProvinceModel(router,connection);
 			var getCategories = new getCategoriesModel(router,connection);
+
 			var getProfile = new getProfileModel(router,connection);
+			var editProfile = new editProfileModel(router,connection);
+			var editAccount = new editAccountModel(router,connection);
+			var getAccount = new getAccountModel(router,connection);
+
 			var search = new searchModel(router,connection);
 			var getIP = new getIPModel(router,connection);
 			var login = new loginModel(router,connection,md5);
 			var logout = new logoutModel(router,connection);
 			var check = new checkModel(router,connection);
+
 			var getProducts = new getProductsModel(router,connection);
 			var getProductDetail = new getProductDetailModel(router,connection);
 			var addNewProductDesc = new addNewProductDescModel(router,connection);
 			var confirmation = new confirmationModel(router,connection);
 			// var editProfileFull = new editProfileFullModel(router,connection);
+
 			var addNewPortofolio = new addNewPortofolioModel(router,connection);
 			var getPortofolios = new getPortofoliosModel(router,connection);
 			var editPortofolio = new editPortofolioModel(router,connection);
 			var editProductDesc = new editProductDescModel(router,connection);
-			var editProfile = new editProfileModel(router,connection);
 			var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
 
 			var testingEmail = new testingEmailModel(router,connection);
+			var testingBase64 = new testingBase64Model(router,connection);
 
 			self.startServer();
 };
