@@ -13,7 +13,7 @@ getProfile.prototype.handleRoutes = function(router,connection){
     if(email==null || email==undefined){
       res.json({"message":"err.. no params received"});
     }else{
-      var query = "select email,bussiness_category.category_name,company_desc,title,tipe.name as tipe from `host` join `tipe` on host.id_tipe=tipe.id_tipe join `bussiness_category` on host.category=bussiness_category.id_cat where email='"+email+"'";
+      var query = "select email,bussiness_category.category_name,company_desc,title,tipe.name as tipe,host.id_tipe from `host` join `tipe` on host.id_tipe=tipe.id_tipe join `bussiness_category` on host.category=bussiness_category.id_cat where email='"+email+"'";
       connection.query(query,function(err,rows){
         if(err){
           res.json({"message":"err.. error in selecting data","query":query});
