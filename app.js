@@ -84,6 +84,20 @@ connect.prototype.configureExpress = function(connection) {
 	// body...
 	var self = this;
       app.use(bodyParser.urlencoded({ extended: true }));
+			//mczal added test base64 raw
+		// 	app.use(function(req, res, next) {
+		//   req.rawBody = '';
+		//   req.setEncoding('utf8');
+		//
+		//   req.on('data', function(chunk) {
+		//     req.rawBody += chunk;
+		//   });
+		//
+		//   req.on('end', function() {
+		//     next();
+		//   });
+		// });
+		//EOF--mczal added test base64 raw
       app.use(bodyParser.json());
 
         // get an instance of the router for api routes

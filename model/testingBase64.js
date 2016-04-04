@@ -9,8 +9,8 @@ var self=this;
 
 testingBase64.prototype.handleRoutes = function(router,connection){
   router.post('/testingBase64',function(req,res){
-    var imgbase64 = req.body.imgbase64;
-    res.send(imgbase64);
+    var base64Data = req.body.base64Data;
+    res.json({"base64Data":base64Data});
   });
 }
 
