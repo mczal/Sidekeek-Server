@@ -61,8 +61,10 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
                         //gambarnya aadaa!!
                         //IMGBASE64 Affair
                         var path = "assets/img/"+email;
-                        var split = imgbase64.split(";")[0].split("/");
-                        var ext = split[1];
+                        var split1 = imgbase64.split(";");
+                        var split2 = split1[0].split("/");
+                        var ext = split2[1];
+                        var imgbase64Only = split1[1].split(",")[1];
                         mkpath.sync(path,function(err){
                           if(err){
                             console.log("message err.. error on sync");
@@ -78,7 +80,7 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
                             });
                           }
                         });
-                        var decodedImage = new Buffer(imgbase64, 'base64');
+                        var decodedImage = new Buffer(imgbase64Only, 'base64');
                         var filename = 'accountPicture.'+ext;
                         fs.writeFile(path+"/"+filename, decodedImage, function(err) {
                           if(err){
@@ -103,7 +105,6 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
                             });
                           }
                         });
-                        //EOF
                       }
                     }
                   }
@@ -111,7 +112,7 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
               }
             }
           }else{
-            res.json({"message":"err.. no rows"});
+            res.json({"message":"err.. no rows","query":query});
           }
         }
       });
