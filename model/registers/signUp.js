@@ -8,7 +8,7 @@ function signUp(router,connection,md5){
 
 function generateUniqueCode(){
     var text = "";
-    var possible = "[&900qnw@ml;kNI./UBI~`189`aklm3076IAKU-PASTI-BISA';l";
+    var possible = "[&900qnw@mlkNI./UBI~189ak?!^%lm3076IAKU-PASTI-BISAl";
 
     for( var i=0; i < 10; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -51,12 +51,23 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                       query="insert into `host` (email,password,unique_code,statusz) values('"+email+"','"+password+"','"+uniqueCode+"',0)";
                       connection.query(query,function(err,rows){
                         if(err){
-                          res.json({"message":"err.. error in inserting host"});
+                          res.json({"message":"err.. error in inserting host","query":query});
                         }else{
                           /*TODO: INI SEND MAIL CONFIRMATION*/
-
-                          //hereherehere
-                          res.json({"message":"success inserting new host, please proceed with confirmation","status":0,"unique_code":uniqueCode}); //status 0 berarti signup doang
+                          sendgrid.send({
+                            to:       email,
+                            from:     'noreply@sidekeek.co',
+                            subject:  'Sidekeek Account Confirmation',
+                            text:     'Please click the following link below to confirm your account on sidekeek.co',
+                            html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='#'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
+                          }, function(err, json) {
+                            if (err) {
+                              res.json({"message":'AAAAAHH!!',"err":err});
+                              return console.error(err);
+                            }
+                            res.json({"message":"success inserting new host, please proceed with confirmation","status":0,"unique_code":uniqueCode,"jsonsgrid":json}); //status 0 berarti signup doang
+                            console.log(json);
+                          });
                         }
                       });
                     }else{
@@ -71,15 +82,27 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                               res.json({"message":"err.. error in inserting host on q2","query2":query2});
                             }else{
                               /* TODO: INI SEND MAIL CONFIRMATION*/
-                              
-                              // TODO: DELETE TEMP HOST ATAU TIDAK...??
-                              //JAWABAN :: IYAA
-                              connection.query("delete from `host_temp` where statTemp = '"+statTemp+"'",function(err,rows){
-                                if(err){
-                                  res.json({"message":"err.. error on deleting host_temp"});
-                                }else{
-                                  res.json({"message":"success inserting new host on q2, please proceed with confirmation","unique_code":uniqueCode,"email":email,"status":1});//status 1 berarti udah register dari awal
+                              sendgrid.send({
+                                to:       email,
+                                from:     'noreply@sidekeek.co',
+                                subject:  'Sidekeek Account Confirmation',
+                                text:     'Please click the following link below to confirm your account on sidekeek.co',
+                                html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='#'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
+                              }, function(err, json) {
+                                if (err) {
+                                  res.json({"message":'AAAAAHH!!',"err":err});
+                                  return console.error(err);
                                 }
+                                console.log(json);
+                                // TODO: DELETE TEMP HOST ATAU TIDAK...??
+                                //JAWABAN :: IYAA
+                                connection.query("delete from `host_temp` where statTemp = '"+statTemp+"'",function(err,rows){
+                                  if(err){
+                                    res.json({"message":"err.. error on deleting host_temp"});
+                                  }else{
+                                    res.json({"message":"success inserting new host on q2, please proceed with confirmation","unique_code":uniqueCode,"email":email,"status":1});//status 1 berarti udah register dari awal
+                                  }
+                                });
                               });
                             }
                           });
