@@ -29,6 +29,8 @@ var checkModel = require("./model/integrityCheck.js");
 var getProductsModel = require("./model/products/getProducts.js");
 var getProductDetailModel = require("./model/products/getProductDetail.js");
 var addNewProductDescModel = require("./model/products/addNewProductDesc.js");
+var addProductImageModel = require("./model/products/addProductImage.js")
+var editProductImageModel =require("./model/products/editProductImage.js");
 var confirmationModel = require("./model/registers/confirmation.js");
 // var editProfileFullModel = require("./model/editProfileFull.js");
 
@@ -176,7 +178,9 @@ connect.prototype.configureExpress = function(connection) {
 			var getProducts = new getProductsModel(router,connection);
 			var getProductDetail = new getProductDetailModel(router,connection);
 			var addNewProductDesc = new addNewProductDescModel(router,connection);
+			var addProductImage = new addProductImageModel(router,connection);
 			var confirmation = new confirmationModel(router,connection);
+			var editProductImage = new editProductImageModel(router,connection);
 			// var editProfileFull = new editProfileFullModel(router,connection);
 
 			var addNewPortofolio = new addNewPortofolioModel(router,connection);

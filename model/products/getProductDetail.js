@@ -1,5 +1,16 @@
 var mysql = require('mysql');
 //TESTED 27 FEBRUARI 2016
+
+function generateUniqueCode(){
+    var text = "";
+    var possible = "[&900qnw@mlkNI./UBI~aklm3076IAKU-PASTI-BISAl";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 function getProductDetail(router,connection){
   var self=this;
   self.handleRoutes(router,connection);

@@ -87,7 +87,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                                 from:     'noreply@sidekeek.co',
                                 subject:  'Sidekeek Account Confirmation',
                                 text:     'Please click the following link below to confirm your account on sidekeek.co',
-                                html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='#'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
+                                html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='#'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>"
                               }, function(err, json) {
                                 if (err) {
                                   res.json({"message":'AAAAAHH!!',"err":err});

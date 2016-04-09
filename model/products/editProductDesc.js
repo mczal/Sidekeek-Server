@@ -19,7 +19,7 @@ editProductDesc.prototype.handleRoutes = function(router,connection){
         res.json({"message":"err.. no params rec"});
       }else{
         if(timestamp==null || timestamp==undefined || timestamp==''){
-          res.json({"message":"err.. "})
+          res.json({"message":"err.. "});
         }else{
           connection.query("select id_host from `session_host` where session_code='"+sessionCode+"'",function(err,rows){
             if(err){
