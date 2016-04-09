@@ -88,7 +88,7 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
                             res.json({"message":"err.. error in fs.write","err":err});
                           }else{
                             console.log("message success upload img");
-                            var imgbase64_database = "localhost/Sidekeek-Server/"+path+"/"+filename;
+                            var imgbase64_database = "http://localhost:8080/Sidekeek-Server/"+path+"/"+filename;
                             //res.json({"message ":" success upload img","database" : imgbase64_database});
                             connection.query("update `host` set img_base64='"+imgbase64_database+"',company_name='"+companyName+"',about='"+about+"',handphone='"+handphone+"',location="+city+",address='"+address+"' where id_host ="+idHost,function(err,rows){
                               if(err){
