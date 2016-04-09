@@ -1,4 +1,6 @@
 var mysql = require('mysql');
+var mkpath = require('mkpath');
+var fs = require('fs');
 //TESTED 27 FEBRUARI 2016
 function addNewPortofolio(router,connection){
   var self=this;
@@ -12,7 +14,7 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection){
     var sessionCode = req.body.sessionCode;
     var title = req.body.title;
     var description = req.body.description;
-    var imgBase64 = req.body.imgBase64;
+    var imgBase64 = req.body.imgbase64;
     var timestamp = req.body.timestamp;
     if(sessionCode == null || sessionCode==undefined || sessionCode==''){
       res.json({"message":"err.. no params sess rec"});
@@ -34,7 +36,7 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection){
                 if(rows.length>0){
                   var idHost = rows[0].id_host;
                   var email = rows[0].email;
-                  var query = "insert into `portofolio` (id_host,title,description,img_base64) values("+idHost+",'"+title+"','"+description+"','"+imgBase64+"')";
+                  var query = "insert into `portofolio` (id_host,title,description) values("+idHost+",'"+title+"','"+description+"')";
                   connection.query(query,function(err,rows){
                     if(err){
                       res.json({"message":"err.. error in inserting new portofolio","query":query});
@@ -42,7 +44,7 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection){
                       if(imgBase64 != null && imgBase64 != undefined && imgBase64 != ''){
                         //IMAGE NYA ADA.... UPDATE.
                           //ambil idPorto
-                        connection.query("select id_portofolio from `portofolio` where id_host="+idHost+" and title='"+title+"' and description='"+description+"' and img_base64='"+imgBase64+"'",function(err,rows){
+                        connection.query("select id_portofolio from `portofolio` where id_host="+idHost+" and title='"+title+"' and description='"+description+"'",function(err,rows){
                           if(err){
                             res.json({"message":"err.. error on selecting id porto"});
                           }else{
@@ -50,7 +52,7 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection){
                               //here
                               var idPortofolio = rows[0].id_portofolio;
                               var path = "assets/img/"+email+"/portofolios";
-                              var split1 = imgbase64.split(";");
+                              var split1 = imgBase64.split(";");
                               var split2 = split1[0].split("/");
                               var ext = split2[1];
                               var imgbase64Only = split1[1].split(",")[1];
@@ -80,7 +82,7 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection){
                                   var imgbase64_database = "http://localhost:8080/localhost/Sidekeek-Server/"+path+"/"+filename;
                                   //res.json({"message ":" success upload img","database" : imgbase64_database});
 
-                                  connection.query("update `portofolio` set img_base64='"+imgbase64_database+" where id_portofolio="+idPortofolio,function(err,rows){
+                                  connection.query("update `portofolio` set img_base64='"+imgbase64_database+"' where id_portofolio="+idPortofolio,function(err,rows){
                                     if(err){
                                       res.json({"message":"err.. error on updating host with img"});
                                     }else{
@@ -100,15 +102,16 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection){
                             }
                           }
                         });
+                      }else{
+                        //updating timestamp on session_host
+                        connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                          if(err){
+                            res.json({"message":"err.. error on updating session"})
+                          }else{
+                            res.json({"message":"success inserting new portofolio and updating last_activity"});
+                          }
+                        });
                       }
-                      //updating timestamp on session_host
-                      connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
-                        if(err){
-                          res.json({"message":"err.. error on updating session"})
-                        }else{
-                          res.json({"message":"success inserting new portofolio and updating last_activity"});
-                        }
-                      });
                     }
                   });
                 }else{
