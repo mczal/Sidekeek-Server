@@ -1,14 +1,14 @@
 var mysql = require('mysql');
 
-// function generateUniqueCode(){
-//     var text = "";
-//     var possible = "[&900qnw@ml;kNI./UBI~`189`aklm3076IAKU-PASTI-BISA';l";
-//
-//     for( var i=0; i < 5; i++ )
-//         text += possible.charAt(Math.floor(Math.random() * possible.length));
-//
-//     return text;
-// }
+function generateUniqueCode(){
+    var text = "";
+    var possible = "[&900qnw@ml;kNI./UBI~`189`aklm3076IAKU-PASTI-BISA';l";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 
 function addProductImage(router,connection){
   var self=this;
@@ -65,7 +65,7 @@ addProductImage.prototype.handleRoutes = function(router,connection){
                   }
                 });
                 var decodedImage = new Buffer(imgbase64Only, 'base64');
-                var filename = 'product'+idProduct+'.'+ext;
+                var filename = 'product'+idProduct+'_'+generateUniqueCode()+'.'+ext;
                 fs.writeFile(path+"/"+filename, decodedImage, function(err) {
                   if(err){
                     console.log("message err.. error in fs.write err:"+err);
@@ -74,11 +74,13 @@ addProductImage.prototype.handleRoutes = function(router,connection){
                     console.log("message success upload img");
                     var imgbase64_database = "http://localhost:8080/localhost/Sidekeek-Server/"+path+"/"+filename;
                     //res.json({"message ":" success upload img","database" : imgbase64_database});
-                    connection.query("update `host` set img_base64='"+imgbase64_database+"',company_name='"+companyName+"',about='"+about+"',handphone='"+handphone+"',location="+city+",address='"+address+"' where id_host ="+idHost,function(err,rows){
+                    var q1 = "insert into `gallery_product`(id_product,img_base64) values("+idProduct+",'"+imgbase64_database+"') ";
+                    connection.query(q1,function(err,rows){
                       if(err){
                         res.json({"message":"err.. error on updating host with img"});
                       }else{
-                        connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                        var q2 = "update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'";
+                        connection.query(q2,function(err,rows){
                           if(err){
                             res.json({"message":"err.. error on update session last activity"});
                           }else{

@@ -79,7 +79,8 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection){
                                   console.log("message success upload img");
                                   var imgbase64_database = "http://localhost:8080/localhost/Sidekeek-Server/"+path+"/"+filename;
                                   //res.json({"message ":" success upload img","database" : imgbase64_database});
-                                  connection.query("update `host` set img_base64='"+imgbase64_database+"',company_name='"+companyName+"',about='"+about+"',handphone='"+handphone+"',location="+city+",address='"+address+"' where id_host ="+idHost,function(err,rows){
+
+                                  connection.query("update `portofolio` set img_base64='"+imgbase64_database+" where id_portofolio="+idPortofolio,function(err,rows){
                                     if(err){
                                       res.json({"message":"err.. error on updating host with img"});
                                     }else{
