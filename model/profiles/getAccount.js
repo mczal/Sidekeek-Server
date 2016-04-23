@@ -19,7 +19,14 @@ getAccount.prototype.handleRoutes = function(router,connection){
           res.json({"message":"err.. error on selecting"});
         }else{
           if(rows.length>0){
-            res.json(rows);
+            // res.json(rows);
+            connection.query("select company_name,about,handphone,location,address,img_base64 from `host` where email = '"+email+"'",function(err,rows){
+              if(err){
+                res.json({"message":"err.. error on selecting"});
+              }else{
+                res.json(rows);
+              }
+            });
           }else{
             res.json({"message":"err.. no rows"});
           }
