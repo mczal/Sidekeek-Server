@@ -8,7 +8,7 @@ function signUp(router,connection,md5){
 
 function generateUniqueCode(){
     var text = "";
-    var possible = "[&900qnw@mlkNI./UBI~189ak?!^%lm3076IAKU-PASTI-BISAl";
+    var possible = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
 
     for( var i=0; i < 10; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));

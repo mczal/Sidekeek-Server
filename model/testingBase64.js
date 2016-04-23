@@ -9,34 +9,12 @@ var self=this;
 
 testingBase64.prototype.handleRoutes = function(router,connection,fs){
   router.post('/testingBase64',function(req,res){
-    var imgBase64 = req.body.imgBase64;
-    var split = imgBase64.split(";")[0].split("/");
-    var ext = split[1];
-    mkpath.sync('assets/img',function(err){
-      if(err){
-        console.log("message err.. error on sync");
-        res.json({"message":"err.. error on sync"});
-      }else{
-        mkpath('assets/img', function (err) {
-          if (err) {
-            console.log("message err.. error on mkpath");
-            res.json({"message":"err.. error on mkpath"});
-          }else{
-            console.log('Directory structure assets/img created');//debug
-          }
-        });
-      }
-    });
-    var decodedImage = new Buffer(imgBase64, 'base64');
-    fs.writeFile('assets/img/image_decoded.'+ext, decodedImage, function(err,k) {
-      if(err){
-        console.log("message err.. error in fs.write err:"+err);
-        res.json({"message":"err.. error in fs.write","err":err});
-      }else{
-        console.log("message success upload img");
-        res.json({"message":"success upload img"});
-      }
-    });
+    var cars = new Array("Saab", "Volvo", "BMW");
+    var myTest = new Array();
+    myTest[0] = (cars);
+    myTest[1] = (["John", "Doe", 46]);
+    myTest[2] = (new Array("Banana", "Orange", "Apple", "Mango"));
+    res.json({"myTest":myTest,"length":myTest.length});
   });
 }
 

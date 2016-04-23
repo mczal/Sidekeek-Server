@@ -3,7 +3,7 @@ var mysql = require('mysql');
 
 function generateUniqueCode(){
     var text = "";
-    var possible = ":/kmaso-0239_THIS IS SESSION(W_dio*&^%$#@pwmSPM3-ASO)IAKU-PASTI-BISAl";
+    var possible = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
 
     for( var i=0; i < 10; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -23,11 +23,12 @@ confirmation.prototype.handleRoutes = function(router,connection){
     if(uniqueCode == null || uniqueCode == undefined || uniqueCode == ''){
       res.json({"message":"err.. no params received"});
     }else{
-      connection.query("select id_host from `host` where unique_code='"+uniqueCode+"'",function(err,rows){
+      connection.query("select email,id_host from `host` where unique_code='"+uniqueCode+"'",function(err,rows){
         if(err){
           res.json({"message":"err.. error on selecting host with given uniqueCode"});
         }else{
           if(rows.length>0){
+            var email = rows[0].email;
             var idHost = rows[0].id_host;
             connection.query("update `host` set statusz=1 where id_host="+idHost,function(err,rows){
               if(err){
@@ -51,7 +52,7 @@ confirmation.prototype.handleRoutes = function(router,connection){
                             if(err){
                               res.json({"message":"err.. fail updt uniqueOdce"});
                             }else{
-                              res.json({"message":"your host has been confirmed, success updating session code, go on","session":sessionCode});
+                              res.json({"message":"your host has been confirmed, success updating session code, go on","session":sessionCode,"email":email});
                             }
                           });
                         }
@@ -67,7 +68,7 @@ confirmation.prototype.handleRoutes = function(router,connection){
                             if(err){
                               res.json({"message":"err.. fail updt uniqueOdce"});
                             }else{
-                              res.json({"message":"your host has been confirmed, success create new session, go on","session":sessionCode});
+                              res.json({"message":"your host has been confirmed, success create new session, go on","session":sessionCode,"email":email});
                             }
                           });
                         }

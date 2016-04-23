@@ -39,6 +39,7 @@ var getPortofoliosModel = require("./model/portofolios/getPortofolios.js");
 var editPortofolioModel = require("./model/portofolios/editPortofolio.js");
 var editProductDescModel = require("./model/products/editProductDesc.js");
 var getPortofolioDetailModel = require("./model/portofolios/getPortofolioDetail.js");
+var getProductsEagerModel = require("./model/products/getProductsEager.js");
 
 var testingEmailModel = require("./model/testingEmail.js");
 var testingBase64Model = require("./model/testingBase64.js");
@@ -63,7 +64,7 @@ connect.prototype.connectMysql = function() {
 	var self = this;
     var pool      =    mysql.createPool({ //bisa pake create pool , bisa juga pake mySQL biasa, tapi lebih aman POOL..>>searching
         connectionLimit : 100,
-        multipleStatements: true,
+        multipleStatements: false,
 
 		//kalo mau coba local host
 		host     : '127.0.0.1',
@@ -188,6 +189,7 @@ connect.prototype.configureExpress = function(connection) {
 			var editPortofolio = new editPortofolioModel(router,connection);
 			var editProductDesc = new editProductDescModel(router,connection);
 			var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
+			var getProductsEager = new getProductsEagerModel(router,connection);
 
 			var testingEmail = new testingEmailModel(router,connection);
 			var testingBase64 = new testingBase64Model(router,connection,fs);
