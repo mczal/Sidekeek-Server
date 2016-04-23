@@ -8,7 +8,7 @@ function login(router,connection,md5) {
 
 function generateUniqueCode(){
     var text = "";
-    var possible = ":/kmaso-0239_THIS IS SESSION(W_dio*&^%$#@pwmSPM3-ASO)IAKU-PASTI-BISAl";
+    var possible = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-+_";
 
     for( var i=0; i < 10; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -45,7 +45,7 @@ login.prototype.handleRoutes = function(router,connection,md5){
                   if(statusz == 1){
                     var sessionCode = generateUniqueCode();
                     //lookup session dulu
-                    connection.query("select id_host from `session_host` where id_host="+idHost,function(err,rows){
+                    connection.query("select id_host, from `session_host` where id_host="+idHost,function(err,rows){
                       if(err){
                         res.json({"message":"err.. error on checking availability session host"});
                       }else{

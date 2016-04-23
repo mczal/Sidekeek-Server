@@ -8,6 +8,8 @@ var express = require("express"),
 	https = require('https');
 	/*(END) BELUM DIPAKAI*/
 
+var isHostModel = require("./model/isHost.js");
+
 var firstRegisterModel = require("./model/registers/firstRegister.js");
 var secondRegisterModel = require("./model/registers/secondRegister.js");
 var signUpModel = require("./model/registers/signUp.js");
@@ -157,6 +159,8 @@ connect.prototype.configureExpress = function(connection) {
 
 
       app.use('/sideAPIkeek', router);
+
+			var isHost = new isHostModel(router,connection);
 
 			var firstRegister = new firstRegisterModel(router,connection);
 			var secondRegister = new secondRegisterModel(router,connection);
