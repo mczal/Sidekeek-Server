@@ -45,12 +45,13 @@ login.prototype.handleRoutes = function(router,connection,md5){
                   if(statusz == 1){
                     var sessionCode = generateUniqueCode();
                     //lookup session dulu
-                    connection.query("select id_host, from `session_host` where id_host="+idHost,function(err,rows){
+                    var query1 = "select id_host from `session_host` where id_host="+idHost;
+                    connection.query(query1,function(err,rows){
                       if(err){
-                        res.json({"message":"err.. error on checking availability session host"});
+                        res.json({"message":"err.. error on checking availability session host","q":query1});
                       }else{
                         if(rows.length>0){
-                          var query = "update `session_host` set session_code='"+sessionCode+"',last_activity='"+timestamp+"'";
+                          var query = "update `session_host` set session_code='"+sessionCode+"',last_activity='"+timestamp+"' where id_host="+idHost;
                           connection.query(query,function(err,rows){
                             if(err){
                               res.json({"message":"err.. error on updating session host","query":query});
