@@ -19,13 +19,25 @@ getProductsEager.prototype.handleRoutes = function(router,connection){
           if(rows.length>0){
             var idHost = rows[0].id_host;
             var result = {};
-            var qProd = "select product.id_product,product.product_name,product.product_desc,product.price,gallery_product.id,gallery_product.img_base64 from `product` left outer join `gallery_product` on product.id_product=gallery_product.id_product where product.id_host="+idHost;
-            connection.query(qProd,function(err,rows){
+            var qProd = "select product.id_product,product.product_name,product.product_desc,product.price from `product` where product.id_host="+idHost;
+            connection.query(qProd,function(err,rowsProduct){
               if(err){
                 res.json({"message":"err.. error on selecting prod qProd","qprod":qProd});
               }else{
-                if(rows.length>0){
-                  res.json(rows);
+                if(rowsProduct.length>0){
+                  // res.json(rowsProduct);
+                  var q2 = "select gallery_product.id,gallery_product.img_base64,gallery_product.id_product from `gallery_product` join `product` on gallery_product.id_product=product.id_product where product.id_host="+idHost;
+                  connection.query(q2,function(err,rowsImg){
+                    if(err){
+                      res.json({"message":"err.. error on selecting gallery img query"});
+                    }else{
+                      if(rowsImg.length>0){
+                        res.json({"message":"success, take product and its gallery","product":rowsProduct,"images":rowsImg});
+                      }else{
+                        res.json({"message":"success, just take its product desc","product":rowsProduct});
+                      }
+                    }
+                  });
                   // for (var i = 0; i < rows.length; i++) {
                   //   var idProduct = rows[i].id_product;
                   //   var productName = rows[i].product_name;
@@ -44,7 +56,7 @@ getProductsEager.prototype.handleRoutes = function(router,connection){
                   //   });
                   // }
                 }else{
-                  res.json({"message":"err.. no rows on qProd"});
+                  res.json({"message":"err.. no rows on product"});
                 }
               }
             });

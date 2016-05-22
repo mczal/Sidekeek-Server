@@ -46,56 +46,57 @@ editPortofolio.prototype.handleRoutes = function(router,connection){
                       if(err){
                         res.json({"message":"err.. error on updating session"});
                       }else{
-                        if(imgbase64 == null || imgbase64 == undefined || imgbase64 == ''){
-                          res.json({"message":"success updating your portofolio and session last activity, happy sunday"});
-                        }else{
-                          var path = "assets/img/"+email+"/portofolios";
-                          var split1 = imgbase64.split(";");
-                          var split2 = split1[0].split("/");
-                          var ext = split2[1];
-                          mkpath.sync(path,function(err){
-                            if(err){
-                              console.log("message err.. error on sync");
-                              res.json({"message":"err.. error on sync"});
-                            }else{
-                              mkpath(path, function (err) {
-                                if (err) {
-                                  console.log("message err.. error on mkpath");
-                                  res.json({"message":"err.. error on mkpath"});
-                                }else{
-                                  console.log("Directory structure "+path+" created");//debug
-                                }
-                              });
-                            }
-                          });
-                          var imgbase64Only = split1[1].split(",")[1];
-                          var decodedImage = new Buffer(imgbase64Only, 'base64');
-                          var filename = 'portofolio'+idPortofolio+'.'+ext;
-                          fs.writeFile(path+"/"+filename, decodedImage, function(err) {
-                            if(err){
-                              console.log("message err.. error in fs.write err:"+err);
-                              res.json({"message":"err.. error in fs.write","err":err});
-                            }else{
-                              console.log("message success upload img");
-                              var imgbase64_database = "http://localhost:8080/localhost/Sidekeek-Server/"+path+"/"+filename;
-                              //res.json({"message ":" success upload img","database" : imgbase64_database});
-
-                              connection.query("update `portofolio` set img_base64='"+imgbase64_database+"' where id_portofolio="+idPortofolio,function(err,rows){
-                                if(err){
-                                  res.json({"message":"err.. error on updating host with img"});
-                                }else{
-                                  connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
-                                    if(err){
-                                      res.json({"message":"err.. error on update session last activity"});
-                                    }else{
-                                      res.json({"message":"success updating new value with img","error":"success"});
-                                    }
-                                  });
-                                }
-                              });
-                            }
-                          });
-                        }
+                        res.json({"message":"success updating your portofolio and session last activity, happy sunday"});
+                        // if(imgbase64 == null || imgbase64 == undefined || imgbase64 == ''){
+                        //   res.json({"message":"success updating your portofolio and session last activity, happy sunday"});
+                        // }else{
+                        //   var path = "assets/img/"+email+"/portofolios";
+                        //   var split1 = imgbase64.split(";");
+                        //   var split2 = split1[0].split("/");
+                        //   var ext = split2[1];
+                        //   mkpath.sync(path,function(err){
+                        //     if(err){
+                        //       console.log("message err.. error on sync");
+                        //       res.json({"message":"err.. error on sync"});
+                        //     }else{
+                        //       mkpath(path, function (err) {
+                        //         if (err) {
+                        //           console.log("message err.. error on mkpath");
+                        //           res.json({"message":"err.. error on mkpath"});
+                        //         }else{
+                        //           console.log("Directory structure "+path+" created");//debug
+                        //         }
+                        //       });
+                        //     }
+                        //   });
+                        //   var imgbase64Only = split1[1].split(",")[1];
+                        //   var decodedImage = new Buffer(imgbase64Only, 'base64');
+                        //   var filename = 'portofolio'+idPortofolio+'.'+ext;
+                        //   fs.writeFile(path+"/"+filename, decodedImage, function(err) {
+                        //     if(err){
+                        //       console.log("message err.. error in fs.write err:"+err);
+                        //       res.json({"message":"err.. error in fs.write","err":err});
+                        //     }else{
+                        //       console.log("message success upload img");
+                        //       var imgbase64_database = "http://localhost:8080/localhost/Sidekeek-Server/"+path+"/"+filename;
+                        //       //res.json({"message ":" success upload img","database" : imgbase64_database});
+                        //
+                        //       connection.query("update `portofolio` set img_base64='"+imgbase64_database+"' where id_portofolio="+idPortofolio,function(err,rows){
+                        //         if(err){
+                        //           res.json({"message":"err.. error on updating host with img"});
+                        //         }else{
+                        //           connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                        //             if(err){
+                        //               res.json({"message":"err.. error on update session last activity"});
+                        //             }else{
+                        //               res.json({"message":"success updating new value with img","error":"success"});
+                        //             }
+                        //           });
+                        //         }
+                        //       });
+                        //     }
+                        //   });
+                        // }
                       }
                     });
                   }

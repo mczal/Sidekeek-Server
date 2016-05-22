@@ -21,6 +21,7 @@ var getProfileModel = require("./model/profiles/getProfile.js");
 var editProfileModel = require("./model/profiles/editProfile.js");
 var editAccountModel = require("./model/profiles/editAccount.js");
 var getAccountModel = require("./model/profiles/getAccount.js");
+var editAccountPicModel = require("./model/profiles/editAccountPic.js");
 
 var searchModel = require("./model/search.js");
 var getIPModel = require("./model/getIP.js");
@@ -42,6 +43,7 @@ var editPortofolioModel = require("./model/portofolios/editPortofolio.js");
 var editProductDescModel = require("./model/products/editProductDesc.js");
 var getPortofolioDetailModel = require("./model/portofolios/getPortofolioDetail.js");
 var getProductsEagerModel = require("./model/products/getProductsEager.js");
+var editPortofolioImgModel = require("./model/portofolios/editPortofolioImg.js");
 
 var testingEmailModel = require("./model/testingEmail.js");
 var testingBase64Model = require("./model/testingBase64.js");
@@ -173,6 +175,7 @@ connect.prototype.configureExpress = function(connection) {
 			var editProfile = new editProfileModel(router,connection);
 			var editAccount = new editAccountModel(router,connection,fs);
 			var getAccount = new getAccountModel(router,connection);
+			var editAccountPic = new editAccountPicModel(router,connection);
 
 			var search = new searchModel(router,connection);
 			var getIP = new getIPModel(router,connection);
@@ -194,6 +197,7 @@ connect.prototype.configureExpress = function(connection) {
 			var editProductDesc = new editProductDescModel(router,connection);
 			var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
 			var getProductsEager = new getProductsEagerModel(router,connection);
+			var editPortofolioImg = new editPortofolioImgModel(router,connection);
 
 			var testingEmail = new testingEmailModel(router,connection);
 			var testingBase64 = new testingBase64Model(router,connection,fs);
