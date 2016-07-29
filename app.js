@@ -4,12 +4,14 @@ var express = require("express"),
 	md5 = require('MD5'),
   http = require('http'),
 	/*(START) BELUM DIPAKAI*/
-	fs = require('fs'),
-	https = require('https');
+	fs = require('fs');
+	swagger = require("swagger-node-express");
 	/*(END) BELUM DIPAKAI*/
 
+var subpath = express();
 var isHostModel = require("./model/isHost.js");
 
+var hostSignUpModel = require("./model/registers/hostSignUp.js");
 var firstRegisterModel = require("./model/registers/firstRegister.js");
 var secondRegisterModel = require("./model/registers/secondRegister.js");
 var signUpModel = require("./model/registers/signUp.js");
@@ -23,7 +25,9 @@ var editAccountModel = require("./model/profiles/editAccount.js");
 var getAccountModel = require("./model/profiles/getAccount.js");
 var editAccountPicModel = require("./model/profiles/editAccountPic.js");
 
-var searchModel = require("./model/search.js");
+var searchTemplateModel = require("./model/search/search-template.js");
+
+var searchModel = require("./model/search/search.js");
 var getIPModel = require("./model/getIP.js");
 var loginModel = require("./model/login.js");
 var logoutModel = require("./model/logout.js");
@@ -44,6 +48,10 @@ var editProductDescModel = require("./model/products/editProductDesc.js");
 var getPortofolioDetailModel = require("./model/portofolios/getPortofolioDetail.js");
 var getProductsEagerModel = require("./model/products/getProductsEager.js");
 var editPortofolioImgModel = require("./model/portofolios/editPortofolioImg.js");
+
+var deleteProductImageModel = require("./model/products/deleteProductImage.js");
+var deleteProductModel = require("./model/products/deleteProduct");
+var deletePortofolioModel = require("./model/portofolios/deletePortofolio.js");
 
 var testingEmailModel = require("./model/testingEmail.js");
 var testingBase64Model = require("./model/testingBase64.js");
@@ -90,22 +98,34 @@ connect.prototype.connectMysql = function() {
 connect.prototype.configureExpress = function(connection) {
 	// body...
 	var self = this;
+			// app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({ extended: true,limit: '5mb' }));
-			//mczal added test base64 raw
-		// 	app.use(function(req, res, next) {
-		//   req.rawBody = '';
-		//   req.setEncoding('utf8');
-		//
-		//   req.on('data', function(chunk) {
-		//     req.rawBody += chunk;
-		//   });
-		//
-		//   req.on('end', function() {
-		//     next();
-		//   });
-		// });
-		//EOF--mczal added test base64 raw
-      app.use(bodyParser.json({limit: '5mb'}));
+			app.use(express.static('dist'));
+			app.use("/sidekeek/docs", subpath);
+			swagger.setAppHandler(subpath);
+			// swagger.setApiInfo({
+		  //   title: "example API",
+		  //   description: "API to do something, manage something...",
+		  //   termsOfServiceUrl: "",
+		  //   contact: "yourname@something.com",
+		  //   license: "",
+		  //   licenseUrl: ""
+			// });
+			subpath.get('/', function (req, res) {
+		    res.sendFile(__dirname + '/dist/index-docs.html');
+			});
+			// swagger.configureSwaggerPaths('', 'api-docs', '');
+			// var domain = 'localhost';
+			// var prt = 3000;
+			// if(argv.domain !== undefined)
+			//     domain = argv.domain;
+			// else
+			// console.log('No --domain=xxx specified, taking default hostname "localhost".');
+			// var applicationUrl = 'http://' + domain+":"+prt+"/sidekeek";
+			// console.log(applicationUrl);
+			// swagger.configure(applicationUrl, '1.0.0');
+
+      // app.use(bodyParser.json({limit: '5mb'}));
 
         // get an instance of the router for api routes
       var router = express.Router();
@@ -164,6 +184,7 @@ connect.prototype.configureExpress = function(connection) {
 
 			var isHost = new isHostModel(router,connection);
 
+			var hostSignUp = new hostSignUpModel(router,connection,md5);
 			var firstRegister = new firstRegisterModel(router,connection);
 			var secondRegister = new secondRegisterModel(router,connection);
 			var signUp = new signUpModel(router,connection,md5);
@@ -176,6 +197,8 @@ connect.prototype.configureExpress = function(connection) {
 			var editAccount = new editAccountModel(router,connection,fs);
 			var getAccount = new getAccountModel(router,connection);
 			var editAccountPic = new editAccountPicModel(router,connection);
+
+			var searchTemplate = new searchTemplateModel(router,connection);
 
 			var search = new searchModel(router,connection);
 			var getIP = new getIPModel(router,connection);
@@ -198,6 +221,10 @@ connect.prototype.configureExpress = function(connection) {
 			var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
 			var getProductsEager = new getProductsEagerModel(router,connection);
 			var editPortofolioImg = new editPortofolioImgModel(router,connection);
+
+			var deleteProductImage = new deleteProductImageModel(router,connection);
+			var deleteProduct = new deleteProductModel(router,connection);
+			var deletePortofolio = new deletePortofolioModel(router,connection);
 
 			var testingEmail = new testingEmailModel(router,connection);
 			var testingBase64 = new testingBase64Model(router,connection,fs);

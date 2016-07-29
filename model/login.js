@@ -21,7 +21,7 @@ var self = this;
 login.prototype.handleRoutes = function(router,connection,md5){
   router.post("/login",function(req,res){
     var email = req.body.email;
-    var password = md5(req.body.password);
+    var password = req.body.password;
     var timestamp = req.body.timestamp;
     if(email==null || email==undefined || email==""){
       res.json({"message":"err.. no params em received"});
@@ -51,7 +51,12 @@ login.prototype.handleRoutes = function(router,connection,md5){
                         res.json({"message":"err.. error on checking availability session host","q":query1});
                       }else{
                         if(rows.length>0){
-                          var query = "update `session_host` set session_code='"+sessionCode+"',last_activity='"+timestamp+"' where id_host="+idHost;
+                          // 5. update last activity
+                          var myDate = new Date();
+                          var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                          "-"+myDate.getDate()+" "+myDate.getHours()+
+                          ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                          var query = "update `session_host` set session_code='"+sessionCode+"',last_activity='"+myTimestamp+"' where id_host="+idHost;
                           connection.query(query,function(err,rows){
                             if(err){
                               res.json({"message":"err.. error on updating session host","query":query});
@@ -60,7 +65,12 @@ login.prototype.handleRoutes = function(router,connection,md5){
                             }
                           });
                         }else{
-                          var query = "insert into `session_host` (id_host,session_code,last_activity) values ("+idHost+",'"+sessionCode+"','"+timestamp+"') ";
+                          // 5. update last activity
+                          var myDate = new Date();
+                          var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                          "-"+myDate.getDate()+" "+myDate.getHours()+
+                          ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                          var query = "insert into `session_host` (id_host,session_code,last_activity) values ("+idHost+",'"+sessionCode+"','"+myTimestamp+"') ";
                           connection.query(query,function(err,rows){
                             if(err){
                               res.json({"message":"err.. error create new session","query":query});

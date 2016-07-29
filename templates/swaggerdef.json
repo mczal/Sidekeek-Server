@@ -1,0 +1,14 @@
+{
+  /* COPY FROM HERE */
+  "path": {
+    "properties": {
+      "message": {
+        "example": ""
+      },
+      "error": {
+        "example": ""
+      }
+    }
+  }
+  /* COPY */
+}

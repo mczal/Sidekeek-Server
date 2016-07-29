@@ -25,60 +25,60 @@ addNewProductDesc.prototype.handleRoutes = function(router,connection){
     var productDesc = req.body.productDesc;
     var timestamp = req.body.timestamp;
     if(sessionCode == null || sessionCode == undefined || sessionCode == ""){
-      res.json({"message":"err.. error no params sess receive"});
+      res.json({"message":"err.. error no params sess receive","idProduct":null,"error":"error"});
     }else{
       if(namaProduk == null || namaProduk == undefined || namaProduk == ""){
-        res.json({"message":"err.. error no params prdNme rec"});
+        res.json({"message":"err.. error no params prdNme rec","idProduct":null,"error":"error"});
       }else{
         if(harga==null || harga==undefined || harga==""){
-          res.json({"message":"err.. error no params price rec"});
+          res.json({"message":"err.. error no params price rec","idProduct":null,"error":"error"});
         }else{
           if(productDesc == null || productDesc == undefined || productDesc == ""){
-            res.json({"message":"err.. error no params prodDesc rec"});
+            res.json({"message":"err.. error no params prodDesc rec","idProduct":null,"error":"error"});
           }else{
             if(timestamp==null || timestamp==undefined || timestamp==''){
-              res.json({"message":"err.. no params t_s rec"});
+              res.json({"message":"err.. no params t_s rec","idProduct":null,"error":"error"});
             }else{
               connection.query("select id_host from `session_host` where session_code='"+sessionCode+"'",function(err,rows){
                   if(err){
-                    res.json({"message":"err.. error on selecting host from session given"});
+                    res.json({"message":"err.. error on selecting host from session given","idProduct":null,"error":"error"});
                   }else{
                     if(rows.length>0){
                       var idHost = rows[0].id_host;
                       var codeUnique = generateUniqueCode();
                       connection.query("insert into `product` (id_host,product_name,product_desc,price,unique_code) values("+idHost+",'"+namaProduk+"','"+productDesc+"',"+harga+",'"+codeUnique+"')",function(err,rows){
                         if(err){
-                          res.json({"message":"err.. error inserting product"});
+                          res.json({"message":"err.. error inserting product","idProduct":null,"error":"error"});
                         }else{
                           connection.query("select id_product from `product` where unique_code='"+codeUnique+"'",function(err,rows){
                             if(err){
-                              res.json({"message":"err.. error in selecting idProduct"});
+                              res.json({"message":"err.. error in selecting idProduct","idProduct":null,"error":"error"});
                             }else{
                               if(rows.length>0){
                                 var idProduct = rows[0].id_product;
                                 connection.query("update `product` set unique_code=null where id_product="+idProduct , function(err,rows){
                                   if(err){
-                                    res.json({"message":"err.. error in update code to null"});
+                                    res.json({"message":"err.. error in update code to null","idProduct":null,"error":"error"});
                                   }else{
                                     //updating timestamp on session_host
                                     connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
                                       if(err){
-                                        res.json({"message":"err.. error on updating session"})
+                                        res.json({"message":"err.. error on updating session","idProduct":null,"error":"error"})
                                       }else{
-                                        res.json({"message":"Success bro congrats","idProduct":idProduct});
+                                        res.json({"message":"Success bro congrats","idProduct":idProduct,"error":"success"});
                                       }
                                     });
                                   }
                                 });
                               }else{
-                                res.json({"message":"err.. error no rows in prodcut with given code"});
+                                res.json({"message":"err.. error no rows in prodcut with given code","idProduct":null,"error":"error"});
                               }
                             }
                           });
                         }
                       });
                     }else{
-                      res.json({"message":"err.. no rows on session"});
+                      res.json({"message":"err.. no rows on session","error":"error"});
                     }
                   }
               });

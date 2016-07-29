@@ -1,0 +1,110 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Sidekeek API Service",
+    "description": "Group of services provided to maintain sidekeek-client needs",
+    "contact": "yourname@something.com",
+    "termsOfService": "http://swagger.io/terms/"
+  },
+  "basePath": "/sideAPIkeek",
+  "tags" : [
+    {"name": "Tag1",
+    "description": "API for something"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/auth": {
+       "post": {
+          "tags": ["Tag1"],
+          "description": "what this API does",
+          "operationId": "for the URL",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "create response",
+              "schema": {
+                 "$ref": "#/definitions/response1"
+              }
+            }
+          }
+        }
+    }
+  },
+  "definitions": {
+    "create": {
+      "properties": {
+        "eventId": {
+          "required":true,
+          "type": "string",
+          "example": "mathmaticial"
+        },
+        "numberRequired": {
+          "required":true,
+          "type":"integer",
+          "format": "int64",
+          "example": 500
+        }
+      }
+    },
+    "response1": {
+        "properties": {
+          "jobID": {
+            "required":true,
+            "type": "string",
+            "example": "23423456543"
+          },
+          "request": {
+            "required":true,
+            "type": "schema",
+            "example": {
+              "eventId":"mathmaticial",
+              "numberRequired": 500
+            }
+          }
+      }
+    },
+    "response": {
+        "properties": {
+            "jobID": {
+              "required": true,
+              "type" : "string",
+              "example" : "12321432423"
+            }
+        }
+    },
+    "delete": {
+        "properties": {
+            "jobID": {
+              "required": true,
+              "type" : "string",
+              "example" : "234344234234"
+            },
+            "status" : {
+              "required": true,
+              "type": "string",
+              "example": "deleted"
+            }
+        }
+    },
+    "400error" : {
+       "properties": {
+        "message": {
+          "type": "string",
+          "example" : "400 Bad Request"
+        }
+      }
+    }
+  }
+}

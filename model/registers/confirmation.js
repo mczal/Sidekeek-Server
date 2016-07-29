@@ -21,44 +21,54 @@ confirmation.prototype.handleRoutes = function(router,connection){
   router.post("/confirmation",function(req,res){
     var uniqueCode = req.body.uniqueCode;
     if(uniqueCode == null || uniqueCode == undefined || uniqueCode == ''){
-      res.json({"message":"err.. no params received"});
+      res.json({"message":"err.. no params received","error":"error","session":null,"email":null});
     }else{
       connection.query("select email,id_host from `host` where unique_code='"+uniqueCode+"'",function(err,rows){
         if(err){
-          res.json({"message":"err.. error on selecting host with given uniqueCode"});
+          res.json({"message":"err.. error on selecting host with given uniqueCode","session":null,"email":null});
         }else{
           if(rows.length>0){
             var email = rows[0].email;
             var idHost = rows[0].id_host;
             connection.query("update `host` set statusz=1 where id_host="+idHost,function(err,rows){
               if(err){
-                res.json({"message":"err.. error confirming your host's account"});
+                res.json({"message":"err.. error confirming your host's account","session":null,"email":null});
               }else{
                 //bikin sesi baru untuk host ini karena langsung di log in-in otomatis..
                 var sessionCode = generateUniqueCode();
                 //lookup session dulu
                 connection.query("select id_host from `session_host` where id_host="+idHost,function(err,rows){
                   if(err){
-                    res.json({"message":"err.. error on checking availability session host"});
+                    res.json({"message":"err.. error on checking availability session host","session":null,"email":null});
                   }else{
                     if(rows.length>0){
-                      var query = "update `session_host` set session_code='"+sessionCode+"' where id_host="+rows[0].id_host;
+                      // 5. update last activity
+                      var myDate = new Date();
+                      var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                      "-"+myDate.getDate()+" "+myDate.getHours()+
+                      ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                      var query = "update `session_host` set session_code='"+sessionCode+"',last_activity='"+myTimestamp+"' where id_host="+rows[0].id_host;
                       connection.query(query,function(err,rows){
                         if(err){
-                          res.json({"message":"err.. error on updating session host","query":query});
+                          res.json({"message":"err.. error on updating session host","query":query,"session":null,"email":null});
                         }else{
                           //hapus uniqueCode-nya host...
                           connection.query("update `host` set unique_code='done' where id_host="+idHost,function(err,rows){
                             if(err){
-                              res.json({"message":"err.. fail updt uniqueOdce"});
+                              res.json({"message":"err.. fail updt uniqueOdce","session":null,"email":null});
                             }else{
-                              res.json({"message":"your host has been confirmed, success updating session code, go on","session":sessionCode,"email":email});
+                              res.json({"message":"your account has been confirmed, success updating session code, go on","error":"success","session":sessionCode,"email":email});
                             }
                           });
                         }
                       });
                     }else{
-                      var query = "insert into `session_host` (id_host,session_code) values ("+idHost+",'"+sessionCode+"')";
+                      // 5. update last activity
+                      var myDate = new Date();
+                      var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                      "-"+myDate.getDate()+" "+myDate.getHours()+
+                      ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                      var query = "insert into `session_host` (id_host,session_code,last_activity) values ("+idHost+",'"+sessionCode+"','"+myTimestamp+"')";
                       connection.query(query,function(err,rows){
                         if(err){
                           res.json({"message":"err.. error create new session","query":query});
@@ -68,7 +78,7 @@ confirmation.prototype.handleRoutes = function(router,connection){
                             if(err){
                               res.json({"message":"err.. fail updt uniqueOdce"});
                             }else{
-                              res.json({"message":"your host has been confirmed, success create new session, go on","session":sessionCode,"email":email});
+                              res.json({"message":"your account has been confirmed, success create new session, go on","session":sessionCode,"email":email});
                             }
                           });
                         }

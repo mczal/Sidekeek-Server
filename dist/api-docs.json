@@ -1,0 +1,1949 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Sidekeek API Service",
+    "description": "Group of services provided to maintain sidekeek-client needs",
+    "contact": "yourname@something.com",
+    "termsOfService": "http://swagger.io/terms/"
+  },
+  "basePath": "/sideAPIkeek",
+  "tags" : [
+    {
+      "name": "AuthController",
+      "description": "API for maintain user authentication"
+    },
+    {
+      "name": "SummaryController",
+      "description": "API for maintain summary"
+    },
+    {
+      "name": "SearchController",
+      "description": "API for maintain search needs"
+    },
+    {
+      "name": "PortofolioController",
+      "description": "API for maintain user portofolios"
+    },
+    {
+      "name": "ProductController",
+      "description": "API for maintain user products"
+    },
+    {
+      "name": "ProfileController",
+      "description": "API for maintain user account and profile"
+    },
+    {
+      "name": "RegisterController",
+      "description": "API for maintain registrar"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json",
+    "application/x-www-form-urlencoded"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/auth": {
+       "post": {
+          "tags": ["AuthController"],
+          "summary": "Gives token",
+          "description": "Gives token",
+          "operationId": "auth",
+          "responses": {
+            "200": {
+              "schema": {
+                 "$ref": "#/definitions/auth"
+              }
+            }
+          }
+        }
+    },
+    "/getCategories" : {
+      "post": {
+        "tags": ["SummaryController"],
+        "summary": "get all product category",
+        "description": "get all product category",
+        "operationId": "getCategories",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/getCategories"
+            }
+          }
+        }
+      }
+    },
+    "/getCities": {
+      "post": {
+        "tags": ["SummaryController"],
+        "summary": "get all city",
+        "description": "get all city",
+        "operationId": "getCities",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getCities"
+            }
+          }
+        }
+      }
+    },
+    "/getProvince": {
+      "post": {
+        "tags": ["SummaryController"],
+        "summary": "get all province",
+        "description": "get all province",
+        "operationId": "getProvince",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getProvince"
+            }
+          }
+        }
+      }
+    },
+    "/isHost": {
+      "post": {
+        "tags": ["SummaryController"],
+        "summary": "checkup account type",
+        "description": "checkup account type",
+        "operationId": "isHost",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "formData",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/isHost"
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["AuthController"],
+        "summary": "login user",
+        "description": "login user",
+        "operationId": "login",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "formData",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in" : "formData",
+            "description": "password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/login"
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": ["AuthController"],
+        "summary": "logout user",
+        "description": "drop session",
+        "operationId": "logout",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/logout"
+            }
+          }
+        }
+      }
+    },
+    "/addNewPortofolio": {
+      "post": {
+        "tags": ["PortofolioController"],
+        "summary": "add new portofolio",
+        "description": "add new portofolio from specified user",
+        "operationId": "addNewPortofolio",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "in" : "formData",
+            "description": "title",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in" : "formData",
+            "description": "description",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "imgbase64",
+            "in" : "formData",
+            "description": "imgbase64",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/addNewPortofolio"
+            }
+          }
+        }
+      }
+    },
+    "/deletePortofolio": {
+      "post": {
+        "tags": ["PortofolioController"],
+        "summary": "delete portofolio",
+        "description": "delete portofolio",
+        "operationId": "deletePortofolio",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idPortofolio",
+            "in" : "formData",
+            "description": "idPortofolio",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/deletePortofolio"
+            }
+          }
+        }
+      }
+    },
+    "/editPortofolio": {
+      "post": {
+        "tags": ["PortofolioController"],
+        "summary": "edit portofolio",
+        "description": "edit portofolio",
+        "operationId": "editPortofolio",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idPortofolio",
+            "in" : "formData",
+            "description": "idPortofolio",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/editPortofolio"
+            }
+          }
+        }
+      }
+    },
+    "/editPortofolioImg": {
+      "post": {
+        "tags": ["PortofolioController"],
+        "summary": "edit portofolio image",
+        "description": "edit sepcific portofolio image",
+        "operationId": "editPortofolioImg",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idPortofolio",
+            "in" : "formData",
+            "description": "idPortofolio",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "imgbase64",
+            "in" : "formData",
+            "description": "imgbase64",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/editPortofolioImg"
+            }
+          }
+        }
+      }
+    },
+    "/getPortofolioDetail": {
+      "post": {
+        "tags": ["PortofolioController"],
+        "summary": "get portofolio detail",
+        "description": "get portofolio detail",
+        "operationId": "getPortofolioDetail",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idPortofolio",
+            "in" : "formData",
+            "description": "idPortofolio",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getPortofolioDetail"
+            }
+          }
+        }
+      }
+    },
+    "/getPortofolios": {
+      "post": {
+        "tags": ["PortofolioController"],
+        "summary": "get all portofolio",
+        "description": "get all portofolio from specific user",
+        "operationId": "getPortofolios",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "formData",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getPortofolios"
+            }
+          }
+        }
+      }
+    },
+    "/addNewProductDesc": {
+      "post": {
+        "tags": ["ProductController"],
+        "summary": "add new product description",
+        "description": "add new product (only description)",
+        "operationId": "addNewProductDesc",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "namaProduk",
+            "in" : "formData",
+            "description": "namaProduk",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "harga",
+            "in" : "formData",
+            "description": "harga",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productDesc",
+            "in" : "formData",
+            "description": "productDesc",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/addNewProductDesc"
+            }
+          }
+        }
+      }
+    },
+    "/addProductImage": {
+      "post": {
+        "tags": ["ProductController"],
+        "summary": "add new image product",
+        "description": "add new image of registered product",
+        "operationId": "addProductImage",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idProduct",
+            "in" : "formData",
+            "description": "idProduct",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "imgbase64",
+            "in" : "formData",
+            "description": "imgbase64",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/addProductImage"
+            }
+          }
+        }
+      }
+    },
+    "/deleteProduct": {
+      "post": {
+        "tags": ["ProductController"],
+        "summary": "delete product",
+        "description": "delete product",
+        "operationId": "deleteProduct",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idProduct",
+            "in" : "formData",
+            "description": "idProduct",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/deleteProduct"
+            }
+          }
+        }
+      }
+    },
+    "/deleteProductImage": {
+      "post": {
+        "tags": ["ProductController"],
+        "summary": "delete product image",
+        "description": "delete product image",
+        "operationId": "deleteProductImage",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idProductImage",
+            "in" : "formData",
+            "description": "idProductImage",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/deleteProductImage"
+            }
+          }
+        }
+      }
+    },
+    "/editProductDesc": {
+      "post": {
+        "tags": ["ProductController"],
+        "summary": "edit product description",
+        "description": "edit specific product description",
+        "operationId": "editProductDesc",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idProduct",
+            "in" : "formData",
+            "description": "idProduct",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/editProductDesc"
+            }
+          }
+        }
+      }
+    },
+    "/editProductImage": {
+      "post": {
+        "tags": ["ProductController"],
+        "summary": "edit product image",
+        "description": "edit specific product-image image",
+        "operationId": "editProductImage",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idProductImage",
+            "in" : "formData",
+            "description": "idProductImage",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "imgbase64",
+            "in" : "formData",
+            "description": "imgbase64",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/editProductImage"
+            }
+          }
+        }
+      }
+    },
+    "/getProductDetail": {
+      "post": {
+        "tags": ["ProductController"],
+        "summary": "get product detail",
+        "description": "get product detail",
+        "operationId": "getProductDetail",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idProduct",
+            "in" : "formData",
+            "description": "idProduct",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getProductDetail"
+            }
+          }
+        }
+      }
+    },
+    "/getProductsEager": {
+      "post": {
+        "tags": ["ProductController"],
+        "summary": "get all product with all images",
+        "description": "get all product with its images from specified user",
+        "operationId": "getProductsEager",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getProductsEager"
+            }
+          }
+        }
+      }
+    },
+    "/editAccount": {
+      "post": {
+        "tags": ["ProfileController"],
+        "summary": "edit account",
+        "description": "edit user account",
+        "operationId": "editAccount",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "companyName",
+            "in" : "formData",
+            "description": "companyName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "about",
+            "in" : "formData",
+            "description": "about",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "handphone",
+            "in" : "formData",
+            "description": "handphone",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "in" : "formData",
+            "description": "city",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in" : "formData",
+            "description": "address",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/editAccount"
+            }
+          }
+        }
+      }
+    },
+    "/editAccountPic": {
+      "post": {
+        "tags": ["ProfileController"],
+        "summary": "edit account picture",
+        "description": "edit account picture",
+        "operationId": "editAccountPic",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "imgbase64",
+            "in" : "formData",
+            "description": "imgbase64",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/editAccountPic"
+            }
+          }
+        }
+      }
+    },
+    "/editProfile": {
+      "post": {
+        "tags": ["ProfileController"],
+        "summary": "edit profile",
+        "description": "edit user profile",
+        "operationId": "editProfile",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in" : "formData",
+            "description": "timestamp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tipe",
+            "in" : "formData",
+            "description": "tipe",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "businessCategory",
+            "in" : "formData",
+            "description": "businessCategory",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "in" : "formData",
+            "description": "title",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "companyDesc",
+            "in" : "formData",
+            "description": "companyDesc",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/editProfile"
+            }
+          }
+        }
+      }
+    },
+    "/getAccount/{email}": {
+      "get": {
+        "tags": ["ProfileController"],
+        "summary": "get user account info",
+        "description": "get user account info",
+        "operationId": "getAccount",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "query",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "path",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getAccount"
+            }
+          }
+        }
+      }
+    },
+    "/getProfile/{email}": {
+      "get": {
+        "tags": ["ProfileController"],
+        "summary": "get user profile info",
+        "description": "get user profile info",
+        "operationId": "getProfile",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "query",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "path",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getProfile"
+            }
+          }
+        }
+      }
+    },
+    "/confirmation": {
+      "post": {
+        "tags": ["RegisterController"],
+        "summary": "confirm code",
+        "description": "confirm code to validate email",
+        "operationId": "confirmation",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "uniqueCode",
+            "in" : "formData",
+            "description": "unique_code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/confirmation"
+            }
+          }
+        }
+      }
+    },
+    "/firstRegister": {
+      "post": {
+        "deprecated":true,
+        "tags": ["RegisterController"],
+        "summary": "post first step register",
+        "description": "post first step register data",
+        "operationId": "firstRegister",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idTipe",
+            "in" : "formData",
+            "description": "tipe",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "statTemp",
+            "in" : "formData",
+            "description": "random generated from client-side",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/firstRegister"
+            }
+          }
+        }
+      }
+    },
+    "/secondRegister": {
+      "post": {
+        "deprecated":true,
+        "tags": ["RegisterController"],
+        "summary": "post second step register",
+        "description": "post second step register data",
+        "operationId": "secondRegister",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idCat",
+            "in" : "formData",
+            "description": "category",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "compTitle",
+            "in" : "formData",
+            "description": "company title",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "threadTitle",
+            "in" : "formData",
+            "description": "thread title",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "statTemp",
+            "in" : "formData",
+            "description": "random generated from client-side",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/secondRegister"
+            }
+          }
+        }
+      }
+    },
+    "/hostSignUp": {
+      "post": {
+        "tags": ["RegisterController"],
+        "summary": "sign up new host",
+        "description": "sign up new user for host",
+        "operationId": "hostSignUp",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idTipe",
+            "in" : "formData",
+            "description": "id tipe",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idCat",
+            "in" : "formData",
+            "description": "id category",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "compName",
+            "in" : "formData",
+            "description": "company name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "threadTitle",
+            "in" : "formData",
+            "description": "thread title",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "formData",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in" : "formData",
+            "description": "password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "confirmation",
+            "in" : "formData",
+            "description": "confirmation",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/hostSignUp"
+            }
+          }
+        }
+      }
+    },
+    "/sign-up": {
+      "post": {
+        "tags": ["RegisterController"],
+        "summary": "sign up new seeker",
+        "description": "sign up new user for seeker",
+        "operationId": "sign-up",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "statTemp",
+            "in" : "formData",
+            "description": "random generated from client-side",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "formData",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in" : "formData",
+            "description": "password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "confirmation",
+            "in" : "formData",
+            "description": "confirmation",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/sign-up"
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "tags": ["SearchController"],
+        "summary": "search product",
+        "description": "search product",
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "query",
+            "in" : "formData",
+            "description": "words",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/search"
+            }
+          }
+        }
+      }
+    },
+    "/search-template": {
+      "post": {
+        "tags": ["SearchController"],
+        "summary": "advance search",
+        "description": "advance search",
+        "operationId": "search-template",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "query",
+            "in" : "formData",
+            "description": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "keywords",
+            "in" : "formData",
+            "description": "keywords",
+            "schema": {
+              "$ref": "#/definitions/sampleObject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/search-template"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "sampleObject": {
+      "properties": {
+        "category": {
+          "description": "The description ...",
+          "type": "array",
+          "items": {
+              "type": "integer"
+          }
+        },
+        "location": {
+          "description": "The description ...",
+          "type": "array",
+          "items": {
+              "type": "integer"
+          }
+        },
+        "tipe": {
+          "description": "The description ...",
+          "type": "array",
+          "items": {
+              "type": "integer"
+          }
+        }
+      },
+      "type": "object"
+    },
+    "search-template": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "search": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "content": {
+          "example": {
+            "company_name": "",
+            "title": "",
+            "img_base64": "",
+            "id_product": "",
+            "product_name": "",
+            "product_desc": "",
+            "company_desc": "",
+            "pscore": ""
+          }
+        }
+      }
+    },
+    "sign-up": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "status": {
+          "example": ""
+        },
+        "unique_code": {
+          "example": ""
+        },
+        "email": {
+          "example": ""
+        }
+      }
+    },
+    "hostSignUp": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "status": {
+          "example": ""
+        },
+        "unique_code": {
+          "example": ""
+        },
+        "email": {
+          "example": ""
+        }
+      }
+    },
+    "secondRegister": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "firstRegister": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "myId": {
+          "example": ""
+        },
+        "tipe": {
+          "example": ""
+        },
+        "statTemp": {
+          "example": ""
+        }
+      }
+    },
+    "confirmation": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "session": {
+          "example": ""
+        },
+        "email": {
+          "example": ""
+        }
+      }
+    },
+    "getProfile": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "content": {
+          "example": {
+            "email": "",
+            "category_name": "",
+            "category": "",
+            "company_desc": "",
+            "title": "",
+            "tipe": "",
+            "id_tipe": ""
+          }
+        }
+      }
+    },
+    "getAccount": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "content": {
+          "example": {
+            "company_name": "",
+            "about": "",
+            "handphone": "",
+            "city_name": "",
+            "location": "",
+            "address": "",
+            "img_base64": ""
+          }
+        }
+      }
+    },
+    "editProfile": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "editAccountPic": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "editAccount": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "getProductsEager": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "products": {
+          "example": {
+            "id_product": "",
+            "product_name": "",
+            "product_desc": "",
+            "price": ""
+          }
+        },
+        "products_with_images": {
+          "example": {
+            "id_product": "",
+            "product_name": "",
+            "product_desc": "",
+            "price": "",
+            "images": "img1;img2;img3;.."
+          }
+        }
+      }
+    },
+    "getProductDetail": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "productName": {
+          "example": ""
+        },
+        "productDesc": {
+          "example": ""
+        },
+        "price": {
+          "example": ""
+        },
+        "images": {
+          "example": {
+            "id_gallery_img": "",
+            "img_base64": ""
+          }
+        }
+      }
+    },
+    "editProductImage": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "editProductDesc": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "deleteProductImage": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "deleteProduct": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "addProductImage": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "addNewProductDesc": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "idProduct": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "getPortofolios": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "content": {
+          "example": ""
+        }
+      }
+    },
+    "getPortofolioDetail": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "content": {
+          "example": {
+            "id_portofolio": {
+              "example": ""
+            }
+          }
+        }
+      }
+    },
+    "editPortofolioImg": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "editPortofolio": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "deletePortofolio": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "addNewPortofolio": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
+    "logout": {
+      "properties": {
+        "message": {
+          "example": ""
+        }
+      }
+    },
+    "login": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "session": {
+          "example": ""
+        }
+      }
+    },
+    "isHost": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "ket": {
+          "example": ""
+        },
+        "code": {
+          "example": ""
+        }
+      }
+    },
+    "getProvince": {
+      "properties": {
+        "id_province": {
+          "example": ""
+        },
+        "province_name": {
+          "example": ""
+        }
+      }
+    },
+    "getCities": {
+      "properties": {
+        "id_city": {
+          "example": ""
+        },
+        "city_name": {
+          "example": ""
+        }
+      }
+    },
+    "auth": {
+      "properties": {
+        "success": {
+          "example": "true"
+        },
+        "message": {
+          "example": ""
+        },
+        "token": {
+            "example": ""
+          }
+      }
+    },
+    "getCategories": {
+      "properties": {
+        "category_name":{
+          "example":""
+        },
+        "id_cat":{
+          "example":""
+        }
+      }
+    },
+    "create": {
+      "properties": {
+        "eventId": {
+          "required":true,
+          "type": "string",
+          "example": "mathmaticial"
+        },
+        "numberRequired": {
+          "required":true,
+          "type":"integer",
+          "format": "int64",
+          "example": 500
+        }
+      }
+    },
+    "response1": {
+        "properties": {
+          "jobID": {
+            "required":true,
+            "type": "string",
+            "example": "23423456543"
+          },
+          "request": {
+            "required":true,
+            "type": "schema",
+            "example": {
+              "eventId":"mathmaticial",
+              "numberRequired": 500
+            }
+          }
+      }
+    },
+    "response": {
+        "properties": {
+            "jobID": {
+              "required": true,
+              "type" : "string",
+              "example" : "12321432423"
+            }
+        }
+    },
+    "delete": {
+        "properties": {
+            "jobID": {
+              "required": true,
+              "type" : "string",
+              "example" : "234344234234"
+            },
+            "status" : {
+              "required": true,
+              "type": "string",
+              "example": "deleted"
+            }
+        }
+    },
+    "400error" : {
+       "properties": {
+        "message": {
+          "type": "string",
+          "example" : "400 Bad Request"
+        }
+      }
+    }
+  }
+}

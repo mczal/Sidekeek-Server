@@ -12,16 +12,16 @@ editProfile.prototype.handleRoutes = function(router,connection){
     var tipe = req.body.tipe;
     var businessCategory = req.body.businessCategory;
     if(businessCategory==null || businessCategory==undefined || businessCategory==''){
-      res.json({"message":"err.. error no params rec"});
+      res.json({"message":"err.. error no params rec","error":"error"});
     }else{
       if(sessionCode==null || sessionCode==undefined || sessionCode==''){
-        res.json({"message":"err.. error no params sessionCode rec"});
+        res.json({"message":"err.. error no params sessionCode rec","error":"error"});
       }else{
         if(timestamp==null || timestamp==undefined || timestamp==''){
-          res.json({"message":"err.. error no params timestamp rec"});
+          res.json({"message":"err.. error no params timestamp rec","error":"error"});
         }else{
           if(tipe == null || tipe == undefined || tipe == ''){
-            res.json({"message":"err.. error no params rec"});
+            res.json({"message":"err.. error no params rec","error":"error"});
           }else{
             connection.query("select id_host from `session_host` where session_code='"+sessionCode+"'",function(err,rows){
               if(err){
@@ -33,11 +33,16 @@ editProfile.prototype.handleRoutes = function(router,connection){
                   var companyDesc = req.body.companyDesc;
                   connection.query("update `host` set id_tipe="+tipe+",category="+businessCategory+",title='"+title+"',company_desc='"+companyDesc+"' where id_host="+idHost,function(err,rows){
                     if(err){
-                      res.json({"message":"err.. error on updating host"});
+                      res.json({"message":"err.. error on updating host","error":"error"});
                     }else{
-                      connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                      // 5. update last activity
+                      var myDate = new Date();
+                      var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                      "-"+myDate.getDate()+" "+myDate.getHours()+
+                      ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                      connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
                         if(err){
-                          res.json({"message":"err.. error on update session last activity"});
+                          res.json({"message":"err.. error on update session last activity","error":"error"});
                         }else{
                           res.json({"message":"success updating profile","error":"success"});
                         }

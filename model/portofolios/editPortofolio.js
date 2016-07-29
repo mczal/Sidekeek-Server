@@ -16,17 +16,17 @@ editPortofolio.prototype.handleRoutes = function(router,connection){
     var idPortofolio = req.body.idPortofolio;
     var timestamp = req.body.timestamp;
     if(sessionCode==null || sessionCode==undefined || sessionCode==''){
-      res.json({"message":"err.. error no params received"});
+      res.json({"message":"err.. error no params received","error":"error"});
     }else{
       if(timestamp==null || timestamp==undefined || timestamp==''){
-        res.json({"message":"err.. no params t_s received"});
+        res.json({"message":"err.. no params t_s received","error":"error"});
       }else{
         if(idPortofolio==null || idPortofolio==undefined || idPortofolio==''){
-          res.json({"message":"err.. no params idPorto received"});
+          res.json({"message":"err.. no params idPorto received","error":"error"});
         }else{
           connection.query("select session_host.id_host,host.email as email from `session_host` join `host` on session_host.id_host=host.id_host where session_code='"+sessionCode+"'",function(err,rows){
             if(err){
-              res.json({"message":"err.. error on selecting host"});
+              res.json({"message":"err.. error on selecting host","error":"error"});
             }else{
               if(rows.length>0){
                 var idHost = rows[0].id_host;
@@ -39,14 +39,14 @@ editPortofolio.prototype.handleRoutes = function(router,connection){
                 var query = "update `portofolio` set title='"+title+"',description='"+description+"' where id_host="+idHost+" and id_portofolio="+idPortofolio;
                 connection.query(query,function(err,rows){
                   if(err){
-                    res.json({"message":"err.. error on updating value portofolio","query":query});
+                    res.json({"message":"err.. error on updating value portofolio","query":query,"error":"error"});
                   }else{
                     //updating timestamp on session_host
                     connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
                       if(err){
-                        res.json({"message":"err.. error on updating session"});
+                        res.json({"message":"err.. error on updating session","error":"error"});
                       }else{
-                        res.json({"message":"success updating your portofolio and session last activity, happy sunday"});
+                        res.json({"message":"success updating your portofolio and session last activity, happy sunday","error":"success"});
                         // if(imgbase64 == null || imgbase64 == undefined || imgbase64 == ''){
                         //   res.json({"message":"success updating your portofolio and session last activity, happy sunday"});
                         // }else{

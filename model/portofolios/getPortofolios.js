@@ -15,23 +15,23 @@ getPortofolios.prototype.handleRoutes = function(router,connection){
     }else{
       connection.query("select id_host from `host` where statusz=1 and email='"+email+"'",function(err,rows){
         if(err){
-          res.json({"message":"err.. error in selecting host from email"});
+          res.json({"message":"err.. error in selecting host from email","error":"error","content":null});
         }else{
           if(rows.length>0){
             var idHost = rows[0].id_host;
             connection.query("select * from `portofolio` where id_host="+idHost,function(err,rows){
               if(err){
-                res.json({"message":"err.. error in selecting on portofolio"});
+                res.json({"message":"err.. error in selecting on portofolio","error":"error","content":null});
               }else{
                 if(rows.length>0){
-                  res.json(rows);
+                  res.json({"message":"success get all portofolio from #"+email,"error":"success","content":rows});
                 }else{
-                  res.json({"message":"err.. no rows in portofolio"});
+                  res.json({"message":"err.. no rows in portofolio","error":"error","content":null});
                 }
               }
             });
           }else{
-            res.json({"message":"err.. no rows in host with given email and active status"});
+            res.json({"message":"err.. no rows in host with given email and active status","error":"error","content":null});
           }
         }
       });

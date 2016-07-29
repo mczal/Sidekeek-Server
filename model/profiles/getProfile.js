@@ -8,20 +8,20 @@ function getProfile(router,connection){
 var self=this;
 
 getProfile.prototype.handleRoutes = function(router,connection){
-  router.post("/getProfile",function(req,res){
-    var email=req.body.email;
+  router.get("/getProfile/:email",function(req,res){
+    var email=req.params.email;
     if(email==null || email==undefined){
-      res.json({"message":"err.. no params received"});
+      res.json({"message":"err.. no params received","error":"error","content":null});
     }else{
       var query = "select email,bussiness_category.category_name,host.category,company_desc,title,tipe.name as tipe,host.id_tipe from `host` join `tipe` on host.id_tipe=tipe.id_tipe join `bussiness_category` on host.category=bussiness_category.id_cat where email='"+email+"'";
       connection.query(query,function(err,rows){
         if(err){
-          res.json({"message":"err.. error in selecting data","query":query});
+          res.json({"message":"err.. error in selecting data","query":query,"error":"error","content":null});
         }else{
           if(rows.length>0){
-            res.json(rows);
+            res.json({"message":"success get profile info #"+email,"error":"success","content":rows});
           }else{
-            res.json({"message":"err.. no rows","query":query});
+            res.json({"message":"err.. no rows","query":query,"error":"error","content":null});
           }
         }
       });

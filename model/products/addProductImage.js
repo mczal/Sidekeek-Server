@@ -83,12 +83,12 @@ addProductImage.prototype.handleRoutes = function(router,connection){
                       var q1 = "insert into `gallery_product`(id_product,img_base64) values("+idProduct+",'"+imgbase64_database+"')";
                       connection.query(q1,function(err,rows){
                         if(err){
-                          res.json({"message":"err.. error on updating host with img","q1":q1});
+                          res.json({"message":"err.. error on updating host with img","q1":q1,"error":"error"});
                         }else{
                           var q2 = "update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'";
                           connection.query(q2,function(err,rows){
                             if(err){
-                              res.json({"message":"err.. error on update session last activity"});
+                              res.json({"message":"err.. error on update session last activity","error":"error"});
                             }else{
                               res.json({"message":"success updating new value with img","error":"success"});
                             }

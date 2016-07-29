@@ -11,16 +11,16 @@ getPortofolioDetail.prototype.handleRoutes = function(router,connection){
   router.post('/getPortofolioDetail',function(req,res){
     var idPortofolio = req.body.idPortofolio;
     if(idPortofolio==null || idPortofolio==undefined || idPortofolio==""){
-      res.json({"message":"err.. no param rec"});
+      res.json({"message":"err.. no param rec","error":"error","content":null});
     }else{
       connection.query("select * from `portofolio` where id_portofolio="+idPortofolio,function(err,rows){
         if(err){
-          res.json({"message":"err.. error on selecting porto"});
+          res.json({"message":"err.. error on selecting porto","error":"error","content":null});
         }else{
           if(rows.length>0){
-            res.json(rows);
+            res.json({"message":"success get portofolio detail","error":"success","content":rows});
           }else{
-            res.json({"message":"err.. no rows match in portofolio"});
+            res.json({"message":"err.. no rows match in portofolio","error":"error","content":null});
           }
         }
       });

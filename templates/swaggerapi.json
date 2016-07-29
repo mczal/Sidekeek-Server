@@ -1,0 +1,35 @@
+{
+  /* COPY FROM HERE */
+  "/path": {
+    "post": {
+      "tags": ["Controller"],
+      "summary": "",
+      "description": "",
+      "operationId": "",
+      "parameters": [
+        {
+          "name": "token",
+          "in" : "formData",
+          "description": "token",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "sessionCode",
+          "in" : "formData",
+          "description": "sessionCode",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref" : "#/definitions/path"
+          }
+        }
+      }
+    }
+  }
+  /* COPY */
+}

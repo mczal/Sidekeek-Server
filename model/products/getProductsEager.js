@@ -9,12 +9,12 @@ getProductsEager.prototype.handleRoutes = function(router,connection){
   router.post('/getProductsEager',function(req,res){
     var sessionCode = req.body.sessionCode;
     if(sessionCode == null || sessionCode == undefined || sessionCode == ''){
-      res.json({"message":"err.. no params s_c re"});
+      res.json({"message":"err.. no params s_c re","error":"error","products":null,"products_with_images":null});
     }else{
       var query = "select id_host from `session_host` where session_code='"+sessionCode+"'";
       connection.query(query,function(err,rows){
         if(err){
-          res.json({"message":"err.. error on checking sess quey","q":query});
+          res.json({"message":"err.. error on checking sess quey","q":query,"error":"error","products":null,"products_with_images":null});
         }else{
           if(rows.length>0){
             var idHost = rows[0].id_host;
@@ -29,12 +29,30 @@ getProductsEager.prototype.handleRoutes = function(router,connection){
                   var q2 = "select gallery_product.id,gallery_product.img_base64,gallery_product.id_product from `gallery_product` join `product` on gallery_product.id_product=product.id_product where product.id_host="+idHost;
                   connection.query(q2,function(err,rowsImg){
                     if(err){
-                      res.json({"message":"err.. error on selecting gallery img query"});
+                      res.json({"message":"err.. error on selecting gallery img query","error":"error","products":null,"products_with_images":null});
                     }else{
                       if(rowsImg.length>0){
-                        res.json({"message":"success, take product and its gallery","product":rowsProduct,"images":rowsImg});
+                        var objTemp = new Array();
+                        for(var i = 0 ; i<rowsProduct.length ; i++){
+                          var pTemp = {
+                            id_product : rowsProduct[i].id_product,
+                            product_name : rowsProduct[i].product_name,
+                            product_desc : rowsProduct[i].product_desc,
+                            price : rowsProduct[i].price,
+                            images : "",
+                          };
+                          objTemp[i] = pTemp;
+                          var ct = 0;
+                          for(var j = 0 ; j<rowsImg.length ; j++){
+                            if(rowsImg[j].id_product == objTemp[i].id_product ){
+                              objTemp[i].images +=rowsImg[j].img_base64+";";
+                            }
+                          }
+                        }
+                        // res.json({"objTemp":objTemp});
+                        res.json({"message":"success, take product and it's gallery","error":"success","products":null,"products_with_images":objTemp});
                       }else{
-                        res.json({"message":"success, just take its product desc","product":rowsProduct});
+                        res.json({"message":"success, just take it's product desc","error":"success","products":rowsProduct,"products_with_images":null});
                       }
                     }
                   });
@@ -56,12 +74,12 @@ getProductsEager.prototype.handleRoutes = function(router,connection){
                   //   });
                   // }
                 }else{
-                  res.json({"message":"err.. no rows on product"});
+                  res.json({"message":"err.. no rows on product","error":"error","products":null,"products_with_images":null});
                 }
               }
             });
           }else{
-            res.json({"message":"err.. no rows on session"});
+            res.json({"message":"err.. no rows on session","error":"error","products":null,"products_with_images":null});
           }
         }
       });

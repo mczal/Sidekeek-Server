@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2016 at 08:45 PM
+-- Generation Time: Jul 29, 2016 at 06:25 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -98,7 +98,8 @@ INSERT INTO `cycle_id_temp` (`name`, `value`) VALUES
 CREATE TABLE IF NOT EXISTS `gallery_product` (
   `id` int(11) NOT NULL,
   `img_base64` varchar(200) NOT NULL,
-  `id_product` int(11) NOT NULL
+  `id_product` int(11) NOT NULL,
+  `isRepresentation` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -124,21 +125,17 @@ CREATE TABLE IF NOT EXISTS `host` (
   `id_tipe` int(11) DEFAULT NULL,
   `statusz` int(5) DEFAULT NULL,
   `unique_code` varchar(12) DEFAULT NULL,
-  `region` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+  `region` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `host`
 --
 
-INSERT INTO `host` (`id_host`, `email`, `password`, `handphone`, `company_name`, `company_desc`, `img_base64`, `category`, `tagline`, `about`, `location`, `address`, `title`, `id_tipe`, `statusz`, `unique_code`, `region`) VALUES
-(1, 'fahrizalseptrianto@gmail.com', '202cb962ac59075b964b07152d234b70', '', 'NEWC', '', 'http://localhost/sidekeek-server/img/img1.jpg', 4, 'ZZ', 'ZZ', 2, 'ZZ', 'NEWT', 1, 1, NULL, 1),
-(5, 'mczal@gmail.com', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 1, 1, 'lIAT--I7;A', 1),
-(6, 'siete@si.ete', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 1, 0, 'I6@B08BPS~', 1),
-(7, 'signupdoang@gamil.com', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, NULL, '6A[0P9~-Ul', 1),
-(8, 'ijalijal@ijal.com', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, NULL, '0[80Il.N/P', 1),
-(10, 'testing@testing.testing', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', NULL, 1, '~N7InSlI~I', 1),
-(11, 'testing2@testing2.com', '202cb962ac59075b964b07152d234b70', '', 'rev2 company namesadadad', '', NULL, 10, 'NEWTAGL', 'NEWCOMDESC', NULL, 'NEWA', 'NEWT', 2, 1, 'NlawmK/@0w', 1);
+INSERT INTO `host` (`id_host`, `email`, `password`, `handphone`, `company_name`, `company_desc`, `img_base64`, `category`, `tagline`, `about`, `location`, `address`, `title`, `id_tipe`, `statusz`, `unique_code`, `region`, `created_at`) VALUES
+(13, 'fahrizalseptrianto@gmail.com', '2766e8973102efc6e849454b20fa845b', '0856', 'myName', 'updt My Titel', 'http://localhost:8080/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/accountPicture.jpeg', 1, NULL, 'about', 1, 'jalan jawa', 'updt my Title', 1, 1, 'done', NULL, '2016-07-28 07:50:08'),
+(17, 'ijalcavaliers@yahoo.co.id', '2766e8973102efc6e849454b20fa845b', '', 'Rounded Company Name', '', NULL, 1, NULL, NULL, NULL, NULL, 'Rounded Thread Title', 1, 1, 'done', NULL, '2016-07-29 12:19:47');
 
 -- --------------------------------------------------------
 
@@ -162,18 +159,7 @@ CREATE TABLE IF NOT EXISTS `host_temp` (
   `id_tipe` int(11) DEFAULT NULL,
   `stat_temp` varchar(100) NOT NULL,
   `region` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `host_temp`
---
-
-INSERT INTO `host_temp` (`id_host`, `random_unique`, `email`, `password`, `company_name`, `img_base64`, `category`, `tagline`, `profile_desc`, `location`, `address`, `title`, `id_tipe`, `stat_temp`, `region`) VALUES
-(1, 340, 'mczal@gmail.com', 'e2fc714c4727ee9395f324cd2e7f331f', 'U Company Title', NULL, 1, NULL, NULL, NULL, NULL, 'U Thread Title', 1, '', NULL),
-(2, 104, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '', NULL),
-(3, 17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '', NULL),
-(4, 6671, 'siete@si.ete', '4e4d6c332b6fe62a63afe56171fd3725', 'My Company Title Siete', NULL, 2, NULL, NULL, NULL, NULL, 'My Thread Title Siete', 1, 'abcdeabcde', NULL),
-(5, 4893, 'testing2@testing2.com', '202cb962ac59075b964b07152d234b70', 'Seconf Regis TITLE TESTING', NULL, 3, NULL, NULL, NULL, NULL, 'seconf Regis Thread Title TEST', 2, 'aaaabbbb', NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -202,16 +188,7 @@ CREATE TABLE IF NOT EXISTS `portofolio` (
   `title` varchar(30) NOT NULL,
   `description` varchar(255) NOT NULL,
   `img_base64` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `portofolio`
---
-
-INSERT INTO `portofolio` (`id_portofolio`, `id_host`, `title`, `description`, `img_base64`) VALUES
-(1, 1, 'hello', 'mydescbaru', '---'),
-(2, 5, 'I', 'testing1 EDIT this is my description', 'base64base64'),
-(3, 1, 'I', 'TESTING 2 DESC', 'hahu');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -226,15 +203,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `product_desc` varchar(200) NOT NULL,
   `price` int(11) NOT NULL,
   `unique_code` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `product`
---
-
-INSERT INTO `product` (`id_product`, `id_host`, `product_name`, `product_desc`, `price`, `unique_code`) VALUES
-(1, 1, 'TEST EDIT 1 product name', 'TEST EDIT 1 product desc', 110101, NULL),
-(2, 1, 'TEST EDIT 1 product name', 'TEST EDIT 1 product desc', 110101, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -275,7 +244,8 @@ CREATE TABLE IF NOT EXISTS `session_host` (
 --
 
 INSERT INTO `session_host` (`id_session`, `id_host`, `session_code`, `signed_in_at`, `last_activity`) VALUES
-(3, 1, 'Sm- $M$-#^', '2016-04-03 16:07:44', '2016-03-04 16:07:44');
+(1, 13, 'XjoLQBUFRc', '2016-07-28 05:40:01', '2015-10-10 05:12:12'),
+(3, 17, 'Y73SIXCH95', '2016-07-29 12:19:58', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -322,7 +292,7 @@ ALTER TABLE `gallery_product`
 -- Indexes for table `host`
 --
 ALTER TABLE `host`
-  ADD PRIMARY KEY (`id_host`), ADD UNIQUE KEY `email` (`email`), ADD KEY `category` (`category`), ADD KEY `location` (`location`), ADD KEY `product_type` (`id_tipe`), ADD KEY `region` (`region`);
+  ADD PRIMARY KEY (`id_host`), ADD UNIQUE KEY `email` (`email`), ADD KEY `category` (`category`), ADD KEY `location` (`location`), ADD KEY `product_type` (`id_tipe`), ADD KEY `region` (`region`), ADD FULLTEXT KEY `title` (`title`), ADD FULLTEXT KEY `company_name` (`company_name`), ADD FULLTEXT KEY `search` (`title`,`company_name`);
 
 --
 -- Indexes for table `host_temp`
@@ -346,7 +316,7 @@ ALTER TABLE `portofolio`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`id_product`), ADD KEY `id_host` (`id_host`);
+  ADD PRIMARY KEY (`id_product`), ADD KEY `id_host` (`id_host`), ADD FULLTEXT KEY `product_name` (`product_name`), ADD FULLTEXT KEY `product_desc` (`product_desc`), ADD FULLTEXT KEY `search` (`product_name`,`product_desc`);
 
 --
 -- Indexes for table `province`
@@ -389,12 +359,12 @@ ALTER TABLE `gallery_product`
 -- AUTO_INCREMENT for table `host`
 --
 ALTER TABLE `host`
-  MODIFY `id_host` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id_host` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `host_temp`
 --
 ALTER TABLE `host_temp`
-  MODIFY `id_host` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id_host` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `message`
 --
@@ -404,12 +374,12 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `portofolio`
 --
 ALTER TABLE `portofolio`
-  MODIFY `id_portofolio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id_portofolio` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `province`
 --

@@ -26,6 +26,8 @@
     "md5": "^2.0.0",
     "mkpath": "^1.0.0",
     "mysql": "^2.10.2",
-    "sendgrid": "^2.0.0"
+    "sendgrid": "^2.0.0",
+    "swagger-node-express": "~2.0",
+    "minimist": "*"
   }
 }

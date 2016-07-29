@@ -2,6 +2,7 @@ var mysql = require('mysql');
 var fs = require('fs');
 var mkpath = require('mkpath');
 
+var pictureServerPort = "8080"; //EMPTY if not neccessary
 function editAccountPic(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
@@ -13,13 +14,13 @@ editAccountPic.prototype.handleRoutes = function(router,connection){
     var imgbase64 = req.body.imgbase64;
     var timestamp = req.body.timestamp;
     if(sessionCode == null || sessionCode == undefined || sessionCode == ''){
-      res.json({"message":"err.. no param s_c rec"});
+      res.json({"message":"err.. no param s_c rec","error":"error"});
     }else{
       if(imgbase64 == null || imgbase64 == undefined || imgbase64 == ''){
-        res.json({"message":"err.. no param i_b_64 rec"});
+        res.json({"message":"err.. no param i_b_64 rec","error":"error"});
       }else{
         if(timestamp == null || timestamp == undefined || timestamp == ''){
-          res.json({"message":"err.. no param t_s rec"});
+          res.json({"message":"err.. no param t_s rec","error":"error"});
         }else{
           var q1 = "select session_host.id_host as id_host,host.email as email from `session_host` join `host` on session_host.id_host=host.id_host where session_host.session_code = '"+sessionCode+"'";
           connection.query(q1,function(err,rows){
@@ -41,12 +42,12 @@ editAccountPic.prototype.handleRoutes = function(router,connection){
                 mkpath.sync(path,function(err){
                   if(err){
                     console.log("message err.. error on sync");
-                    res.json({"message":"err.. error on sync"});
+                    res.json({"message":"err.. error on sync","error":"error"});
                   }else{
                     mkpath(path, function (err) {
                       if (err) {
                         console.log("message err.. error on mkpath");
-                        res.json({"message":"err.. error on mkpath"});
+                        res.json({"message":"err.. error on mkpath","error":"error"});
                       }else{
                         console.log("Directory structure "+path+" created");//debug
                       }
@@ -58,18 +59,23 @@ editAccountPic.prototype.handleRoutes = function(router,connection){
                 fs.writeFile(path+"/"+filename, decodedImage, function(err) {
                   if(err){
                     console.log("message err.. error in fs.write err:"+err);
-                    res.json({"message":"err.. error in fs.write","err":err});
+                    res.json({"message":"err.. error in fs.write","err":err,"error":"error"});
                   }else{
                     console.log("message success upload img");
-                    var imgbase64_database = "http://localhost:8080/Sidekeek-Server/"+path+"/"+filename;
+                    var imgbase64_database = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/"+path+"/"+filename;
                     //res.json({"message ":" success upload img","database" : imgbase64_database});
                     connection.query("update `host` set img_base64='"+imgbase64_database+"' where id_host ="+idHost,function(err,rows){
                       if(err){
-                        res.json({"message":"err.. error on updating host with img"});
+                        res.json({"message":"err.. error on updating host with img","error":"error"});
                       }else{
-                        connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                        // 5. update last activity
+                        var myDate = new Date();
+                        var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                        "-"+myDate.getDate()+" "+myDate.getHours()+
+                        ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                        connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
                           if(err){
-                            res.json({"message":"err.. error on update session last activity"});
+                            res.json({"message":"err.. error on update session last activity","error":"error"});
                           }else{
                             res.json({"message":"success updating new value with img","error":"success"});
                           }
