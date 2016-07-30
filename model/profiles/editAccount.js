@@ -50,7 +50,7 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
                           }else{
                             // 5. update last activity
                             var myDate = new Date();
-                            var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                            var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
                             "-"+myDate.getDate()+" "+myDate.getHours()+
                             ":"+myDate.getMinutes()+":"+myDate.getSeconds();
 

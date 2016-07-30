@@ -2,6 +2,7 @@ var mysql = require('mysql');
 var fs = require('fs');
 var mkpath = require('mkpath');
 
+var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
 var pictureServerPort = "8080"; //EMPTY if not neccessary
 function editAccountPic(router,connection){
   var self=this;
@@ -62,7 +63,7 @@ editAccountPic.prototype.handleRoutes = function(router,connection){
                     res.json({"message":"err.. error in fs.write","err":err,"error":"error"});
                   }else{
                     console.log("message success upload img");
-                    var imgbase64_database = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/"+path+"/"+filename;
+                    var imgbase64_database = baseUrlPath+path+"/"+filename;
                     //res.json({"message ":" success upload img","database" : imgbase64_database});
                     connection.query("update `host` set img_base64='"+imgbase64_database+"' where id_host ="+idHost,function(err,rows){
                       if(err){
@@ -70,7 +71,7 @@ editAccountPic.prototype.handleRoutes = function(router,connection){
                       }else{
                         // 5. update last activity
                         var myDate = new Date();
-                        var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                        var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
                         "-"+myDate.getDate()+" "+myDate.getHours()+
                         ":"+myDate.getMinutes()+":"+myDate.getSeconds();
                         connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){

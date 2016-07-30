@@ -832,6 +832,7 @@
     },
     "/getProductsEager": {
       "post": {
+        "deprecated": true,
         "tags": ["ProductController"],
         "summary": "get all product with all images",
         "description": "get all product with its images from specified user",

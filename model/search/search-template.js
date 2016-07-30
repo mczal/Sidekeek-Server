@@ -25,22 +25,35 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
           wordBuilder+=words[i]+" ";
         }
 
-        var query_builder = "SELECT host.company_name, host.title, host.img_base64,"+
-        "product.id_product, product.product_name,"+
-        "product.product_desc,host.company_desc,"+
-        "MATCH(product.product_name,product.product_desc) "+
+        var query_builder_host = "SELECT 'host' as identifier, host.company_name, host.title, host.img_base64, "+
+        "MATCH(host.title,host.company_name,host.company_desc) "+
         "AGAINST ('"+wordBuilder.trim()+"' IN BOOLEAN MODE) as pscore "+
-        "from `product` join `host` on host.id_host=product.id_host "+
+        "from `host` WHERE (host.id_tipe IS NOT NULL) AND (host.statusz=1) "+
         "HAVING pscore > 0 order by pscore DESC LIMIT 5;"
-        connection.query(query_builder,function(err,rows){
+        connection.query(query_builder_host,function(err,rowsHost){
           if(err){
-            res.json({"message":"err.. error searching querify","error":err,"query_builder":query_builder,"keywords":keywords});
+            res.json({"message":"err.. error searching querify","error":err,"query_builder_host":query_builder_host,"keywords":keywords});
           }else{
-            if(rows.length>0){
-              res.json({"message":"success","error":"success","content":rows,"query_builder":query_builder,"keywords":keywords+"zal"});
-            }else{
-              res.json({"message":"err.. no rows","query_builder":query_builder,"keywords":keywords});
-            }
+            var query_builder = "SELECT 'product' as identifier, host.company_name, host.title, host.img_base64,"+
+            "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
+            "product.product_desc,host.company_desc,"+
+            "MATCH(product.product_name,product.product_desc) "+
+            "AGAINST ('"+wordBuilder.trim()+"' IN BOOLEAN MODE) as pscore "+
+            "from `product` join `host` on host.id_host=product.id_host join `gallery_product` on gallery_product.id_product=product.id_product "+
+            "WHERE (gallery_product.isRepresentation=1) AND (host.statusz=1) AND (host.id_tipe IS NOT NULL) "+
+            "HAVING pscore > 0 order by pscore DESC LIMIT 5;"
+            connection.query(query_builder,function(err,rowsProduct){
+              if(err){
+                res.json({"message":"err.. error searching querify host","error":err,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
+              }else{
+                res.json({"message":"success","error":"success","content":{"hosts":rowsHost,"products":rowsProduct},"query_builder_host":query_builder_host,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
+              }
+            });
+            // if(rows.length>0){
+            //   res.json({"message":"success","error":"success","content":rows,"query_builder":query_builder,"keywords":keywords+"zal"});
+            // }else{
+            //   res.json({"message":"err.. no rows","query_builder":query_builder,"keywords":keywords});
+            // }
           }
         });
       }else{
@@ -107,22 +120,36 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
           wordBuilder+=words[i]+" ";
         }
 
-        var query_builder = "SELECT host.company_name, host.title, host.img_base64,"+
-        "product.id_product, product.product_name,"+
-        "product.product_desc,host.company_desc,"+
-        "MATCH(product.product_name,product.product_desc) "+
+        var query_builder_host = "SELECT 'host' as identifier, host.company_name, host.title, host.img_base64, "+
+        "MATCH(host.title,host.company_name,host.company_desc) "+
         "AGAINST ('"+wordBuilder.trim()+"' IN BOOLEAN MODE) as pscore "+
-        "from `product` join `host` on host.id_host=product.id_host "+
-        "WHERE "+keywordsBuilder+" HAVING pscore > 0 order by pscore DESC LIMIT 5;"
-        connection.query(query_builder,function(err,rows){
+        "from `host` "+
+        "WHERE (host.id_tipe IS NOT NULL) AND (host.statusz=1) AND  "+keywordsBuilder+" HAVING pscore > 0 order by pscore DESC LIMIT 5;"
+        connection.query(query_builder_host,function(err,rowsHost){
           if(err){
-            res.json({"message":"err.. error searching querify","error":err,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
+            res.json({"message":"err.. error searching querify host","error":err,"query_builder_host":query_builder_host,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
           }else{
-            if(rows.length>0){
-              res.json({"message":"success","error":"success","content":rows,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
-            }else{
-              res.json({"message":"err.. no rows","query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
-            }
+            var query_builder = "SELECT 'product' as identifier, host.company_name, host.title, host.img_base64,"+
+            "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
+            "product.product_desc,host.company_desc,"+
+            "MATCH(product.product_name,product.product_desc) "+
+            "AGAINST ('"+wordBuilder.trim()+"' IN BOOLEAN MODE) as pscore "+
+            "from `product` join `host` on host.id_host=product.id_host join `gallery_product` on gallery_product.id_product=product.id_product "+
+            "WHERE (gallery_product.isRepresentation=1) AND (host.id_tipe IS NOT NULL) AND (host.statusz=1) AND "+keywordsBuilder+" HAVING pscore > 0 order by pscore DESC LIMIT 5;"
+            connection.query(query_builder,function(err,rowsProduct){
+              if(err){
+                res.json({"message":"err.. error searching querify product","error":err,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
+              }else{
+                res.json({"message":"success","error":"success","content":{"hosts":rowsHost,"products":rowsProduct},"query_builder_host":query_builder_host,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
+              }
+            });
+            // if(rows.length>0){
+            //
+            //   //here
+            //   res.json({"message":"success","error":"success","content":rows,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
+            // }else{
+            //   res.json({"message":"err.. no rows","query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
+            // }
           }
         });
       }

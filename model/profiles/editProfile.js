@@ -37,7 +37,7 @@ editProfile.prototype.handleRoutes = function(router,connection){
                     }else{
                       // 5. update last activity
                       var myDate = new Date();
-                      var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                      var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
                       "-"+myDate.getDate()+" "+myDate.getHours()+
                       ":"+myDate.getMinutes()+":"+myDate.getSeconds();
                       connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){

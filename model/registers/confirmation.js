@@ -44,7 +44,7 @@ confirmation.prototype.handleRoutes = function(router,connection){
                     if(rows.length>0){
                       // 5. update last activity
                       var myDate = new Date();
-                      var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                      var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
                       "-"+myDate.getDate()+" "+myDate.getHours()+
                       ":"+myDate.getMinutes()+":"+myDate.getSeconds();
                       var query = "update `session_host` set session_code='"+sessionCode+"',last_activity='"+myTimestamp+"' where id_host="+rows[0].id_host;
@@ -65,7 +65,7 @@ confirmation.prototype.handleRoutes = function(router,connection){
                     }else{
                       // 5. update last activity
                       var myDate = new Date();
-                      var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                      var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
                       "-"+myDate.getDate()+" "+myDate.getHours()+
                       ":"+myDate.getMinutes()+":"+myDate.getSeconds();
                       var query = "insert into `session_host` (id_host,session_code,last_activity) values ("+idHost+",'"+sessionCode+"','"+myTimestamp+"')";

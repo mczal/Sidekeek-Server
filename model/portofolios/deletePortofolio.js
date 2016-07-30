@@ -1,3 +1,4 @@
+var fs = require('fs');
 function deletePortofolio(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
@@ -14,22 +15,24 @@ deletePortofolio.prototype.handleRoutes = function(router,connection){
         res.json({"message":"err.. error no param i_p received"});
       }else{
         // 1. Checking session
-        var query = "select id_host from `session_host` where session_code='"+sessionCode+"'";
+        var query = "select host.id_host,email from `session_host` join `host` on host.id_host=session_host.id_host where session_code='"+sessionCode+"'";
         connection.query(query,function(err,rows){
           if(err){
             res.json({"message":"err.. error on checking sess quey","q":query});
           }else{
             if(rows.length>0){
               var idHost = rows[0].id_host;
+              var email = rows[0].email;
               // 2. Check portofolio validity
-              var q0 = "SELECT id_portofolio FROM `portofolio` WHERE "+
+              var q0 = "SELECT id_portofolio,img_base64 FROM `portofolio` WHERE "+
               "id_portofolio="+idPortofolio+" AND id_host="+idHost;
               connection.query(q0,function(err,rows){
                 if(err){
                   res.json({"message":"err.. error on checking validity q","error":"error"});
                 }else{
                   if(rows.length>0){
-                    console.log(rows[0].id_portofolio);
+                    // console.log(rows[0].id_portofolio);
+                    var img_base64 = rows[0].img_base64;
                     // 3. delete portofolio
                     var q1 = "DELETE FROM `portofolio` WHERE id_portofolio="+idPortofolio;
                     connection.query(q1,function(err,rows){
@@ -38,7 +41,7 @@ deletePortofolio.prototype.handleRoutes = function(router,connection){
                       }else{
                         // 4. update last activity
                         var myDate = new Date();
-                        var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                        var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
                         "-"+myDate.getDate()+" "+myDate.getHours()+
                         ":"+myDate.getMinutes()+":"+myDate.getSeconds();
                         var q5 = "UPDATE `session_host` set last_activity='"+myTimestamp+
@@ -47,6 +50,14 @@ deletePortofolio.prototype.handleRoutes = function(router,connection){
                           if(err){
                             res.json({"message":"err.. error on updating last activity","error":"error","q":q5});
                           }else{
+                            if(img_base64 != null && img_base64 != undefined && img_base64 != ''){
+                              var splitter = img_base64.split('/');
+                              var path = "assets/img/"+email+"/portofolios/"+splitter[splitter.length-1];
+                              fs.unlink(path, function(err){
+                                if (err) throw err;
+                                console.log('successfully deleted '+path);
+                              });
+                            }
                             res.json({"message":"success deleting portofolio","error":"success"});
                           }
                         });

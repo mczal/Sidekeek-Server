@@ -2,6 +2,9 @@ var mysql = require('mysql');
 var mkpath = require('mkpath');
 var fs = require('fs');
 //TESTED 27 FEBRUARI 2016
+
+var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
+var pictureServerPort = "8080"; //EMPTY if not neccessary
 function addNewPortofolio(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
@@ -79,14 +82,18 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection){
                                   res.json({"message":"err.. error in fs.write","err":err});
                                 }else{
                                   console.log("message success upload img");
-                                  var imgbase64_database = "http://localhost:8080/Sidekeek-Server/"+path+"/"+filename;
+                                  var imgbase64_database = baseUrlPath+path+"/"+filename;
                                   //res.json({"message ":" success upload img","database" : imgbase64_database});
 
                                   connection.query("update `portofolio` set img_base64='"+imgbase64_database+"' where id_portofolio="+idPortofolio,function(err,rows){
                                     if(err){
                                       res.json({"message":"err.. error on updating host with img","error":"error"});
                                     }else{
-                                      connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                                      var myDate = new Date();
+                                      var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                                      "-"+myDate.getDate()+" "+myDate.getHours()+
+                                      ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                                      connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
                                         if(err){
                                           res.json({"message":"err.. error on update session last activity","error":"error"});
                                         }else{

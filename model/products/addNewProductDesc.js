@@ -46,9 +46,10 @@ addNewProductDesc.prototype.handleRoutes = function(router,connection){
                     if(rows.length>0){
                       var idHost = rows[0].id_host;
                       var codeUnique = generateUniqueCode();
-                      connection.query("insert into `product` (id_host,product_name,product_desc,price,unique_code) values("+idHost+",'"+namaProduk+"','"+productDesc+"',"+harga+",'"+codeUnique+"')",function(err,rows){
+                      var qDel = "insert into `product` (id_host,product_name,product_desc,price,unique_code) values("+idHost+",'"+namaProduk+"','"+productDesc+"',"+harga+",'"+codeUnique+"')";
+                      connection.query(qDel,function(err,rows){
                         if(err){
-                          res.json({"message":"err.. error inserting product","idProduct":null,"error":"error"});
+                          res.json({"message":"err.. error inserting product","idProduct":null,"error":"error","q":qDel});
                         }else{
                           connection.query("select id_product from `product` where unique_code='"+codeUnique+"'",function(err,rows){
                             if(err){
@@ -61,11 +62,17 @@ addNewProductDesc.prototype.handleRoutes = function(router,connection){
                                     res.json({"message":"err.. error in update code to null","idProduct":null,"error":"error"});
                                   }else{
                                     //updating timestamp on session_host
-                                    connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                                    var myDate = new Date();
+                                    var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                                    "-"+myDate.getDate()+" "+myDate.getHours()+
+                                    ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                                    // console.log(myTimestamp+" "+sessionCode);
+                                    var qUpdt="update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'";
+                                    connection.query(qUpdt,function(err,rows){
                                       if(err){
                                         res.json({"message":"err.. error on updating session","idProduct":null,"error":"error"})
                                       }else{
-                                        res.json({"message":"Success bro congrats","idProduct":idProduct,"error":"success"});
+                                        res.json({"message":"Success bro congrats","idProduct":idProduct,"error":"success","q":qUpdt});
                                       }
                                     });
                                   }

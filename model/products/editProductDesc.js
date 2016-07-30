@@ -36,7 +36,11 @@ editProductDesc.prototype.handleRoutes = function(router,connection){
                     res.json({"message":"err.. error on updating","query":query,"error":"error"});
                   }else{
                     //updating timestamp on session_host
-                    connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                    var myDate = new Date();
+                    var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                    "-"+myDate.getDate()+" "+myDate.getHours()+
+                    ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                    connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
                       if(err){
                         res.json({"message":"err.. error on updating session","error":"error"})
                       }else{

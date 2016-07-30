@@ -1,3 +1,6 @@
+var fs = require('fs');
+var rimraf = require('rimraf');
+
 function deleteProduct(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
@@ -14,13 +17,14 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
         res.json({"message":"err.. error no param s_c rec","error":"error"});
       }else{
         // 1. Check sessioncode
-        var query = "select id_host from `session_host` where session_code='"+sessionCode+"'";
+        var query = "select host.id_host,host.email from `session_host` join `host` on session_host.id_host=host.id_host where session_code='"+sessionCode+"'";
         connection.query(query,function(err,rows){
           if(err){
             res.json({"message":"err.. error on checking sess quey","q":query});
           }else{
             if(rows.length>0){
               var idHost = rows[0].id_host;
+              var email = rows[0].email;
               // 2. Check product validity
               var q0 = "SELECT id_product FROM `product` where id_product="+idProduct+" AND id_host="+idHost;
               connection.query(q0,function(err,rows){
@@ -28,7 +32,7 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
                   res.json({"message":"err.. error on check product validity q","error":"error"});
                 }else{
                   if(rows.length>0){
-                    console.log(rows[0].id_product);
+                    // console.log(rows[0].id_product);
                     // idProduct = rows[0].id_product;
                     // 3. Delete dependencies
                     var q1 = "delete from `gallery_product` where id_product="+idProduct;
@@ -44,7 +48,7 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
                           }else{
                             // 5. update last activity
                             var myDate = new Date();
-                            var myTimestamp = myDate.getFullYear()+"-"+myDate.getMonth()+
+                            var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
                             "-"+myDate.getDate()+" "+myDate.getHours()+
                             ":"+myDate.getMinutes()+":"+myDate.getSeconds();
                             var q5 = "UPDATE `session_host` set last_activity='"+myTimestamp+
@@ -53,6 +57,13 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
                               if(err){
                                 res.json({"message":"err.. error on updating last activity","error":"error","q":q5});
                               }else{
+                                //Delete resources
+                                var path = "assets/img/"+email+"/products/product"+idProduct;
+                                rimraf(path,function(err){
+                                  if(err) throw err;
+                                  console.log('#rimraf successfully deleted '+path);
+                                });
+                                //here
                                 res.json({"message":"success delete product","error":"success"});
                               }
                             });

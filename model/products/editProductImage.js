@@ -2,6 +2,7 @@ var mysql = require('mysql');
 var mkpath = require('mkpath');
 var fs = require('fs');
 
+var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
 var pictureServerPort = "8080"; //EMPTY if not neccessary
 function editProductImage(router,connection){
   var self=this;
@@ -41,7 +42,7 @@ editProductImage.prototype.handleRoutes = function(router,connection){
                         if(idHost = rows[0].id_host){
                           //here
                           var email = rows[0].email;
-                          var path = "assets/img/"+email+"/products";
+                          var path = "assets/img/"+email+"/products/product"+idProduct;
                           var split1 = imgbase64.split(";");
                           var split2 = split1[0].split("/");
                           var ext = split2[1];
@@ -55,13 +56,24 @@ editProductImage.prototype.handleRoutes = function(router,connection){
                               res.json({"message":"err.. error in fs.write","err":err,"error":"error"});
                             }else{
                               console.log("message success upload img");
-                              var imgbase64_database = "http://localhost:"+pictureServerPort+"/localhost/Sidekeek-Server/"+path+"/"+filename;
+                              var imgbase64_database = baseUrlPath+path+"/"+filename;
                               var q10 = "update `gallery_product` set img_base64='"+imgbase64_database+"' where id="+idProductImage;
                               connection.query(q10,function(err,rows){
                                 if(err){
                                   res.json({"message":"err.. error on updating","q10":q10,"error":"error"});
                                 }else{
-                                  res.json({"message":"success","error":"success"});
+                                  //updating timestamp on session_host
+                                  var myDate = new Date();
+                                  var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                                  "-"+myDate.getDate()+" "+myDate.getHours()+
+                                  ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                                  connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
+                                    if(err){
+                                      res.json({"message":"err.. error on updating session","error":"error"})
+                                    }else{
+                                      res.json({"message":"success updating your productImage #"+idProductImage+" and session last activity, happy sunday","error":"success"});
+                                    }
+                                  });
                                 }
                               });
                             }
