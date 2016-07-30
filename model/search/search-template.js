@@ -8,11 +8,10 @@ function searchTemplate(router,connection){
 var self=this;
 
 searchTemplate.prototype.handleRoutes = function(router,connection){
-  router.post('/search-template',function(req,res){
+  router.get('/search-template',function(req,res){
     // req.accepts('application/json');
-    var query = req.body.query;
-    var keywords = JSON.parse(req.body.keywords);
-    console.log(req.body);
+    var query = req.query.query;
+    var keywords = req.query.keywords;
     // console.log("%real request keyword"+req.body.keywords+"%");
     // var whereClause = "WHERE 1=1";
     if(query == null || query == undefined || query == ''){
@@ -45,6 +44,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
           }
         });
       }else{
+        keywords = JSON.parse(req.query.keywords);
         // console.log(keywords.category);
         var keywordsBuilder = "";
         if(keywords != null && keywords != undefined && keywords != ''){

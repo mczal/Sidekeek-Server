@@ -3,10 +3,8 @@ var express = require("express"),
 	bodyParser = require("body-parser"),
 	md5 = require('MD5'),
   http = require('http'),
-	/*(START) BELUM DIPAKAI*/
-	fs = require('fs');
+	fs = require('fs'),
 	swagger = require("swagger-node-express");
-	/*(END) BELUM DIPAKAI*/
 
 var subpath = express();
 var isHostModel = require("./model/isHost.js");
@@ -26,8 +24,8 @@ var getAccountModel = require("./model/profiles/getAccount.js");
 var editAccountPicModel = require("./model/profiles/editAccountPic.js");
 
 var searchTemplateModel = require("./model/search/search-template.js");
-
 var searchModel = require("./model/search/search.js");
+
 var getIPModel = require("./model/getIP.js");
 var loginModel = require("./model/login.js");
 var logoutModel = require("./model/logout.js");
@@ -58,7 +56,7 @@ var testingBase64Model = require("./model/testingBase64.js");
 
 var app = express();
 var jwt = require("jsonwebtoken");
-app.set('superSecret', 'ilovenode8');
+app.set('superSecret', 's1de^k3ek');
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -131,21 +129,60 @@ connect.prototype.configureExpress = function(connection) {
       var router = express.Router();
       // set /api
         router.post('/auth', function(req, res) {
+					var emailAuth = req.body.emailAuth;
+					var passwordAuth = req.body.passwordAuth;
+					if(emailAuth == null || emailAuth == undefined || emailAuth == '' || passwordAuth == null || passwordAuth == undefined || passwordAuth == '' ){
+						// if user is found and password is right
+                 // create a token
+                 var token = jwt.sign("guest", app.get('superSecret'), {
+                   expiresInMinutes: 1440 // expires in 24 hours
+                 });
 
-           // if user is found and password is right
-                // create a token
-                var token = jwt.sign("user", app.get('superSecret'), {
-                  expiresInMinutes: 1440 // expires in 24 hours
-                });
+                 // return the information including token as JSON
+                 res.json({
+                   success: true,
+                   message: 'Enjoy your token!',
+                   token: token,
+									 status: 'guest'
+                 });
+					}else{
+						connection.query("select id_host,email,password from `host` where email='"+emailAuth+"'",function(err,rows){
+							if(err){
+								return res.json({ success: false, message: 'error get user' });
+							}else{
+								if(rows.length>0){
+									if(rows[0].password == md5(passwordAuth)){
+										// create a token
+										var userAuth = {
+											id_host :rows[0].id_host,
+											email :rows[0].email,
+											password :rows[0].password
+										};
+	                  var token = jwt.sign(userAuth, app.get('superSecret'), {
+	                    expiresInMinutes: 1440 // expires in 24 hours
+	                  });
 
-                // return the information including token as JSON
-                res.json({
-                  success: true,
-                  message: 'Enjoy your token!',
-                  token: token
-                });
+	                  // return the information including token as JSON
+	                  res.json({
+	                    success: true,
+	                    message: 'Enjoy your token!',
+	                    token: token,
+											status: 'user'
+	                  });
+									}else{
+										return res.json({ success: false, message: 'Failed to authenticate user.' });
+									}
+								}else{
+									res.json({success: false, message:"Failed to find user"});
+								}
+							}
+						});
+					}
 
         });
+
+				var searchTemplate = new searchTemplateModel(router,connection);
+				var search = new searchModel(router,connection);
 
     // route middleware to verify a token
         router.use(function(req, res, next) {
@@ -198,9 +235,6 @@ connect.prototype.configureExpress = function(connection) {
 			var getAccount = new getAccountModel(router,connection);
 			var editAccountPic = new editAccountPicModel(router,connection);
 
-			var searchTemplate = new searchTemplateModel(router,connection);
-
-			var search = new searchModel(router,connection);
 			var getIP = new getIPModel(router,connection);
 			var login = new loginModel(router,connection,md5);
 			var logout = new logoutModel(router,connection);

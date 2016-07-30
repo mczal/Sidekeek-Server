@@ -1,6 +1,8 @@
 var mysql = require('mysql');
-var sendgrid = require('sendgrid')('mczal','Fahrizalsss*123#');
+var sendgrid = require('sendgrid')('mczal','*3tZR#PQYcd');
 //TESTED 27 FEBRUARI 2016
+
+var urlPort = "8080"; //EMPTY if not neccessary
 function signUp(router,connection,md5){
   var self=this;
   self.handleRoutes(router,connection,md5);
@@ -22,8 +24,8 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
   router.post("/sign-up",function(req,res){
     var statTemp = req.body.statTemp;
     var email = req.body.email;
-    var password = req.body.password;
-    var confirmation = req.body.confirmation;
+    var password = md5(req.body.password);
+    var confirmation = md5(req.body.confirmation);
     if(email==null || email==undefined || email==""){
       res.json({"message":"err.. no params em rec","error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
     }else{
@@ -59,7 +61,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                             from:     'noreply@sidekeek.co',
                             subject:  'Sidekeek Account Confirmation',
                             text:     'Please click the following link below to confirm your account on sidekeek.co',
-                            html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='http://localhost:8080/Sidekeek-Client/#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
+                            html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='http://localhost:"+urlPort+"/Sidekeek-Client/#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
                           }, function(err, json) {
                             if (err) {
                               res.json({"message":'AAAAAHH!!',"err":err,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
@@ -87,7 +89,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5){
                                 from:     'noreply@sidekeek.co',
                                 subject:  'Sidekeek Account Confirmation',
                                 text:     'Please click the following link below to confirm your account on sidekeek.co',
-                                html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='http://localhost:8080/Sidekeek-Client/#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
+                                html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='http://localhost:"+urlPort+"/Sidekeek-Client/#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
                               }, function(err, json) {
                                 if (err) {
                                   res.json({"message":'AAAAAHH!!',"err":err});

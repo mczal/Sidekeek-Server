@@ -8,10 +8,11 @@ function search(router,connection){
 var self=this;
 
 search.prototype.handleRoutes = function(router,connection){
-  router.post("/search",function(req,res){
-    var query = req.body.query;
-    var keywords = req.body.keywords;
+  router.get("/search",function(req,res){
+    var query = req.query.query;
+    var keywords = req.query.keywords;
     var whereClause = "WHERE 1=1";
+    console.log(req.query);
     if(query == null || query == undefined || query == ''){
       res.json({"message":"err.. no param q received"});
     }else{

@@ -21,7 +21,7 @@ var self = this;
 login.prototype.handleRoutes = function(router,connection,md5){
   router.post("/login",function(req,res){
     var email = req.body.email;
-    var password = req.body.password;
+    var password = md5(req.body.password);
     var timestamp = req.body.timestamp;
     if(email==null || email==undefined || email==""){
       res.json({"message":"err.. no params em received"});

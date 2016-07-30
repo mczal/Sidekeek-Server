@@ -55,6 +55,22 @@
           "summary": "Gives token",
           "description": "Gives token",
           "operationId": "auth",
+          "parameters": [
+            {
+              "name": "emailAuth",
+              "in": "formData",
+              "description": "email",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "passwordAuth",
+              "in": "formData",
+              "description": "password",
+              "required": false,
+              "type": "string"
+            }
+          ],
           "responses": {
             "200": {
               "schema": {
@@ -1340,22 +1356,15 @@
       }
     },
     "/search": {
-      "post": {
+      "get": {
         "tags": ["SearchController"],
         "summary": "search product",
         "description": "search product",
         "operationId": "search",
         "parameters": [
           {
-            "name": "token",
-            "in" : "formData",
-            "description": "token",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "query",
-            "in" : "formData",
+            "in" : "query",
             "description": "words",
             "required": true,
             "type": "string"
@@ -1371,29 +1380,22 @@
       }
     },
     "/search-template": {
-      "post": {
+      "get": {
         "tags": ["SearchController"],
         "summary": "advance search",
         "description": "advance search",
         "operationId": "search-template",
         "parameters": [
           {
-            "name": "token",
-            "in" : "formData",
-            "description": "token",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "query",
-            "in" : "formData",
+            "in" : "query",
             "description": "query",
             "required": true,
             "type": "string"
           },
           {
             "name": "keywords",
-            "in" : "formData",
+            "in" : "query",
             "description": "keywords",
             "schema": {
               "$ref": "#/definitions/sampleObject"
@@ -1868,8 +1870,11 @@
           "example": ""
         },
         "token": {
-            "example": ""
-          }
+          "example": ""
+        },
+        "status": {
+          "example": ""
+        }
       }
     },
     "getCategories": {

@@ -2,6 +2,7 @@ var mysql = require('mysql');
 var mkpath = require('mkpath');
 var fs = require('fs');
 
+var pictureServerPort = "8080"; //EMPTY if not neccessary
 function editProductImage(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
@@ -54,7 +55,7 @@ editProductImage.prototype.handleRoutes = function(router,connection){
                               res.json({"message":"err.. error in fs.write","err":err,"error":"error"});
                             }else{
                               console.log("message success upload img");
-                              var imgbase64_database = "http://localhost:8080/localhost/Sidekeek-Server/"+path+"/"+filename;
+                              var imgbase64_database = "http://localhost:"+pictureServerPort+"/localhost/Sidekeek-Server/"+path+"/"+filename;
                               var q10 = "update `gallery_product` set img_base64='"+imgbase64_database+"' where id="+idProductImage;
                               connection.query(q10,function(err,rows){
                                 if(err){
