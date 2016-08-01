@@ -134,7 +134,10 @@ connect.prototype.configureExpress = function(connection) {
 					if(emailAuth == null || emailAuth == undefined || emailAuth == '' || passwordAuth == null || passwordAuth == undefined || passwordAuth == '' ){
 						// if user is found and password is right
                  // create a token
-                 var token = jwt.sign("guest", app.get('superSecret'), {
+                 var token = jwt.sign({
+									 status :"guest",
+									 timestamp: new Date()
+								 }, app.get('superSecret'), {
                    expiresInMinutes: 1440 // expires in 24 hours
                  });
 
@@ -153,12 +156,13 @@ connect.prototype.configureExpress = function(connection) {
 								if(rows.length>0){
 									if(rows[0].password == md5(passwordAuth)){
 										// create a token
-										var userAuth = {
+	                  var token = jwt.sign({
 											id_host :rows[0].id_host,
 											email :rows[0].email,
-											password :rows[0].password
-										};
-	                  var token = jwt.sign(userAuth, app.get('superSecret'), {
+											password :rows[0].password,
+											status :"user",
+											timestamp: new Date()
+										}, app.get('superSecret'), {
 	                    expiresInMinutes: 1440 // expires in 24 hours
 	                  });
 

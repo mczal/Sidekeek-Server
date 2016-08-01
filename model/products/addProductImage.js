@@ -2,8 +2,8 @@ var mysql = require('mysql');
 var mkpath = require('mkpath');
 var fs = require('fs');
 
-var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
 var pictureServerPort = "8080"; //EMPTY if not neccessary
+var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
 function generateUniqueCode(){
     var text = "";
     var possible = "&900qnw@mlkNIUBI~aklm3076IAKU-PASTI-BISAl";;
@@ -95,7 +95,7 @@ addProductImage.prototype.handleRoutes = function(router,connection){
                               console.log("message err.. error in fs.write err:"+err);
                               res.json({"message":"err.. error in fs.write","err":err});
                             }else{
-                              console.log("message success upload img");
+                              // console.log("message success upload img");
                               var imgbase64_database = baseUrlPath+path+"/"+filename;
                               //res.json({"message ":" success upload img","database" : imgbase64_database});
                               var q1 = "insert into `gallery_product`(id_product,img_base64"+checkImgCountField+") values("+idProduct+",'"+imgbase64_database+"'"+checkImgCountValue+")";

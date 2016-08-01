@@ -1388,6 +1388,13 @@
         "operationId": "search-template",
         "parameters": [
           {
+            "name": "info",
+            "in" : "query",
+            "description": "all~,host,product",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "query",
             "in" : "query",
             "description": "query",
@@ -1401,6 +1408,20 @@
             "schema": {
               "$ref": "#/definitions/sampleObject"
             }
+          },
+          {
+            "name": "size",
+            "in" : "query",
+            "description": "size",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in" : "query",
+            "description": "page",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

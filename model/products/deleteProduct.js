@@ -61,7 +61,7 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
                                 var path = "assets/img/"+email+"/products/product"+idProduct;
                                 rimraf(path,function(err){
                                   if(err) throw err;
-                                  console.log('#rimraf successfully deleted '+path);
+                                  // console.log('#rimraf successfully deleted '+path);
                                 });
                                 //here
                                 res.json({"message":"success delete product","error":"success"});

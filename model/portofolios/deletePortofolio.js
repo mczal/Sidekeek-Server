@@ -55,7 +55,7 @@ deletePortofolio.prototype.handleRoutes = function(router,connection){
                               var path = "assets/img/"+email+"/portofolios/"+splitter[splitter.length-1];
                               fs.unlink(path, function(err){
                                 if (err) throw err;
-                                console.log('successfully deleted '+path);
+                                // console.log('successfully deleted '+path);
                               });
                             }
                             res.json({"message":"success deleting portofolio","error":"success"});

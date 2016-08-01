@@ -66,7 +66,7 @@ deleteProductImage.prototype.handleRoutes = function(router,connection){
                                   var path = "assets/img/"+email+"/products/product"+idProduct+"/"+splitter[splitter.length-1];
                                   fs.unlink(path, function(err){
                                     if (err) throw err;
-                                    console.log('successfully deleted '+path);
+                                    // console.log('successfully deleted '+path);
                                   });
                                   res.json({"message":"success delete product image and update isRep","error":"success"});
                                 }
@@ -76,7 +76,7 @@ deleteProductImage.prototype.handleRoutes = function(router,connection){
                               var path = "assets/img/"+email+"/products/product"+idProduct+"/"+splitter[splitter.length-1];
                               fs.unlink(path, function(err){
                                 if (err) throw err;
-                                console.log('successfully deleted '+path);
+                                // console.log('successfully deleted '+path);
                               });
                               res.json({"message":"success delete product image","error":"success"});
                             }

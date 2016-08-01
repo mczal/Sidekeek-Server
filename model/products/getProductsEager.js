@@ -45,7 +45,7 @@ getProductsEager.prototype.handleRoutes = function(router,connection){
                           var ct = 0;
                           for(var j = 0 ; j<rowsImg.length ; j++){
                             if(rowsImg[j].id_product == objTemp[i].id_product ){
-                              objTemp[i].images +=rowsImg[j].img_base64+";";
+                              objTemp[i].images +=rowsImg[j].id+","+rowsImg[j].img_base64+";";
                             }
                           }
                         }

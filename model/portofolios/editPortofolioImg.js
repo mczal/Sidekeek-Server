@@ -1,8 +1,8 @@
 var mkpath = require('mkpath');
 var fs = require('fs');
 
-var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
 var pictureServerPort = "8080"; //EMPTY if not neccessary
+var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
 function editPortofolioImg(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
