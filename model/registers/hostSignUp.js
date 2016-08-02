@@ -1,9 +1,9 @@
 var sendgrid = require('sendgrid')('mczal','*3tZR#PQYcd');
 
-var urlPort = "8080"; //EMPTY if not neccessary
-function hostSignUp(router,connection,md5){
+// var urlPort = "8080"; //EMPTY if not neccessary
+function hostSignUp(router,connection,md5,config){
   var self=this;
-  self.handleRoutes(router,connection,md5);
+  self.handleRoutes(router,connection,md5,config);
 }
 
 function generateUniqueCode(){
@@ -14,8 +14,10 @@ function generateUniqueCode(){
     return text;
 }
 
-hostSignUp.prototype.handleRoutes = function(router,connection,md5){
+hostSignUp.prototype.handleRoutes = function(router,connection,md5,config){
   router.post('/hostSignUp',function(req,res){
+    var baseUrlClientPath = config.base_url_client_path;
+
     var idTipe = req.body.idTipe;
     var idCat = req.body.idCat;
     var compName = req.body.compName;
@@ -71,7 +73,7 @@ hostSignUp.prototype.handleRoutes = function(router,connection,md5){
                                 from:     'noreply@sidekeek.co',
                                 subject:  'Sidekeek Account Confirmation',
                                 text:     'Please click the following link below to confirm your account on sidekeek.co',
-                                html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='http://localhost:"+urlPort+"/Sidekeek-Client/#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
+                                html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='"+baseUrlClientPath+"#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
                               }, function(err, json) {
                                 if (err) {
                                   res.json({"message":'AAAAAHH!!',"err":err,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});

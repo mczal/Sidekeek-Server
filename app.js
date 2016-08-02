@@ -53,6 +53,10 @@ var deletePortofolioModel = require("./model/portofolios/deletePortofolio.js");
 
 var testingEmailModel = require("./model/testingEmail.js");
 var testingBase64Model = require("./model/testingBase64.js");
+// console.log(process.env.NODE_ENV);
+var common = require("./routes/common.js");
+var config = common.config();
+// console.log(config.base_url_path);
 
 var app = express();
 var jwt = require("jsonwebtoken");
@@ -225,10 +229,10 @@ connect.prototype.configureExpress = function(connection) {
 
 			var isHost = new isHostModel(router,connection);
 
-			var hostSignUp = new hostSignUpModel(router,connection,md5);
+			var hostSignUp = new hostSignUpModel(router,connection,md5,config);
 			var firstRegister = new firstRegisterModel(router,connection);
 			var secondRegister = new secondRegisterModel(router,connection);
-			var signUp = new signUpModel(router,connection,md5);
+			var signUp = new signUpModel(router,connection,md5,config);
 			var getCities = new getCitiesModel(router,connection);
 			var getProvince = new getProvinceModel(router,connection);
 			var getCategories = new getCategoriesModel(router,connection);
@@ -237,7 +241,7 @@ connect.prototype.configureExpress = function(connection) {
 			var editProfile = new editProfileModel(router,connection);
 			var editAccount = new editAccountModel(router,connection,fs);
 			var getAccount = new getAccountModel(router,connection);
-			var editAccountPic = new editAccountPicModel(router,connection);
+			var editAccountPic = new editAccountPicModel(router,connection,config);
 
 			var getIP = new getIPModel(router,connection);
 			var login = new loginModel(router,connection,md5);
@@ -247,18 +251,18 @@ connect.prototype.configureExpress = function(connection) {
 			var getProducts = new getProductsModel(router,connection);
 			var getProductDetail = new getProductDetailModel(router,connection);
 			var addNewProductDesc = new addNewProductDescModel(router,connection);
-			var addProductImage = new addProductImageModel(router,connection);
+			var addProductImage = new addProductImageModel(router,connection,config);
 			var confirmation = new confirmationModel(router,connection);
-			var editProductImage = new editProductImageModel(router,connection);
+			var editProductImage = new editProductImageModel(router,connection,config);
 			// var editProfileFull = new editProfileFullModel(router,connection);
 
-			var addNewPortofolio = new addNewPortofolioModel(router,connection);
+			var addNewPortofolio = new addNewPortofolioModel(router,connection,config);
 			var getPortofolios = new getPortofoliosModel(router,connection);
 			var editPortofolio = new editPortofolioModel(router,connection);
 			var editProductDesc = new editProductDescModel(router,connection);
 			var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
 			var getProductsEager = new getProductsEagerModel(router,connection);
-			var editPortofolioImg = new editPortofolioImgModel(router,connection);
+			var editPortofolioImg = new editPortofolioImgModel(router,connection,config);
 
 			var deleteProductImage = new deleteProductImageModel(router,connection);
 			var deleteProduct = new deleteProductModel(router,connection);
@@ -272,8 +276,8 @@ connect.prototype.configureExpress = function(connection) {
 
 connect.prototype.startServer = function() {
 	// body...
-	app.listen(3000,function(){
-          console.log("magic \"sidekeek\" happend");
+	app.listen(config.server_port,function(){
+          console.log("\'sidekeek-server\' listening on port:"+config.server_port+" in "+process.env.NODE_ENV+" mode");
       });
 };
 

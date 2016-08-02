@@ -2,8 +2,8 @@ var mysql = require('mysql');
 var mkpath = require('mkpath');
 var fs = require('fs');
 
-var pictureServerPort = "8080"; //EMPTY if not neccessary
-var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
+// var pictureServerPort = "8080"; //EMPTY if not neccessary
+// var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
 function generateUniqueCode(){
     var text = "";
     var possible = "&900qnw@mlkNIUBI~aklm3076IAKU-PASTI-BISAl";;
@@ -14,15 +14,17 @@ function generateUniqueCode(){
     return text;
 }
 
-function addProductImage(router,connection){
+function addProductImage(router,connection,config){
   var self=this;
-  self.handleRoutes(router,connection);
+  self.handleRoutes(router,connection,config);
 }
 
 var self=this;
 
-addProductImage.prototype.handleRoutes = function(router,connection){
+addProductImage.prototype.handleRoutes = function(router,connection,config){
   router.post("/addProductImage",function(req,res){
+    var baseUrlPath = config.base_url_server_path;
+
     var sessionCode = req.body.sessionCode;
     var idProduct = req.body.idProduct;
     var imgbase64 = req.body.imgbase64;

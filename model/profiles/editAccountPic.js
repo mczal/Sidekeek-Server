@@ -2,15 +2,17 @@ var mysql = require('mysql');
 var fs = require('fs');
 var mkpath = require('mkpath');
 
-var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
-var pictureServerPort = "8080"; //EMPTY if not neccessary
-function editAccountPic(router,connection){
+// var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
+// var pictureServerPort = "8080"; //EMPTY if not neccessary
+function editAccountPic(router,connection,config){
   var self=this;
-  self.handleRoutes(router,connection);
+  self.handleRoutes(router,connection,config);
 }
 
-editAccountPic.prototype.handleRoutes = function(router,connection){
+editAccountPic.prototype.handleRoutes = function(router,connection,config){
   router.post('/editAccountPic',function(req,res){
+    var baseUrlPath = config.base_url_server_path;
+    
     var sessionCode = req.body.sessionCode;
     var imgbase64 = req.body.imgbase64;
     var timestamp = req.body.timestamp;

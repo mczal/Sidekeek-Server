@@ -2,15 +2,17 @@ var mysql = require('mysql');
 var mkpath = require('mkpath');
 var fs = require('fs');
 
-var pictureServerPort = "8080"; //EMPTY if not neccessary
-var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
-function editProductImage(router,connection){
+// var pictureServerPort = "8080"; //EMPTY if not neccessary
+// var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
+function editProductImage(router,connection,config){
   var self=this;
-  self.handleRoutes(router,connection);
+  self.handleRoutes(router,connection,config);
 }
 
-editProductImage.prototype.handleRoutes = function(router,connection){
+editProductImage.prototype.handleRoutes = function(router,connection,config){
   router.post('/editProductImage',function(req,res){
+    var baseUrlPath = config.base_url_server_path;
+
     var sessionCode = req.body.sessionCode;
     var idProductImage = req.body.idProductImage;
     var timestamp = req.body.timestamp;

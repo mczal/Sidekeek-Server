@@ -3,17 +3,20 @@ var mkpath = require('mkpath');
 var fs = require('fs');
 //TESTED 27 FEBRUARI 2016
 
-var pictureServerPort = "8080"; //EMPTY if not neccessary
-var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
-function addNewPortofolio(router,connection){
+// var pictureServerPort = "8080"; //EMPTY if not neccessary
+// var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
+function addNewPortofolio(router,connection,config){
   var self=this;
-  self.handleRoutes(router,connection);
+  self.handleRoutes(router,connection,config);
 }
 
 var self=this;
 
-addNewPortofolio.prototype.handleRoutes = function(router,connection){
+addNewPortofolio.prototype.handleRoutes = function(router,connection,config){
   router.post('/addNewPortofolio',function(req,res){
+    var baseUrlPath = config.base_url_server_path;
+    // console.log(baseUrlPath);
+
     var sessionCode = req.body.sessionCode;
     var title = req.body.title;
     var description = req.body.description;

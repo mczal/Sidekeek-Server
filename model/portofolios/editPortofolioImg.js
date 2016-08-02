@@ -1,15 +1,17 @@
 var mkpath = require('mkpath');
 var fs = require('fs');
 
-var pictureServerPort = "8080"; //EMPTY if not neccessary
-var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
-function editPortofolioImg(router,connection){
+// var pictureServerPort = "8080"; //EMPTY if not neccessary
+// var baseUrlPath = "http://localhost:"+pictureServerPort+"/Sidekeek-Server/";
+function editPortofolioImg(router,connection,config){
   var self=this;
-  self.handleRoutes(router,connection);
+  self.handleRoutes(router,connection,config);
 }
 
-editPortofolioImg.prototype.handleRoutes = function(router,connection){
+editPortofolioImg.prototype.handleRoutes = function(router,connection,config){
   router.post('/editPortofolioImg',function(req,res){
+    var baseUrlPath = config.base_url_server_path;
+
     var sessionCode = req.body.sessionCode;
     var idPortofolio = req.body.idPortofolio;
     var timestamp = req.body.timestamp;
