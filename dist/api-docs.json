@@ -1432,9 +1432,74 @@
           }
         }
       }
+    },
+    "/requestChangePassword": {
+      "post": {
+        "tags": ["ProfileController"],
+        "summary": "request for password changes",
+        "description": "request for password changes",
+        "operationId": "requestChangePassword",
+        "parameters": [
+          {
+            "name": "email",
+            "in" : "formData",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "path",
+            "in" : "formData",
+            "description": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/post-simple"
+            }
+          }
+        }
+      }
+    },
+    "/confirmChangePassword": {
+      "post": {
+        "tags": ["ProfileController"],
+        "summary": "password change confirmation",
+        "description": "password change confirmation",
+        "operationId": "confirmChangePassword",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/post-simple"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "post-simple": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        }
+      }
+    },
     "sampleObject": {
       "properties": {
         "category": {

@@ -1,11 +1,11 @@
 var mysql = require('mysql');
-var sendgrid = require('sendgrid')('mczal','*3tZR#PQYcd');
+// var sendgrid = require('sendgrid')('mczal','*3tZR#PQYcd');
 //TESTED 27 FEBRUARI 2016
 
 // var urlPort = "8080"; //EMPTY if not neccessary
-function signUp(router,connection,md5,config){
+function signUp(router,connection,md5,config,sendgrid){
   var self=this;
-  self.handleRoutes(router,connection,md5,config);
+  self.handleRoutes(router,connection,md5,config,sendgrid);
 }
 
 function generateUniqueCode(){
@@ -20,7 +20,7 @@ function generateUniqueCode(){
 
 var self=this;
 
-signUp.prototype.handleRoutes = function(router,connection,md5,config){
+signUp.prototype.handleRoutes = function(router,connection,md5,config,sendgrid){
   router.post("/sign-up",function(req,res){
     var baseUrlClientPath = config.base_url_client_path;
 
@@ -60,7 +60,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5,config){
                           /*TODO: INI SEND MAIL CONFIRMATION*/
                           sendgrid.send({
                             to:       email,
-                            from:     'noreply@sidekeek.co',
+                            from:     'noreply-sidekeek@sidekeek.co',
                             subject:  'Sidekeek Account Confirmation',
                             text:     'Please click the following link below to confirm your account on sidekeek.co',
                             html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='"+baseUrlClientPath+"#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",

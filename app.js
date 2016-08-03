@@ -4,7 +4,8 @@ var express = require("express"),
 	md5 = require('MD5'),
   http = require('http'),
 	fs = require('fs'),
-	swagger = require("swagger-node-express");
+	swagger = require("swagger-node-express"),
+	sendgrid = require('sendgrid')('mczal','*3tZR#PQYcd');;
 
 var subpath = express();
 var isHostModel = require("./model/isHost.js");
@@ -16,12 +17,15 @@ var signUpModel = require("./model/registers/signUp.js");
 var getCitiesModel = require("./model/getCities.js");
 var getProvinceModel = require("./model/getProvince.js");
 var getCategoriesModel = require("./model/getCategories.js");
+var resendMailConfirmationCodeModel = require("./model/registers/resendMailConfirmationCode.js");
 
 var getProfileModel = require("./model/profiles/getProfile.js");
 var editProfileModel = require("./model/profiles/editProfile.js");
 var editAccountModel = require("./model/profiles/editAccount.js");
 var getAccountModel = require("./model/profiles/getAccount.js");
 var editAccountPicModel = require("./model/profiles/editAccountPic.js");
+var requestChangePasswordModel = require("./model/profiles/requestChangePassword.js");
+var confirmChangePasswordModel = require("./model/profiles/confirmChangePassword.js");
 
 var searchTemplateModel = require("./model/search/search-template.js");
 var searchModel = require("./model/search/search.js");
@@ -50,6 +54,10 @@ var editPortofolioImgModel = require("./model/portofolios/editPortofolioImg.js")
 var deleteProductImageModel = require("./model/products/deleteProductImage.js");
 var deleteProductModel = require("./model/products/deleteProduct");
 var deletePortofolioModel = require("./model/portofolios/deletePortofolio.js");
+
+var supportModel = require("./model/utilities/support.js");
+var feedbackModel = require("./model/utilities/feedback.js");
+var contactUsModel = require("./model/utilities/contactUs.js");
 
 var testingEmailModel = require("./model/testingEmail.js");
 var testingBase64Model = require("./model/testingBase64.js");
@@ -103,7 +111,7 @@ connect.prototype.configureExpress = function(connection) {
 			// app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({ extended: true,limit: '5mb' }));
 			app.use(express.static('dist'));
-			app.use("/sidekeek/docs", subpath);
+			app.use("/sidekeek/docs/", subpath);
 			swagger.setAppHandler(subpath);
 			// swagger.setApiInfo({
 		  //   title: "example API",
@@ -192,6 +200,12 @@ connect.prototype.configureExpress = function(connection) {
 				var searchTemplate = new searchTemplateModel(router,connection);
 				var search = new searchModel(router,connection);
 
+				var requestChangePassword = new requestChangePasswordModel(router,connection,jwt,sendgrid,app,config);
+				var confirmChangePassword = new confirmChangePasswordModel(router,connection,jwt,app,sendgrid,md5);
+				var support = new supportModel(router,connection,sendgrid,config);
+				var feedback = new feedbackModel(router,connection,sendgrid,config);
+				var contactUs = new contactUsModel(router,connection,sendgrid,config);
+
     // route middleware to verify a token
         router.use(function(req, res, next) {
 
@@ -229,10 +243,10 @@ connect.prototype.configureExpress = function(connection) {
 
 			var isHost = new isHostModel(router,connection);
 
-			var hostSignUp = new hostSignUpModel(router,connection,md5,config);
+			var hostSignUp = new hostSignUpModel(router,connection,md5,config,sendgrid);
 			var firstRegister = new firstRegisterModel(router,connection);
 			var secondRegister = new secondRegisterModel(router,connection);
-			var signUp = new signUpModel(router,connection,md5,config);
+			var signUp = new signUpModel(router,connection,md5,config,sendgrid);
 			var getCities = new getCitiesModel(router,connection);
 			var getProvince = new getProvinceModel(router,connection);
 			var getCategories = new getCategoriesModel(router,connection);
@@ -242,6 +256,7 @@ connect.prototype.configureExpress = function(connection) {
 			var editAccount = new editAccountModel(router,connection,fs);
 			var getAccount = new getAccountModel(router,connection);
 			var editAccountPic = new editAccountPicModel(router,connection,config);
+			var resendMailConfirmationCode = new resendMailConfirmationCodeModel(router,connection,sendgrid,config);
 
 			var getIP = new getIPModel(router,connection);
 			var login = new loginModel(router,connection,md5);
