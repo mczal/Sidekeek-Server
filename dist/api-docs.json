@@ -36,6 +36,10 @@
     {
       "name": "RegisterController",
       "description": "API for maintain registrar"
+    },
+    {
+      "name": "UtilitiesController",
+      "description": "API for maintain user utilities"
     }
   ],
   "schemes": [
@@ -1475,6 +1479,141 @@
             "name": "token",
             "in" : "formData",
             "description": "token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/post-simple"
+            }
+          }
+        }
+      }
+    },
+    "/contactUs": {
+      "post": {
+        "tags": ["UtilitiesController"],
+        "summary": "contact us",
+        "description": "contact us",
+        "operationId": "contactUs",
+        "parameters": [
+          {
+            "name": "name",
+            "in" : "formData",
+            "description": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "formData",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subject",
+            "in" : "formData",
+            "description": "subject",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in" : "formData",
+            "description": "message",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/post-simple"
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "tags": ["UtilitiesController"],
+        "summary": "feedback",
+        "description": "feedback",
+        "operationId": "feedback",
+        "parameters": [
+          {
+            "name": "name",
+            "in" : "formData",
+            "description": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in" : "formData",
+            "description": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subject",
+            "in" : "formData",
+            "description": "subject",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in" : "formData",
+            "description": "message",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/post-simple"
+            }
+          }
+        }
+      }
+    },
+    "/support": {
+      "post": {
+        "tags": ["UtilitiesController"],
+        "summary": "support",
+        "description": "support",
+        "operationId": "support",
+        "parameters": [
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subject",
+            "in" : "formData",
+            "description": "subject",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "in" : "formData",
+            "description": "title",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in" : "formData",
+            "description": "message",
             "required": true,
             "type": "string"
           }
