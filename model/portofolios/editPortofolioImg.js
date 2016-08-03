@@ -14,7 +14,6 @@ editPortofolioImg.prototype.handleRoutes = function(router,connection,config){
 
     var sessionCode = req.body.sessionCode;
     var idPortofolio = req.body.idPortofolio;
-    var timestamp = req.body.timestamp;
     var imgbase64 = req.body.imgbase64;
     if(sessionCode == null || sessionCode == undefined || sessionCode == ''){
       res.json({"message":"err.. no params s_c","error":"error"});

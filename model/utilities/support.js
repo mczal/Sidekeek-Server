@@ -31,19 +31,31 @@ support.prototype.handleRoutes = function(router,connection,sendgrid,config){
                 if(rows.length>0){
                   var idHost = rows[0].id_host;
                   var email = rows[0].email;
+                  var emailCut = email.split('@');
                   sendgrid.send({
                     to:       config.cs_email,
-                    from:     email,
+                    from:     emailCut[0]+"@sidekeek-user.co",
                     subject:  'Support - Customer ('+title+') <Subject : '+subject+'> <From : id: '+idHost+' >',
                     text:     message,
-                    html:     "<h3>"+subject+"</h3><br><h4>"+title+"</h4><br><p>"+message+"</p>",
+                    html:     "<h3>Subject : "+subject+"</h3><br><h4>Title : "+title+"</h4><br>Message : <br><p>"+message+"</p>",
                   }, function(err, json) {
                     if (err) {
                       res.json({"message":'AAAAAHH!!',"err":err,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
                       return console.error(err);
                     }
-                    res.json({"message":"success sending feedback to our customer services","error":"success","status":"feedback","jsonsgrid":json}); //status 0 berarti signup doang
-                    console.log(json);
+                    var myDate = new Date();
+                    var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                    "-"+myDate.getDate()+" "+myDate.getHours()+
+                    ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                    var q0 = "UPDATE `session_host` SET last_activity='"+myTimestamp+"' WHERE id_host="+idHost;
+                    connection.query(q0,function(err,rows){
+                      if(err){
+                        res.status(500).json({"message":"fail to update status, email success sent","error":"mid"});
+                      }else{
+                        res.json({"message":"success sending support to our customer services","error":"success","status":"support","jsonsgrid":json}); //status 0 berarti signup doang
+                        console.log(json);
+                      }
+                    });
                   });
                 }else{
                   res.status(401).json({"message":"err.. no rows on session"});

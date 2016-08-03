@@ -8,30 +8,30 @@ function getPortofolios(router,connection){
 var self=this;
 
 getPortofolios.prototype.handleRoutes = function(router,connection){
-  router.post('/getPortofolios',function(req,res){
-    var email = req.body.email;
-    if(email==null || email==undefined || email==''){
+  router.get('/getPortofolios/:id',function(req,res){
+    var idHost = req.params.id;
+    if(idHost==null || idHost==undefined || idHost==''){
       res.json({"message":"err.. no params received"});
     }else{
-      connection.query("select id_host from `host` where statusz=1 and email='"+email+"'",function(err,rows){
+      connection.query("select id_host from `host` where statusz=1 and id_host="+idHost+"",function(err,rows){
         if(err){
-          res.json({"message":"err.. error in selecting host from email","error":"error","content":null});
+          res.json({"message":"err.. error in selecting host from id","error":"error","content":null});
         }else{
           if(rows.length>0){
-            var idHost = rows[0].id_host;
+            // var idHost = rows[0].id_host;
             connection.query("select * from `portofolio` where id_host="+idHost,function(err,rows){
               if(err){
                 res.json({"message":"err.. error in selecting on portofolio","error":"error","content":null});
               }else{
                 if(rows.length>0){
-                  res.json({"message":"success get all portofolio from #"+email,"error":"success","content":rows});
+                  res.json({"message":"success get all portofolio from #"+idHost,"error":"success","content":rows});
                 }else{
                   res.json({"message":"err.. no rows in portofolio","error":"error","content":null});
                 }
               }
             });
           }else{
-            res.json({"message":"err.. no rows in host with given email and active status","error":"error","content":null});
+            res.json({"message":"err.. no rows in host with given id and active status","error":"error","content":null});
           }
         }
       });

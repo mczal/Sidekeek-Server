@@ -206,6 +206,21 @@ connect.prototype.configureExpress = function(connection) {
 				var feedback = new feedbackModel(router,connection,sendgrid,config);
 				var contactUs = new contactUsModel(router,connection,sendgrid,config);
 
+				var getProfile = new getProfileModel(router,connection);
+				var getAccount = new getAccountModel(router,connection);
+
+				var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
+				var getPortofolios = new getPortofoliosModel(router,connection);
+
+				var getProducts = new getProductsModel(router,connection);
+				var getProductDetail = new getProductDetailModel(router,connection);
+				var getProductsEager = new getProductsEagerModel(router,connection);
+
+				var getCities = new getCitiesModel(router,connection);
+				var getProvince = new getProvinceModel(router,connection);
+				var getCategories = new getCategoriesModel(router,connection);
+
+
     // route middleware to verify a token
         router.use(function(req, res, next) {
 
@@ -247,14 +262,9 @@ connect.prototype.configureExpress = function(connection) {
 			var firstRegister = new firstRegisterModel(router,connection);
 			var secondRegister = new secondRegisterModel(router,connection);
 			var signUp = new signUpModel(router,connection,md5,config,sendgrid);
-			var getCities = new getCitiesModel(router,connection);
-			var getProvince = new getProvinceModel(router,connection);
-			var getCategories = new getCategoriesModel(router,connection);
 
-			var getProfile = new getProfileModel(router,connection);
 			var editProfile = new editProfileModel(router,connection);
 			var editAccount = new editAccountModel(router,connection,fs);
-			var getAccount = new getAccountModel(router,connection);
 			var editAccountPic = new editAccountPicModel(router,connection,config);
 			var resendMailConfirmationCode = new resendMailConfirmationCodeModel(router,connection,sendgrid,config);
 
@@ -263,8 +273,6 @@ connect.prototype.configureExpress = function(connection) {
 			var logout = new logoutModel(router,connection);
 			var check = new checkModel(router,connection);
 
-			var getProducts = new getProductsModel(router,connection);
-			var getProductDetail = new getProductDetailModel(router,connection);
 			var addNewProductDesc = new addNewProductDescModel(router,connection);
 			var addProductImage = new addProductImageModel(router,connection,config);
 			var confirmation = new confirmationModel(router,connection);
@@ -272,11 +280,9 @@ connect.prototype.configureExpress = function(connection) {
 			// var editProfileFull = new editProfileFullModel(router,connection);
 
 			var addNewPortofolio = new addNewPortofolioModel(router,connection,config);
-			var getPortofolios = new getPortofoliosModel(router,connection);
 			var editPortofolio = new editPortofolioModel(router,connection);
 			var editProductDesc = new editProductDescModel(router,connection);
-			var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
-			var getProductsEager = new getProductsEagerModel(router,connection);
+
 			var editPortofolioImg = new editPortofolioImgModel(router,connection,config);
 
 			var deleteProductImage = new deleteProductImageModel(router,connection);

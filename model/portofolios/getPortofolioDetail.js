@@ -8,8 +8,8 @@ function getPortofolioDetail(router,connection){
 var self=this;
 
 getPortofolioDetail.prototype.handleRoutes = function(router,connection){
-  router.post('/getPortofolioDetail',function(req,res){
-    var idPortofolio = req.body.idPortofolio;
+  router.get('/getPortofolioDetail/:id',function(req,res){
+    var idPortofolio = req.params.id;
     if(idPortofolio==null || idPortofolio==undefined || idPortofolio==""){
       res.json({"message":"err.. no param rec","error":"error","content":null});
     }else{

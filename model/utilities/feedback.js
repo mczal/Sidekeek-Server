@@ -22,12 +22,13 @@ feedback.prototype.handleRoutes = function(router,connection,sendgrid,config){
           if(message == null || message == undefined || message == ''){
             res.status(422).json({"message":"err.. error no param m rec","error":"error"});
           }else{
+            var emailCut = email.split('@');
             sendgrid.send({
               to:       config.cs_email,
-              from:     email,
+              from:     emailCut[0]+"@sidekeek-guest.co",
               subject:  'Feedback - Customer <Subject : '+subject+'> <From : '+name+'>',
               text:     message,
-              html:     "<p>"+message+"</p>",
+              html:     "<p>From : "+email+"</p><br><p>Name : "+name+"</p><br><p>Subject : "+subject+"</p><br><p>Message : <br>"+message+"</p>",
             }, function(err, json) {
               if (err) {
                 res.json({"message":'AAAAAHH!!',"err":err,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});

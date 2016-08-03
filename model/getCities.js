@@ -6,7 +6,7 @@ function getCities(router,connection){
 }
 
 getCities.prototype.handleRoutes = function(router,connection){
-  router.post("/getCities",function(req,res){
+  router.get("/getCities",function(req,res){
     var province = req.body.province;
     if(province==null || province==undefined || province==""){
       connection.query("select id_city,city_name from `city` order by city_name asc",function(err,rows){

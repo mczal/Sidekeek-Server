@@ -85,7 +85,7 @@
         }
     },
     "/getCategories" : {
-      "post": {
+      "get": {
         "tags": ["SummaryController"],
         "summary": "get all product category",
         "description": "get all product category",
@@ -93,9 +93,9 @@
         "parameters": [
           {
             "name": "token",
-            "in": "formData",
+            "in": "query",
             "description": "token",
-            "required": true,
+            "required": false,
             "type": "string"
           }
         ],
@@ -109,7 +109,7 @@
       }
     },
     "/getCities": {
-      "post": {
+      "get": {
         "tags": ["SummaryController"],
         "summary": "get all city",
         "description": "get all city",
@@ -117,9 +117,9 @@
         "parameters": [
           {
             "name": "token",
-            "in" : "formData",
+            "in" : "query",
             "description": "token",
-            "required": true,
+            "required": false,
             "type": "string"
           }
         ],
@@ -133,7 +133,7 @@
       }
     },
     "/getProvince": {
-      "post": {
+      "get": {
         "tags": ["SummaryController"],
         "summary": "get all province",
         "description": "get all province",
@@ -141,9 +141,9 @@
         "parameters": [
           {
             "name": "token",
-            "in" : "formData",
+            "in" : "query",
             "description": "token",
-            "required": true,
+            "required": false,
             "type": "string"
           }
         ],
@@ -212,13 +212,6 @@
             "name": "password",
             "in" : "formData",
             "description": "password",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
             "required": true,
             "type": "string"
           }
@@ -304,13 +297,6 @@
             "description": "imgbase64",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -387,13 +373,6 @@
             "description": "idPortofolio",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -434,13 +413,6 @@
             "type": "string"
           },
           {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "imgbase64",
             "in" : "formData",
             "description": "imgbase64",
@@ -457,23 +429,16 @@
         }
       }
     },
-    "/getPortofolioDetail": {
-      "post": {
+    "/getPortofolioDetail/{id}": {
+      "get": {
         "tags": ["PortofolioController"],
         "summary": "get portofolio detail",
         "description": "get portofolio detail",
         "operationId": "getPortofolioDetail",
         "parameters": [
           {
-            "name": "token",
-            "in" : "formData",
-            "description": "token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "idPortofolio",
-            "in" : "formData",
+            "name": "id",
+            "in" : "path",
             "description": "idPortofolio",
             "required": true,
             "type": "string"
@@ -488,24 +453,17 @@
         }
       }
     },
-    "/getPortofolios": {
-      "post": {
+    "/getPortofolios/{id}": {
+      "get": {
         "tags": ["PortofolioController"],
         "summary": "get all portofolio",
         "description": "get all portofolio from specific user",
         "operationId": "getPortofolios",
         "parameters": [
           {
-            "name": "token",
-            "in" : "formData",
-            "description": "token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in" : "formData",
-            "description": "email",
+            "name": "id",
+            "in" : "path",
+            "description": "id host",
             "required": true,
             "type": "string"
           }
@@ -560,13 +518,6 @@
             "description": "productDesc",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -610,13 +561,6 @@
             "name": "imgbase64",
             "in" : "formData",
             "description": "imgbase64",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
             "required": true,
             "type": "string"
           }
@@ -733,13 +677,6 @@
             "description": "idProduct",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -785,13 +722,6 @@
             "description": "imgbase64",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -803,23 +733,16 @@
         }
       }
     },
-    "/getProductDetail": {
-      "post": {
+    "/getProductDetail/{id}": {
+      "get": {
         "tags": ["ProductController"],
         "summary": "get product detail",
         "description": "get product detail",
         "operationId": "getProductDetail",
         "parameters": [
           {
-            "name": "token",
-            "in" : "formData",
-            "description": "token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "idProduct",
-            "in" : "formData",
+            "name": "id",
+            "in" : "path",
             "description": "idProduct",
             "required": true,
             "type": "string"
@@ -834,25 +757,32 @@
         }
       }
     },
-    "/getProductsEager": {
-      "post": {
-        "deprecated": true,
+    "/getProductsEager/{id}": {
+      "get": {
+        "deprecated": false,
         "tags": ["ProductController"],
         "summary": "get all product with all images",
         "description": "get all product with its images from specified user",
         "operationId": "getProductsEager",
         "parameters": [
           {
-            "name": "token",
-            "in" : "formData",
-            "description": "token",
+            "name": "id",
+            "in" : "path",
+            "description": "id host",
             "required": true,
             "type": "string"
           },
           {
-            "name": "sessionCode",
-            "in" : "formData",
-            "description": "sessionCode",
+            "name": "size",
+            "in" : "query",
+            "description": "size per page",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in" : "query",
+            "description": "page request",
             "required": true,
             "type": "string"
           }
@@ -884,13 +814,6 @@
             "name": "sessionCode",
             "in" : "formData",
             "description": "sessionCode",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
             "required": true,
             "type": "string"
           },
@@ -966,13 +889,6 @@
             "description": "imgbase64",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1002,20 +918,6 @@
             "name": "sessionCode",
             "in" : "formData",
             "description": "sessionCode",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "in" : "formData",
-            "description": "timestamp",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "tipe",
-            "in" : "formData",
-            "description": "tipe",
             "required": true,
             "type": "string"
           },
@@ -1050,7 +952,7 @@
         }
       }
     },
-    "/getAccount/{email}": {
+    "/getAccount/{id}": {
       "get": {
         "tags": ["ProfileController"],
         "summary": "get user account info",
@@ -1058,16 +960,9 @@
         "operationId": "getAccount",
         "parameters": [
           {
-            "name": "token",
-            "in" : "query",
-            "description": "token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "email",
+            "name": "id",
             "in" : "path",
-            "description": "email",
+            "description": "id host",
             "required": true,
             "type": "string"
           }
@@ -1081,7 +976,7 @@
         }
       }
     },
-    "/getProfile/{email}": {
+    "/getProfile/{id}": {
       "get": {
         "tags": ["ProfileController"],
         "summary": "get user profile info",
@@ -1089,16 +984,9 @@
         "operationId": "getProfile",
         "parameters": [
           {
-            "name": "token",
-            "in" : "query",
-            "description": "token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "email",
+            "name": "id",
             "in" : "path",
-            "description": "email",
+            "description": "id",
             "required": true,
             "type": "string"
           }
@@ -1811,6 +1699,7 @@
         },
         "content": {
           "example": {
+            "email":"",
             "company_name": "",
             "about": "",
             "handphone": "",

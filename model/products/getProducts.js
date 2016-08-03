@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 //TESTED 27 FEBRUARI 2016
+// NOT USED
 function getProducts(router,connection){
   var self=this;
   self.handleRoutes(router,connection);

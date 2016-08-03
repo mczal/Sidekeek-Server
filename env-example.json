@@ -2,11 +2,13 @@
   "development": {
     "server_port": "3000",
     "base_url_server_path": "http://localhost/Sidekeek-Server/",
-    "base_url_client_path": "http://localhost/Sidekeek-Client/"
+    "base_url_client_path": "http://localhost/Sidekeek-Client/",
+    "cs_email": "fahrizalseptrianto@gmail.com"
  },
  "production": {
    "server_port": "3000",
    "base_url_server_path": "http://localhost/Sidekeek-Server/",
-   "base_url_client_path": "http://localhost/Sidekeek-Client/"
+   "base_url_client_path": "http://localhost/Sidekeek-Client/",
+   "cs_email": "fahrizalseptrianto@gmail.com"
  }
 }

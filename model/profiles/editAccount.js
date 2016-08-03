@@ -10,7 +10,6 @@ var self=this;
 editAccount.prototype.handleRoutes = function(router,connection,fs){
   router.post('/editAccount',function(req,res){
     var sessionCode = req.body.sessionCode;
-    var timestamp = req.body.timestamp;
     if(sessionCode == null || sessionCode == undefined || sessionCode == ''){
       res.json({"message":"err.. no params received"});
     }else{

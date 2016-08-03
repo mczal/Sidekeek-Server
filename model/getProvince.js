@@ -6,7 +6,7 @@ function getProvince(router,connection){
 }
 
 getProvince.prototype.handleRoutes = function(router,connection){
-  router.post("/getProvince",function(req,res){
+  router.get("/getProvince",function(req,res){
     connection.query("select id_province,province_name from `province` order by province_name asc",function(err,rows){
       if(err){
         res.json({"message":"err.. error in selecting province"});
