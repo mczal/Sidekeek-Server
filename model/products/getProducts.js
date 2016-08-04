@@ -9,24 +9,24 @@ function getProducts(router,connection){
 var self=this;
 
 getProducts.prototype.handleRoutes = function(router,connection){
-  router.post('/getProducts',function(req,res){
-    var email = req.body.email;
-    if(email==null || email==undefined || email==''){
+  router.get('/getProducts/:id',function(req,res){
+    var idHost = req.params.id;
+    if(idHost==null || idHost==undefined || idHost==''){
       res.json({"message":"err.. no params received","error":"error","content":null});
     }else{
-      connection.query("select id_host from `host` where statusz=1 and email='"+email+"'",function(err,rows){
+      connection.query("select id_host from `host` where statusz=1 and id_host="+idHost+"",function(err,rows){
         if(err){
           res.json({"message":"err.. error in selecting host from email given","error":"error","content":null});
         }else{
           if(rows.length>0){
-            var idHost = rows[0].id_host;
+            // var idHost = rows[0].id_host;
             var query = "select id_product,product_name,product_desc,price from `product` where id_host="+idHost;
             connection.query(query,function(err,rows){
               if(err){
                 res.json({"message":"err.. error in selecting product with given host","query":query,"error":"error","content":null});
               }else{
                 if(rows.length>0){
-                  res.json({"message":"success get all products from #"+email,"error":"success","content":rows});
+                  res.json({"message":"success get all products from #"+idHost,"error":"success","content":rows});
                 }else{
                   res.json({"message":"err.. no rows in product with given host","error":"error","content":null});
                 }

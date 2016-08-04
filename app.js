@@ -64,6 +64,7 @@ var testingBase64Model = require("./model/testingBase64.js");
 // console.log(process.env.NODE_ENV);
 var common = require("./routes/common.js");
 var config = common.config();
+if(!process.env.NODE_ENV) throw new Error("undefined mode");
 // console.log(config.base_url_path);
 
 var app = express();
