@@ -1540,9 +1540,111 @@
           }
         }
       }
+    },
+    "/addHostReview": {
+      "post": {
+        "tags": ["ProfileController"],
+        "summary": "add Host Review",
+        "description": "add Host Review",
+        "operationId": "addHostReview",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "formData",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sessionCode",
+            "in" : "formData",
+            "description": "sessionCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "score",
+            "in" : "formData",
+            "description": "score",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idHost",
+            "in" : "formData",
+            "description": "idHost",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "comment",
+            "in" : "formData",
+            "description": "comment",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in" : "formData",
+            "description": "name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/post-simple"
+            }
+          }
+        }
+      }
+    },
+    "/getHostReview/{id}": {
+      "get": {
+        "tags": ["ProfileController"],
+        "summary": "getHostReview",
+        "description": "getHostReview",
+        "operationId": "getHostReview",
+        "parameters": [
+          {
+            "name": "id",
+            "in" : "path",
+            "description": "idHost",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref" : "#/definitions/getHostReview"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "getHostReview": {
+      "properties": {
+        "message": {
+          "example": ""
+        },
+        "error": {
+          "example": ""
+        },
+        "content": {
+          "example": {
+            "id": "",
+            "id_host": "",
+            "name": "",
+            "rate": "",
+            "comment": ""
+          }
+        }
+      }
+    },
     "post-simple": {
       "properties": {
         "message": {

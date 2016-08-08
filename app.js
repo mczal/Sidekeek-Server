@@ -26,6 +26,8 @@ var getAccountModel = require("./model/profiles/getAccount.js");
 var editAccountPicModel = require("./model/profiles/editAccountPic.js");
 var requestChangePasswordModel = require("./model/profiles/requestChangePassword.js");
 var confirmChangePasswordModel = require("./model/profiles/confirmChangePassword.js");
+var addHostReviewModel = require("./model/profiles/addHostReview.js");
+var getHostReviewModel = require("./model/profiles/getHostReview.js");
 
 var searchTemplateModel = require("./model/search/search-template.js");
 var searchModel = require("./model/search/search.js");
@@ -209,6 +211,7 @@ connect.prototype.configureExpress = function(connection) {
 
 				var getProfile = new getProfileModel(router,connection);
 				var getAccount = new getAccountModel(router,connection);
+				var getHostReview = new getHostReviewModel(router,connection);
 
 				var getPortofolioDetail = new getPortofolioDetailModel(router,connection);
 				var getPortofolios = new getPortofoliosModel(router,connection);
@@ -268,6 +271,7 @@ connect.prototype.configureExpress = function(connection) {
 			var editAccount = new editAccountModel(router,connection,fs);
 			var editAccountPic = new editAccountPicModel(router,connection,config);
 			var resendMailConfirmationCode = new resendMailConfirmationCodeModel(router,connection,sendgrid,config);
+			var addHostReview = new addHostReviewModel(router,connection);
 
 			var getIP = new getIPModel(router,connection);
 			var login = new loginModel(router,connection,md5);
