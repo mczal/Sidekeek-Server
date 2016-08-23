@@ -158,7 +158,7 @@ connect.prototype.configureExpress = function(connection) {
 
                  // return the information including token as JSON
                  res.json({
-                   success: true,
+                   error: "success",
                    message: 'Enjoy your token!',
                    token: token,
 									 status: 'guest'
@@ -166,7 +166,7 @@ connect.prototype.configureExpress = function(connection) {
 					}else{
 						connection.query("select id_host,email,password from `host` where email='"+emailAuth+"'",function(err,rows){
 							if(err){
-								return res.json({ success: false, message: 'error get user' });
+								return res.json({ error: "error", message: 'error get user' });
 							}else{
 								if(rows.length>0){
 									if(rows[0].password == md5(passwordAuth)){
@@ -183,16 +183,16 @@ connect.prototype.configureExpress = function(connection) {
 
 	                  // return the information including token as JSON
 	                  res.json({
-	                    success: true,
+	                    error: "success",
 	                    message: 'Enjoy your token!',
 	                    token: token,
 											status: 'user'
 	                  });
 									}else{
-										return res.json({ success: false, message: 'Failed to authenticate user.' });
+										return res.json({ error: "error", message: 'Failed to authenticate user.' });
 									}
 								}else{
-									res.json({success: false, message:"Failed to find user"});
+									res.json({error: "error", message:"Failed to find user"});
 								}
 							}
 						});
@@ -237,7 +237,7 @@ connect.prototype.configureExpress = function(connection) {
             // verifies secret and checks exp
             jwt.verify(token, app.get('superSecret'), function(err, decoded) {
               if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
+                return res.json({ error: "error", message: 'Failed to authenticate token.' });
               } else {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
@@ -250,7 +250,7 @@ connect.prototype.configureExpress = function(connection) {
             // if there is no token
             // return an error
             return res.status(403).send({
-                success: false,
+                error: "error",
                 message: 'No token provided.'
             });
 
