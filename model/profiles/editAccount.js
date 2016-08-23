@@ -123,7 +123,7 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
               }
             }
           }else{
-            res.json({"message":"err.. no rows","query":query});
+            res.json({"message":"err.. no rows","query":query,"error":"invalidSession"});
           }
         }
       });

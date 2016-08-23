@@ -77,7 +77,7 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
                 }
               });
             }else{
-              res.json({"message":"err.. no rows on session"});
+              res.json({"message":"err.. no rows on session","error":"invalidSession"});
             }
           }
         });

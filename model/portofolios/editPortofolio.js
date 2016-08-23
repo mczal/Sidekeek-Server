@@ -102,7 +102,7 @@ editPortofolio.prototype.handleRoutes = function(router,connection){
                 }
               });
             }else{
-              res.json({"message":"err.. no session registered"});
+              res.json({"message":"err.. no session registered","error":"invalidSession"});
             }
           }
         });

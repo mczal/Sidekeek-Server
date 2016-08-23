@@ -280,7 +280,7 @@ connect.prototype.configureExpress = function(connection) {
 
 			var addNewProductDesc = new addNewProductDescModel(router,connection);
 			var addProductImage = new addProductImageModel(router,connection,config);
-			var confirmation = new confirmationModel(router,connection);
+			var confirmation = new confirmationModel(router,connection,jwt,app);
 			var editProductImage = new editProductImageModel(router,connection,config);
 			// var editProfileFull = new editProfileFullModel(router,connection);
 

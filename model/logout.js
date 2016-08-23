@@ -9,11 +9,11 @@ logout.prototype.handleRoutes = function(router,connection){
   router.post("/logout",function(req,res){
     var sessionCode=req.body.sessionCode;
     if(sessionCode==null || sessionCode==undefined || sessionCode==""){
-      res.json({"message":"err.. no params code receive"});
+      res.json({"message":"err.. no params code receive","error":"error"});
     }else{
       connection.query("select id_session from `session_host` where session_code='"+sessionCode+"'",function(err,rows){
           if(err){
-            res.json({"message":"err.. error in selecting id_session"});
+            res.json({"message":"err.. error in selecting id_session","error":"error"});
           }else{
             if(rows.length>0){
               var idSession = rows[0].id_session;
@@ -25,7 +25,7 @@ logout.prototype.handleRoutes = function(router,connection){
                 }
               });
             }else{
-              res.json({"message":"--there's no session registered with given code"});
+              res.json({"message":"--there's no session registered with given code","error":"invalidSession"});
             }
           }
       });

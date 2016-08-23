@@ -81,7 +81,7 @@ addNewProductDesc.prototype.handleRoutes = function(router,connection){
                       }
                     });
                   }else{
-                    res.json({"message":"err.. no rows on session","error":"error"});
+                    res.json({"message":"err.. no rows on session","error":"invalidSession"});
                   }
                 }
             });

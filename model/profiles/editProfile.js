@@ -46,7 +46,7 @@ editProfile.prototype.handleRoutes = function(router,connection){
                   }
                 });
               }else{
-                res.json({"message":"err.. no rows on host with given session"});
+                res.json({"message":"err.. no rows on host with given session","error":"invalidSession"});
               }
             }
           });

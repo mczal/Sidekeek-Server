@@ -120,10 +120,10 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection,config){
                   }
                 });
               }else{
-                res.json({"message":"err.. no rows in session","error":"error"});
+                res.json({"message":"err.. no rows in session","error":"invalidSession"});
               }
             }
-          });            
+          });
         }
       }
     }

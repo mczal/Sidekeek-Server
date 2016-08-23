@@ -86,7 +86,7 @@ editProductImage.prototype.handleRoutes = function(router,connection,config){
                   }
                 });
               }else{
-                res.json({"message":"err.. no rows on s_c","error":"error"});
+                res.json({"message":"err.. no rows on s_c","error":"invalidSession"});
               }
             }
           });

@@ -58,7 +58,7 @@ support.prototype.handleRoutes = function(router,connection,sendgrid,config){
                     });
                   });
                 }else{
-                  res.status(401).json({"message":"err.. no rows on session"});
+                  res.status(401).json({"message":"err.. no rows on session","error":"invalidSession"});
                 }
               }
             });

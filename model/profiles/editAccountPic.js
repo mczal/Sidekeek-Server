@@ -85,7 +85,7 @@ editAccountPic.prototype.handleRoutes = function(router,connection,config){
               });
               //END OF IMGBASE64
             }else{
-              res.json({"message":"err.. error no rows on session"});
+              res.json({"message":"err.. error no rows on session","error":"invalidSession"});
             }
           }
         });

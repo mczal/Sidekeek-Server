@@ -118,7 +118,7 @@ addProductImage.prototype.handleRoutes = function(router,connection,config){
                           }
                         });
                       }else{
-                        res.json({"message":"err... no rows","error":"error"});
+                        res.json({"message":"err... no rows","error":"invalidSession"});
                       }
                     }
                   });
