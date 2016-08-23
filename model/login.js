@@ -56,7 +56,7 @@ login.prototype.handleRoutes = function(router,connection,md5){
                           if(err){
                             res.json({"message":"err.. error on updating session host","query":query});
                           }else{
-                              res.json({"message":"success updating session code, go on","session":sessionCode});
+                              res.json({"message":"success updating session code, go on","session":sessionCode,"idHost":idHost});
                           }
                         });
                       }else{
@@ -70,7 +70,7 @@ login.prototype.handleRoutes = function(router,connection,md5){
                           if(err){
                             res.json({"message":"err.. error create new session","query":query});
                           }else{
-                            res.json({"message":"success create new session, go on","session":sessionCode});
+                            res.json({"message":"success create new session, go on","session":sessionCode,"idHost":idHost});
                           }
                         });
                       }
