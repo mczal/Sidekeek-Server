@@ -237,7 +237,7 @@ connect.prototype.configureExpress = function(connection) {
             // verifies secret and checks exp
             jwt.verify(token, app.get('superSecret'), function(err, decoded) {
               if (err) {
-                return res.json({ error: "error", message: 'Failed to authenticate token.' });
+                return res.status(403).json({ error: "error", message: 'Failed to authenticate token.' });
               } else {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
