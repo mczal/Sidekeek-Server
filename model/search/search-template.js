@@ -17,6 +17,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
     var info =req.query.info;
     // console.log("%real request keyword"+req.body.keywords+"%");
     // var whereClause = "WHERE 1=1";
+    console.log(keywords);
     if(query == null || query == undefined){
       res.json({"message":"err.. error no query","error":"error","query":"%"+query+"%"});
     }else{
@@ -69,7 +70,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
                                 "keywordsBuilder":keywordsBuilder,"keywords":keywords});
                     }
                   }else{
-                    var query_builder = "SELECT 'product' as identifier, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
+                    var query_builder = "SELECT 'product' as identifier, host.id_host, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
                     "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
                     "product.product_desc,host.company_desc,"+
                     "MATCH(product.product_name,product.product_desc) "+
@@ -145,7 +146,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
                 }
               });
             }else{
-              var query_builder = "SELECT 'product' as identifier, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
+              var query_builder = "SELECT 'product' as identifier, host.id_host, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
               "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
               "product.product_desc,host.company_desc,"+
               "MATCH(product.product_name,product.product_desc) "+
@@ -272,7 +273,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
                                 "keywordsBuilder":keywordsBuilder,"keywords":keywords});
                     }
                   }else{
-                    var query_builder = "SELECT 'product' as identifier, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
+                    var query_builder = "SELECT 'product' as identifier, host.id_host, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
                     "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
                     "product.product_desc,host.company_desc,"+
                     "MATCH(product.product_name,product.product_desc) "+
@@ -348,7 +349,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
                 }
               });
             }else{
-              var query_builder = "SELECT 'product' as identifier, host.company_name, host.title, host.img_base64,"+
+              var query_builder = "SELECT 'product' as identifier, host.id_host, host.company_name, host.title, host.img_base64,"+
               "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
               "product.product_desc,host.company_desc,"+
               "MATCH(product.product_name,product.product_desc) "+
