@@ -1898,7 +1898,7 @@
             "product_name": "",
             "product_desc": "",
             "price": "",
-            "images": "img1;img2;img3;.."
+            "images": "id1,img1;id2,img2;id3,img3;.."
           }
         }
       }
