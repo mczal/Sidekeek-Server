@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2016 at 07:33 PM
+-- Generation Time: Sep 18, 2016 at 11:48 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -36,20 +36,17 @@ CREATE TABLE IF NOT EXISTS `bussiness_category` (
 --
 
 INSERT INTO `bussiness_category` (`id_cat`, `category_name`) VALUES
-(1, 'Pakaian'),
-(2, 'Marketing'),
-(3, 'Architecture'),
-(4, 'Crafts'),
-(5, 'Multimedia Design'),
-(6, 'Apparel & Accessories'),
-(7, 'Textile & Leather'),
-(8, 'Cinematography & Photography'),
-(9, 'Interactive Games'),
-(10, 'Music & Entertainment'),
-(11, 'Printing'),
-(12, 'IT & Computers'),
-(13, 'Food & Beverage'),
-(14, 'Furniture');
+(1, 'Apparel'),
+(2, 'Architecture'),
+(3, 'Crafts'),
+(4, 'Entertainment'),
+(5, 'Event'),
+(6, 'Food & Beverage'),
+(7, 'IT'),
+(8, 'Marketing'),
+(9, 'Merchandise'),
+(10, 'Multimedia Design'),
+(11, 'Printing');
 
 -- --------------------------------------------------------
 
@@ -68,8 +65,7 @@ CREATE TABLE IF NOT EXISTS `city` (
 --
 
 INSERT INTO `city` (`id_city`, `city_name`, `province`) VALUES
-(1, 'Bandung', 1),
-(2, 'Surabaya', 3);
+(1, 'Bandung', 1);
 
 -- --------------------------------------------------------
 
@@ -102,19 +98,6 @@ CREATE TABLE IF NOT EXISTS `gallery_product` (
   `isRepresentation` tinyint(1) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `gallery_product`
---
-
-INSERT INTO `gallery_product` (`id`, `img_base64`, `id_product`, `isRepresentation`) VALUES
-(10, 'http://localhost:undefined/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/products/product7/product7_UwU9S.jpeg', 7, 1),
-(16, 'http://localhost:undefined/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/products/product7/product7_BA~3U.png', 7, 0),
-(17, 'http://localhost:undefined/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/products/product8/product8_SAKn0.jpeg', 8, 1),
-(18, 'http://localhost:undefined/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/products/product9/product9_I0mSU.jpeg', 9, 1),
-(19, 'http://localhost:undefined/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/products/product10/product10_mkT67.jpeg', 10, 1),
-(20, 'http://localhost:undefined/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/products/product11/product11_0@m9l.jpeg', 11, 1),
-(21, 'http://localhost:undefined/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/products/product12/product12_ISKB~.jpeg', 12, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -141,15 +124,7 @@ CREATE TABLE IF NOT EXISTS `host` (
   `region` int(11) DEFAULT NULL,
   `sumrate_totalreview` varchar(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `host`
---
-
-INSERT INTO `host` (`id_host`, `email`, `password`, `handphone`, `company_name`, `company_desc`, `img_base64`, `category`, `tagline`, `about`, `location`, `address`, `title`, `id_tipe`, `statusz`, `unique_code`, `region`, `sumrate_totalreview`, `created_at`) VALUES
-(13, 'fahrizalseptrianto@gmail.com', '2766e8973102efc6e849454b20fa845b', '0856', 'myName product produk', 'updt My Titel', 'http://localhost:8080/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/accountPicture.jpeg', 1, NULL, 'about', 1, 'jalan jawa', 'updt my Title', 1, 1, 'done', NULL, '12_3', '2016-07-28 07:50:08'),
-(18, 'ijalcavaliers@yahoo.co.id', '2766e8973102efc6e849454b20fa845b', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'done', NULL, '', '2016-07-30 17:52:43');
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -204,14 +179,6 @@ CREATE TABLE IF NOT EXISTS `portofolio` (
   `img_base64` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `portofolio`
---
-
-INSERT INTO `portofolio` (`id_portofolio`, `id_host`, `title`, `description`, `img_base64`) VALUES
-(1, 13, 'My new Portof', 'My new description Portof', 'http://localhost:undefined/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/portofolios/portofolio1.jpeg'),
-(3, 13, 'Pernah Ke Istana Presiden 2x', 'Saya pernah kesana 2x dalam mimpi', 'http://localhost/Sidekeek-Server/assets/img/fahrizalseptrianto@gmail.com/portofolios/portofolio3.jpeg');
-
 -- --------------------------------------------------------
 
 --
@@ -226,19 +193,6 @@ CREATE TABLE IF NOT EXISTS `product` (
   `price` int(11) NOT NULL,
   `unique_code` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `product`
---
-
-INSERT INTO `product` (`id_product`, `id_host`, `product_name`, `product_desc`, `price`, `unique_code`) VALUES
-(6, 18, 'laris da produk produksz', 'ini adalah produk dolor prod mana', 50000, NULL),
-(7, 13, 'semoga lah laris produksz', 'siapa produ prodok produkzs', 50000, NULL),
-(8, 13, 'prod produk produksz', 'nakereba produk masen ka prodzak apa sih ini', 100000, NULL),
-(9, 13, 'produkhjak prod prodku kakak', 'ini adalah product description ijal ijalnya ijal', 100000, NULL),
-(10, 13, 'ijal produk 2 punya ijalcavali', 'mdafaka produk pokoke maknyos lah sikat miring prod kaka', 100000, NULL),
-(11, 13, 'ijal produk 2 punya ijalcavali', 'ini adalah product description ijal ijalnya ijal', 100000, NULL),
-(12, 13, 'naah ini produk ganteng prod', 'ini adalah product description ijal ijalnya ijal', 100000, NULL);
 
 -- --------------------------------------------------------
 
@@ -256,9 +210,7 @@ CREATE TABLE IF NOT EXISTS `province` (
 --
 
 INSERT INTO `province` (`id_province`, `province_name`) VALUES
-(1, 'Jawa Barat'),
-(2, 'Jawa Tengah'),
-(3, 'Jawa Timur');
+(1, 'Jawa Barat');
 
 -- --------------------------------------------------------
 
@@ -274,15 +226,6 @@ CREATE TABLE IF NOT EXISTS `review_host` (
   `comment` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `review_host`
---
-
-INSERT INTO `review_host` (`id`, `id_host`, `name`, `rate`, `comment`) VALUES
-(1, 13, 'Ijzal', 3, 'Aduh agak jelek ey'),
-(2, 13, 'Jalizks', 4, 'Lumayan laah sabi sabi'),
-(13, 13, 'Wansan', 5, 'comenasai desune!');
-
 -- --------------------------------------------------------
 
 --
@@ -295,15 +238,7 @@ CREATE TABLE IF NOT EXISTS `session_host` (
   `session_code` varchar(100) NOT NULL,
   `signed_in_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_activity` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `session_host`
---
-
-INSERT INTO `session_host` (`id_session`, `id_host`, `session_code`, `signed_in_at`, `last_activity`) VALUES
-(1, 13, 'XjoLQBUFRc', '2016-07-28 05:40:01', '2016-08-03 15:04:27'),
-(4, 18, 'pxnVbmNo9q', '2016-07-30 17:53:32', '2016-07-30 18:24:13');
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -423,7 +358,7 @@ ALTER TABLE `gallery_product`
 -- AUTO_INCREMENT for table `host`
 --
 ALTER TABLE `host`
-  MODIFY `id_host` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+  MODIFY `id_host` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `host_temp`
 --
@@ -458,7 +393,7 @@ ALTER TABLE `review_host`
 -- AUTO_INCREMENT for table `session_host`
 --
 ALTER TABLE `session_host`
-  MODIFY `id_session` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id_session` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `tipe`
 --
