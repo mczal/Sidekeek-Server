@@ -65,7 +65,7 @@ confirmation.prototype.handleRoutes = function(router,connection,jwt,app){
           										}, app.get('superSecret'), {
           	                    expiresInMinutes: 1440 // expires in 24 hours
           	                  });
-                              res.json({"message":"your account has been confirmed, success updating session code, go on","error":"success","session":sessionCode,"token":token,"email":email});
+                              res.json({"message":"your account has been confirmed, success updating session code, go on","error":"success","session":sessionCode,"token":token,"email":email,"idHost":idHost});
                             }
                           });
                         }
@@ -94,7 +94,7 @@ confirmation.prototype.handleRoutes = function(router,connection,jwt,app){
           										}, app.get('superSecret'), {
           	                    expiresInMinutes: 1440 // expires in 24 hours
           	                  });
-                              res.json({"message":"your account has been confirmed, success create new session, go on","session":sessionCode,"token":token,"email":email});
+                              res.json({"message":"your account has been confirmed, success create new session, go on","session":sessionCode,"token":token,"email":email,"idHost":idHost});
                             }
                           });
                         }

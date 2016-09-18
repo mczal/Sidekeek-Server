@@ -41,45 +41,58 @@ addNewProductDesc.prototype.handleRoutes = function(router,connection){
                 }else{
                   if(rows.length>0){
                     var idHost = rows[0].id_host;
-                    var codeUnique = generateUniqueCode();
-                    var qDel = "insert into `product` (id_host,product_name,product_desc,price,unique_code) values("+idHost+",'"+namaProduk+"','"+productDesc+"',"+harga+",'"+codeUnique+"')";
-                    connection.query(qDel,function(err,rows){
+                    // HERE MAX PRODUCT 6 BIJI
+                    var qMax = "select count(id_product) as count from `product` where id_host="+idHost;
+                    connection.query(qMax,function(err,rows){
                       if(err){
-                        res.json({"message":"err.. error inserting product","idProduct":null,"error":"error","q":qDel});
+                        res.json({"error":"error","message":"err.. error on count product","idProduct":null});
                       }else{
-                        connection.query("select id_product from `product` where unique_code='"+codeUnique+"'",function(err,rows){
-                          if(err){
-                            res.json({"message":"err.. error in selecting idProduct","idProduct":null,"error":"error"});
-                          }else{
-                            if(rows.length>0){
-                              var idProduct = rows[0].id_product;
-                              connection.query("update `product` set unique_code=null where id_product="+idProduct , function(err,rows){
+                        var count = rows[0].count;
+                        if(count < 6){
+                          var codeUnique = generateUniqueCode();
+                          var qDel = "insert into `product` (id_host,product_name,product_desc,price,unique_code) values("+idHost+",'"+namaProduk+"','"+productDesc+"',"+harga+",'"+codeUnique+"')";
+                          connection.query(qDel,function(err,rows){
+                            if(err){
+                              res.json({"message":"err.. error inserting product","idProduct":null,"error":"error","q":qDel});
+                            }else{
+                              connection.query("select id_product from `product` where unique_code='"+codeUnique+"'",function(err,rows){
                                 if(err){
-                                  res.json({"message":"err.. error in update code to null","idProduct":null,"error":"error"});
+                                  res.json({"message":"err.. error in selecting idProduct","idProduct":null,"error":"error"});
                                 }else{
-                                  //updating timestamp on session_host
-                                  var myDate = new Date();
-                                  var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
-                                  "-"+myDate.getDate()+" "+myDate.getHours()+
-                                  ":"+myDate.getMinutes()+":"+myDate.getSeconds();
-                                  // console.log(myTimestamp+" "+sessionCode);
-                                  var qUpdt="update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'";
-                                  connection.query(qUpdt,function(err,rows){
-                                    if(err){
-                                      res.json({"message":"err.. error on updating session","idProduct":null,"error":"error"})
-                                    }else{
-                                      res.json({"message":"Success bro congrats","idProduct":idProduct,"error":"success","q":qUpdt});
-                                    }
-                                  });
+                                  if(rows.length>0){
+                                    var idProduct = rows[0].id_product;
+                                    connection.query("update `product` set unique_code=null where id_product="+idProduct , function(err,rows){
+                                      if(err){
+                                        res.json({"message":"err.. error in update code to null","idProduct":null,"error":"error"});
+                                      }else{
+                                        //updating timestamp on session_host
+                                        var myDate = new Date();
+                                        var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                                        "-"+myDate.getDate()+" "+myDate.getHours()+
+                                        ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                                        // console.log(myTimestamp+" "+sessionCode);
+                                        var qUpdt="update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'";
+                                        connection.query(qUpdt,function(err,rows){
+                                          if(err){
+                                            res.json({"message":"err.. error on updating session","idProduct":null,"error":"error"})
+                                          }else{
+                                            res.json({"message":"Success bro congrats","idProduct":idProduct,"error":"success","q":qUpdt});
+                                          }
+                                        });
+                                      }
+                                    });
+                                  }else{
+                                    res.json({"message":"err.. error no rows in prodcut with given code","idProduct":null,"error":"error"});
+                                  }
                                 }
                               });
-                            }else{
-                              res.json({"message":"err.. error no rows in prodcut with given code","idProduct":null,"error":"error"});
                             }
-                          }
-                        });
+                          });
+                        }else{
+                          res.json({"error":"error","message":"maximum limit product exceeded","idProduct":null,"sign":6});
+                        }
                       }
-                    });
+                    })
                   }else{
                     res.json({"message":"err.. no rows on session","error":"invalidSession"});
                   }
