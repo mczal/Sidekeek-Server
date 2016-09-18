@@ -20,7 +20,7 @@ getAccount.prototype.handleRoutes = function(router,connection){
           res.json({"message":"err.. error on selecting","error":"error","content":null});
         }else{
           if(rows.length>0){
-            res.json(rows);
+            res.json({"message":"success get account info #"+idHost,"error":"success","content":rows});
           }else{
             connection.query("select email,company_name,about,handphone,location,address,img_base64 from `host` where id_host = "+idHost+"",function(err,rows){
               if(err){

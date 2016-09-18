@@ -188,7 +188,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
             			opCheck++;
             		}
             		checker++;
-            		keywordsBuilder+="(";
+            		keywordsBuilder+="("; 
             		for(var i=0 ; i<keywords.category.length ; i++){
             			if(i>0){
             				keywordsBuilder+=" OR "
