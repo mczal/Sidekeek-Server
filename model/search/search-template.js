@@ -17,7 +17,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
     var info =req.query.info;
     // console.log("%real request keyword"+req.body.keywords+"%");
     // var whereClause = "WHERE 1=1";
-    console.log(keywords);
+    // console.log(keywords);
     if(query == null || query == undefined){
       res.json({"message":"err.. error no query","error":"error","query":"%"+query+"%"});
     }else{
@@ -70,14 +70,22 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
                                 "keywordsBuilder":keywordsBuilder,"keywords":keywords});
                     }
                   }else{
+                    // PRODUCT NIL : HANDLER
+
+                    // WHERE CLAUSE ELIMINATED Oct 3 16 [(gallery_product.isRepresentation=1) AND]
+                    // JOIN CLAUSE ELIMINATED Oct 3 16 [join `gallery_product` on gallery_product.id_product=product.id_product]
+                    // SELECT CLAUSE CHANGE TO Oct 3 16 [product.img_rep as product_img_rep]
+
+                    // NUMBER HANDLER
+                    // HAVING CLAUSE ADDED Oct 3 16 [OR product.product_name LIKE '%"+wordBuilder.trim().substring(0,wordBuilder.length-2)+"%']
                     var query_builder = "SELECT 'product' as identifier, host.id_host, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
-                    "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
+                    "product.id_product, product.product_name, product.img_rep as product_img_rep, "+
                     "product.product_desc,host.company_desc,"+
                     "MATCH(product.product_name,product.product_desc) "+
                     "AGAINST ('"+wordBuilder.trim()+"' IN BOOLEAN MODE) as pscore "+
-                    "from `product` join `host` on host.id_host=product.id_host join `gallery_product` on gallery_product.id_product=product.id_product "+
-                    "WHERE (gallery_product.isRepresentation=1) AND (host.statusz=1) AND (host.id_tipe IS NOT NULL) "+
-                    "HAVING pscore > 0 order by pscore DESC;"
+                    "from `product` join `host` on host.id_host=product.id_host "+
+                    "WHERE  (host.statusz=1) AND (host.id_tipe IS NOT NULL) "+
+                    "HAVING pscore > 0 OR product.product_name LIKE '%"+wordBuilder.trim().substring(0,wordBuilder.length-2)+"%' order by pscore DESC;"
                     connection.query(query_builder,function(err,rowsProduct){
                       if(err){
                         res.json({"message":"err.. error searching querify host","error":err,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
@@ -146,14 +154,21 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
                 }
               });
             }else{
+              // PRODUCT NIL : HANDLER
+
+              // WHERE CLAUSE ELIMINATED Oct 3 16 [(gallery_product.isRepresentation=1) AND]
+              // JOIN CLAUSE ELIMINATED Oct 3 16 [join `gallery_product` on gallery_product.id_product=product.id_product]
+              // SELECT CLAUSE CHANGE TO Oct 3 16 [product.img_rep as product_img_rep]
+
+              // HAVING CLAUSE ADDED Oct 3 16 [OR product.product_name LIKE '%"+wordBuilder.trim().substring(0,wordBuilder.length-2)+"%']
               var query_builder = "SELECT 'product' as identifier, host.id_host, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
-              "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
+              "product.id_product, product.product_name, product.img_rep as product_img_rep, "+
               "product.product_desc,host.company_desc,"+
               "MATCH(product.product_name,product.product_desc) "+
               "AGAINST ('"+wordBuilder.trim()+"' IN BOOLEAN MODE) as pscore "+
-              "from `product` join `host` on host.id_host=product.id_host join `gallery_product` on gallery_product.id_product=product.id_product "+
-              "WHERE (gallery_product.isRepresentation=1) AND (host.statusz=1) AND (host.id_tipe IS NOT NULL) "+
-              "HAVING pscore > 0 order by pscore DESC;"
+              "from `product` join `host` on host.id_host=product.id_host "+
+              "WHERE (host.statusz=1) AND (host.id_tipe IS NOT NULL) "+
+              "HAVING pscore > 0 OR product.product_name LIKE '%"+wordBuilder.trim().substring(0,wordBuilder.length-2)+"%' order by pscore DESC;"
               connection.query(query_builder,function(err,rowsProduct){
                 if(err){
                   res.json({"message":"err.. error searching querify host","error":err,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
@@ -189,7 +204,7 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
             			opCheck++;
             		}
             		checker++;
-            		keywordsBuilder+="("; 
+            		keywordsBuilder+="(";
             		for(var i=0 ; i<keywords.category.length ; i++){
             			if(i>0){
             				keywordsBuilder+=" OR "
@@ -273,13 +288,20 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
                                 "keywordsBuilder":keywordsBuilder,"keywords":keywords});
                     }
                   }else{
+                    // PRODUCT NIL : HANDLER
+
+                    // WHERE CLAUSE ELIMINATED Oct 3 16 [(gallery_product.isRepresentation=1) AND]
+                    // JOIN CLAUSE ELIMINATED Oct 3 16 [join `gallery_product` on gallery_product.id_product=product.id_product]
+                    // SELECT CLAUSE CHANGE TO Oct 3 16 [product.img_rep as product_img_rep]
+
+                    // HAVING CLAUSE ADDED Oct 3 16 [OR product.product_name LIKE '%"+wordBuilder.trim().substring(0,wordBuilder.length-2)+"%']
                     var query_builder = "SELECT 'product' as identifier, host.id_host, host.company_name, host.title, host.img_base64, host.sumrate_totalreview, "+
-                    "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
+                    "product.id_product, product.product_name, product.img_rep as product_img_rep, "+
                     "product.product_desc,host.company_desc,"+
                     "MATCH(product.product_name,product.product_desc) "+
                     "AGAINST ('"+wordBuilder.trim()+"' IN BOOLEAN MODE) as pscore "+
-                    "from `product` join `host` on host.id_host=product.id_host join `gallery_product` on gallery_product.id_product=product.id_product "+
-                    "WHERE (gallery_product.isRepresentation=1) AND (host.id_tipe IS NOT NULL) AND (host.statusz=1) AND "+keywordsBuilder+" HAVING pscore > 0 order by pscore DESC;"
+                    "from `product` join `host` on host.id_host=product.id_host "+
+                    "WHERE (host.id_tipe IS NOT NULL) AND (host.statusz=1) AND "+keywordsBuilder+" HAVING pscore > 0 OR product.product_name LIKE '%"+wordBuilder.trim().substring(0,wordBuilder.length-2)+"%' order by pscore DESC;"
                     connection.query(query_builder,function(err,rowsProduct){
                       if(err){
                         res.json({"message":"err.. error searching querify product","error":err,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});
@@ -349,13 +371,20 @@ searchTemplate.prototype.handleRoutes = function(router,connection){
                 }
               });
             }else{
+              // PRODUCT NIL : HANDLER
+
+              // WHERE CLAUSE ELIMINATED Oct 3 16 [(gallery_product.isRepresentation=1) AND]
+              // JOIN CLAUSE ELIMINATED Oct 3 16 [join `gallery_product` on gallery_product.id_product=product.id_product]
+              // SELECT CLAUSE CHANGE TO Oct 3 16 [product.img_rep as product_img_rep]
+
+              // HAVING CLAUSE ADDED Oct 3 16 [OR product.product_name LIKE '%"+wordBuilder.trim().substring(0,wordBuilder.length-2)+"%']
               var query_builder = "SELECT 'product' as identifier, host.id_host, host.company_name, host.title, host.img_base64,"+
-              "product.id_product, product.product_name, gallery_product.img_base64 as product_img_rep, "+
+              "product.id_product, product.product_name, product.img_rep as product_img_rep as product_img_rep, "+
               "product.product_desc,host.company_desc,"+
               "MATCH(product.product_name,product.product_desc) "+
               "AGAINST ('"+wordBuilder.trim()+"' IN BOOLEAN MODE) as pscore "+
-              "from `product` join `host` on host.id_host=product.id_host join `gallery_product` on gallery_product.id_product=product.id_product "+
-              "WHERE (gallery_product.isRepresentation=1) AND (host.id_tipe IS NOT NULL) AND (host.statusz=1) AND "+keywordsBuilder+" HAVING pscore > 0 order by pscore DESC;"
+              "from `product` join `host` on host.id_host=product.id_host "+
+              "WHERE (host.id_tipe IS NOT NULL) AND (host.statusz=1) AND "+keywordsBuilder+" HAVING pscore > 0 OR product.product_name LIKE '%"+wordBuilder.trim().substring(0,wordBuilder.length-2)+"%' order by pscore DESC;"
               connection.query(query_builder,function(err,rowsProduct){
                 if(err){
                   res.json({"message":"err.. error searching querify product","error":err,"query_builder":query_builder,"keywordsBuilder":keywordsBuilder,"keywords":keywords});

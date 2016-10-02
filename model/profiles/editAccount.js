@@ -43,9 +43,11 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
                       res.json({"message":"err.. no params rec address","error":"error"});
                     }else{
                       // if(imgbase64 == null || imgbase64 == undefined || imgbase64 == ''){
-                        connection.query("update `host` set company_name='"+companyName+"',about='"+about+"',handphone='"+handphone+"',location="+city+",address='"+address+"' where id_host ="+idHost,function(err,rows){
+                        var quer = "update `host` set company_name='"+companyName+"',about='"+about+"',handphone='"+handphone+"',location="+city+",address='"+address+"' where id_host ="+idHost;
+                        console.log(quer);
+                        connection.query(quer,function(err,rows){
                           if(err){
-                            res.json({"message":"err.. error on updating","error":"error"});
+                            res.json({"message":"err.. error on updating","error":"error","q":query});
                           }else{
                             // 5. update last activity
                             var myDate = new Date();
@@ -68,55 +70,6 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
                             });
                           }
                         });
-                      // }else{
-                      //   //gambarnya aadaa!!
-                      //   //IMGBASE64 Affair
-                      //   var path = "assets/img/"+email;
-                      //   var split1 = imgbase64.split(";");
-                      //   var split2 = split1[0].split("/");
-                      //   var ext = split2[1];
-                      //   var imgbase64Only = split1[1].split(",")[1];
-                      //   mkpath.sync(path,function(err){
-                      //     if(err){
-                      //       console.log("message err.. error on sync");
-                      //       res.json({"message":"err.. error on sync"});
-                      //     }else{
-                      //       mkpath(path, function (err) {
-                      //         if (err) {
-                      //           console.log("message err.. error on mkpath");
-                      //           res.json({"message":"err.. error on mkpath"});
-                      //         }else{
-                      //           console.log("Directory structure "+path+" created");//debug
-                      //         }
-                      //       });
-                      //     }
-                      //   });
-                      //   var decodedImage = new Buffer(imgbase64Only, 'base64');
-                      //   var filename = 'accountPicture.'+ext;
-                      //   fs.writeFile(path+"/"+filename, decodedImage, function(err) {
-                      //     if(err){
-                      //       console.log("message err.. error in fs.write err:"+err);
-                      //       res.json({"message":"err.. error in fs.write","err":err});
-                      //     }else{
-                      //       console.log("message success upload img");
-                      //       var imgbase64_database = "http://localhost:8080/Sidekeek-Server/"+path+"/"+filename;
-                      //       //res.json({"message ":" success upload img","database" : imgbase64_database});
-                      //       connection.query("update `host` set img_base64='"+imgbase64_database+"',company_name='"+companyName+"',about='"+about+"',handphone='"+handphone+"',location="+city+",address='"+address+"' where id_host ="+idHost,function(err,rows){
-                      //         if(err){
-                      //           res.json({"message":"err.. error on updating host with img"});
-                      //         }else{
-                      //           connection.query("update `session_host` set last_activity='"+timestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
-                      //             if(err){
-                      //               res.json({"message":"err.. error on update session last activity"});
-                      //             }else{
-                      //               res.json({"message":"success updating new value with img","error":"success"});
-                      //             }
-                      //           });
-                      //         }
-                      //       });
-                      //     }
-                      //   });
-                      // // }
                     }
                   }
                 }

@@ -101,18 +101,42 @@ addProductImage.prototype.handleRoutes = function(router,connection,config){
                               if(err){
                                 res.json({"message":"err.. error on updating host with img","q1":q1,"error":"error"});
                               }else{
-                                var myDate = new Date();
-                                var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
-                                "-"+myDate.getDate()+" "+myDate.getHours()+
-                                ":"+myDate.getMinutes()+":"+myDate.getSeconds();
-                                var q2 = "update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'";
-                                connection.query(q2,function(err,rows){
-                                  if(err){
-                                    res.json({"message":"err.. error on update session last activity","error":"error"});
-                                  }else{
-                                    res.json({"message":"success updating new value with img","error":"success"});
-                                  }
-                                });
+
+                                // IMG REP HANDLER
+                                if(checkImgCountField){
+                                  var qRepHandler = "update `product` set img_rep='"+imgbase64_database+"' where id_product="+idProduct;
+                                  connection.query(qRepHandler,function(err,rows){
+                                    if(err){
+                                      res.json({"message":"err.. error on updating product img_rep","qRepHandler":qRepHandler,"error":"error"});
+                                    }else{
+                                      var myDate = new Date();
+                                      var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                                      "-"+myDate.getDate()+" "+myDate.getHours()+
+                                      ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                                      var q2 = "update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'";
+                                      connection.query(q2,function(err,rows){
+                                        if(err){
+                                          res.json({"message":"err.. error on update session last activity","error":"error"});
+                                        }else{
+                                          res.json({"message":"success updating new value with img","error":"success"});
+                                        }
+                                      });
+                                    }
+                                  });
+                                }else{
+                                  var myDate = new Date();
+                                  var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                                  "-"+myDate.getDate()+" "+myDate.getHours()+
+                                  ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                                  var q2 = "update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'";
+                                  connection.query(q2,function(err,rows){
+                                    if(err){
+                                      res.json({"message":"err.. error on update session last activity","error":"error"});
+                                    }else{
+                                      res.json({"message":"success updating new value with img","error":"success"});
+                                    }
+                                  });
+                                }
                               }
                             });
                           }
