@@ -10,7 +10,7 @@ var self=this;
 var dir = "http://localhost/Sidekeek-Server";
 getAccount.prototype.handleRoutes = function(router,connection){
   router.get('/getAccount/:id',function(req,res){
-    var idHost = req.params.id;
+    var idHost = connection.escape(req.params.id);
     // console.log(email);
     if(idHost == null || idHost == undefined || idHost == ''){
       res.json({"message":"err.. no params iH rec","error":"error","content":null});

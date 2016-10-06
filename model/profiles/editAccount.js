@@ -9,11 +9,11 @@ var self=this;
 
 editAccount.prototype.handleRoutes = function(router,connection,fs){
   router.post('/editAccount',function(req,res){
-    var sessionCode = req.body.sessionCode;
+    var sessionCode = connection.escape(req.body.sessionCode);
     if(sessionCode == null || sessionCode == undefined || sessionCode == ''){
       res.json({"message":"err.. no params received"});
     }else{
-      var query = "select session_host.id_host,host.email as email from `session_host` join `host` on session_host.id_host=host.id_host where session_code='"+sessionCode+"'";
+      var query = "select session_host.id_host,host.email as email from `session_host` join `host` on session_host.id_host=host.id_host where session_code="+sessionCode;
       connection.query(query,function(err,rows){
         if(err){
           res.json({"message":"err.. error in selecting sess hos","error":"error","query":query});
@@ -22,11 +22,11 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
             var email = rows[0].email;
             var idHost = rows[0].id_host;
             // var imgbase64 = req.body.imgbase64;
-            var companyName = req.body.companyName;
-            var about = req.body.about;
-            var handphone = req.body.handphone;
-            var city = req.body.city;
-            var address = req.body.address;
+            var companyName = connection.escape(req.body.companyName);
+            var about = connection.escape(req.body.about);
+            var handphone = connection.escape(req.body.handphone);
+            var city = connection.escape(req.body.city);
+            var address = connection.escape(req.body.address);
             if(companyName == null || companyName == undefined || companyName == ''){
               res.json({"message":"err.. no params rec,.","error":"error"});
             }else{
@@ -43,32 +43,46 @@ editAccount.prototype.handleRoutes = function(router,connection,fs){
                       res.json({"message":"err.. no params rec address","error":"error"});
                     }else{
                       // if(imgbase64 == null || imgbase64 == undefined || imgbase64 == ''){
-                        var quer = "update `host` set company_name='"+companyName+"',about='"+about+"',handphone='"+handphone+"',location="+city+",address='"+address+"' where id_host ="+idHost;
-                        console.log(quer);
-                        connection.query(quer,function(err,rows){
-                          if(err){
-                            res.json({"message":"err.. error on updating","error":"error","q":query});
-                          }else{
-                            // 5. update last activity
-                            var myDate = new Date();
-                            var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
-                            "-"+myDate.getDate()+" "+myDate.getHours()+
-                            ":"+myDate.getMinutes()+":"+myDate.getSeconds();
-
-                            connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
-                              if(err){
-                                res.json({"message":"err.. error on update session last activity","error":"error"});
-                              }else{
-                                connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code='"+sessionCode+"'",function(err,rows){
-                                  if(err){
-                                    res.json({"message":"err.. error on update session last activity","error":"error"});
-                                  }else{
-                                    res.json({"message":"success updating new value","error":"success"});
-                                  }
-                                });
-                              }
-                            });
+                        connection.beginTransaction(function(err){
+                          if (err) {
+                            res.json({"message":"err.. error on beginTransaction","error":"error","objErr":err});
+                            return;
                           }
+                          var quer = "update `host` set company_name="+companyName+",about="+about+",handphone="+handphone+",location="+city+",address="+address+" where id_host ="+idHost;
+                          // console.log(quer);
+                          connection.query(quer,function(err,rows){
+                            if(err){
+                              connection.rollback(function(){
+                                res.json({"message":"err.. error on updating","error":"error","q":quer,"objErr":err});
+                                return;
+                              });
+                            }else{
+                              // 5. update last activity
+                              var myDate = new Date();
+                              var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                              "-"+myDate.getDate()+" "+myDate.getHours()+
+                              ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                              connection.query("update `session_host` set last_activity='"+myTimestamp+"' where session_code="+sessionCode,function(err,rows){
+                                if(err){
+                                  connection.rollback(function(){
+                                    res.json({"message":"err.. error on update session last activity","error":"error","objErr":err});
+                                    return;
+                                  });
+                                }else{
+                                  connection.commit(function(err) {
+                                    if (err) {
+                                      connection.rollback(function() {
+                                        res.json({"message":"err.. error commiting transaction","error":"error","objErr":err});
+                                        return;
+                                      });
+                                    }else{
+                                      res.json({"message":"success updating new value","error":"success"});
+                                    }
+                                  });
+                                }
+                              });
+                            }
+                          });
                         });
                     }
                   }

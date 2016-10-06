@@ -8,7 +8,7 @@ resendMailConfirmationCode.prototype.handleRoutes = function(router,connection,s
     var email = req.body.email;
     if(email){
       // 1. Lookup email if exist and not confirmed
-      var query = "select id_host,statusz,unique_code from `host` where email='"+email+"'";
+      var query = "select id_host,statusz,unique_code from `host` where email="+connection.escape(email);
       connection.query(query,function(err,rows){
         if (err) {
           res.status(500).json({"message":"err.. error on lookup email","error":"error"});

@@ -1,5 +1,6 @@
 var fs = require('fs');
-var rimraf = require('rimraf');
+var pathz = require('path');
+// var rimraf = require('rimraf');
 
 function deleteProduct(router,connection){
   var self=this;
@@ -8,8 +9,8 @@ function deleteProduct(router,connection){
 
 deleteProduct.prototype.handleRoutes = function(router,connection){
   router.post('/deleteProduct',function(req,res){
-    var sessionCode = req.body.sessionCode;
-    var idProduct = req.body.idProduct;
+    var sessionCode = connection.escape(req.body.sessionCode);
+    var idProduct = connection.escape(req.body.idProduct);
     if(sessionCode == null || sessionCode == undefined || sessionCode == ''){
       res.json({"message":"err.. error no param s_c rec","error":"error"});
     }else{
@@ -17,7 +18,7 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
         res.json({"message":"err.. error no param s_c rec","error":"error"});
       }else{
         // 1. Check sessioncode
-        var query = "select host.id_host,host.email from `session_host` join `host` on session_host.id_host=host.id_host where session_code='"+sessionCode+"'";
+        var query = "select host.id_host,host.email from `session_host` join `host` on session_host.id_host=host.id_host where session_code="+sessionCode+"";
         connection.query(query,function(err,rows){
           if(err){
             res.json({"message":"err.. error on checking sess quey","q":query});
@@ -35,41 +36,98 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
                     // console.log(rows[0].id_product);
                     // idProduct = rows[0].id_product;
                     // 3. Delete dependencies
-                    var q1 = "delete from `gallery_product` where id_product="+idProduct;
-                    connection.query(q1,function(err,rows){
-                      if(err){
-                        res.json({"message":"err.. error on deleting dependencies","error":"error"});
-                      }else{
-                        // 4. Delete product
-                        var q2 = "delete from `product` where id_product="+idProduct;
-                        connection.query(q2,function(err,rows){
-                          if(err){
-                            res.json({"message":"err.. error on deleting product","error":"error"});
-                          }else{
-                            // 5. update last activity
-                            var myDate = new Date();
-                            var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
-                            "-"+myDate.getDate()+" "+myDate.getHours()+
-                            ":"+myDate.getMinutes()+":"+myDate.getSeconds();
-                            var q5 = "UPDATE `session_host` set last_activity='"+myTimestamp+
-                            "' where session_code='"+sessionCode+"'";
-                            connection.query(q5,function(err,rows){
-                              if(err){
-                                res.json({"message":"err.. error on updating last activity","error":"error","q":q5});
-                              }else{
-                                //Delete resources
-                                var path = "assets/img/"+email+"/products/product"+idProduct;
-                                rimraf(path,function(err){
-                                  if(err) throw err;
-                                  // console.log('#rimraf successfully deleted '+path);
-                                });
-                                //here
-                                res.json({"message":"success delete product","error":"success"});
-                              }
-                            });
-                          }
-                        });
+                    connection.beginTransaction(function(err){
+                      if (err) {
+                        res.json({"message":"err.. error on beginTransaction","error":"error","objErr":err});
+                        return;
                       }
+                      var q1 = "delete from `gallery_product` where id_product="+idProduct;
+                      connection.query(q1,function(err,rows){
+                        if(err){
+                          res.json({"message":"err.. error on deleting dependencies","error":"error"});
+                        }else{
+                          // 4. Delete product
+                          var q2 = "delete from `product` where id_product="+idProduct;
+                          connection.query(q2,function(err,rows){
+                            if(err){
+                              connection.rollback(function(){
+                                res.json({"message":"err.. error on deleting product","error":"error","objErr":err});
+                                return;
+                              });
+                            }else{
+                              // 5. update last activity
+                              var myDate = new Date();
+                              var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
+                              "-"+myDate.getDate()+" "+myDate.getHours()+
+                              ":"+myDate.getMinutes()+":"+myDate.getSeconds();
+                              var q5 = "UPDATE `session_host` set last_activity='"+myTimestamp+
+                              "' where session_code="+sessionCode+"";
+                              connection.query(q5,function(err,rows){
+                                if(err){
+                                  connection.rollback(function(){
+                                    res.json({"message":"err.. error on updating last activity","error":"error","q":q5,"objErr":err});
+                                    return;
+                                  });
+                                }else{
+                                  //Delete resources
+                                  var path = "assets/img/"+email+"/products/product-"+req.body.idProduct;
+                                  var rmdir = function(dir) {
+                                  	var list = fs.readdirSync(dir);
+                                  	for(var i = 0; i < list.length; i++) {
+
+                                  		var filename = pathz.join(dir, list[i]);
+                                      // console.log(filename);
+                                  		var stat = fs.statSync(filename);
+                                  		if(filename == "." || filename == "..") {
+                                  			// pass these files
+                                  		} else if(stat.isDirectory()) {
+                                  			// rmdir recursively
+                                  			rmdir(filename);
+                                  		} else {
+                                  			// rm fiilename
+                                  			fs.unlinkSync(filename);
+                                  		}
+                                  	}
+                                  	fs.rmdirSync(dir);
+                                  };
+                                  rmdir(path);
+                                  connection.commit(function(err) {
+                                    if (err) {
+                                      connection.rollback(function() {
+                                        res.json({"message":"err.. error commiting transaction","error":"error","objErr":err});
+                                        return;
+                                      });
+                                    }else{
+                                      res.json({"message":"success delete product","error":"success"});
+                                    }
+                                  });
+                                  // fs.rmdir(path, function(err){
+                                  //   if(err){
+                                  //     connection.rollback(function() {
+                                  //       res.json({"message":"err.. error rmdir","error":"error","objErr":err});
+                                  //       return;
+                                  //     });
+                                  //   }else{
+                                  //     connection.commit(function(err) {
+                                  //       if (err) {
+                                  //         connection.rollback(function() {
+                                  //           res.json({"message":"err.. error commiting transaction","error":"error","objErr":err});
+                                  //           return;
+                                  //         });
+                                  //       }else{
+                                  //         res.json({"message":"success delete product","error":"success"});
+                                  //       }
+                                  //     });
+                                  //   }
+                                  // });
+                                  // console.log(deleteFolderRecursive);
+
+                                }
+                              });
+                            }
+                          });
+                        }
+                      });
                     });
                   }else{
                     res.json({"message":"err.. product not valid","error":"error"});

@@ -7,11 +7,11 @@ function logout(router,connection){
 
 logout.prototype.handleRoutes = function(router,connection){
   router.post("/logout",function(req,res){
-    var sessionCode=req.body.sessionCode;
+    var sessionCode= connection.escape(req.body.sessionCode);
     if(sessionCode==null || sessionCode==undefined || sessionCode==""){
       res.json({"message":"err.. no params code receive","error":"error"});
     }else{
-      connection.query("select id_session from `session_host` where session_code='"+sessionCode+"'",function(err,rows){
+      connection.query("select id_session from `session_host` where session_code="+sessionCode,function(err,rows){
           if(err){
             res.json({"message":"err.. error in selecting id_session","error":"error"});
           }else{

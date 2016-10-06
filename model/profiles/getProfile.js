@@ -9,11 +9,11 @@ var self=this;
 
 getProfile.prototype.handleRoutes = function(router,connection){
   router.get("/getProfile/:id",function(req,res){
-    var idHost = req.params.id;
+    var idHost = connection.escape(req.params.id);
     if(idHost==null || idHost==undefined){
       res.json({"message":"err.. no params received","error":"error","content":null});
     }else{
-      var query = "select email,bussiness_category.category_name,host.category,company_desc,title,sumrate_totalreview,tipe.id_tipe,tipe.name as tipe,host.id_tipe from `host` join `tipe` on host.id_tipe=tipe.id_tipe join `bussiness_category` on host.category=bussiness_category.id_cat where host.id_host='"+idHost+"'";
+      var query = "select email,bussiness_category.category_name,host.category,company_desc,title,sumrate_totalreview,tipe.id_tipe,tipe.name as tipe,host.id_tipe from `host` join `tipe` on host.id_tipe=tipe.id_tipe join `bussiness_category` on host.category=bussiness_category.id_cat where host.id_host="+idHost;
       connection.query(query,function(err,rows){
         if(err){
           res.json({"message":"err.. error in selecting data","query":query,"error":"error","content":null});

@@ -373,6 +373,20 @@
             "description": "idPortofolio",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "title",
+            "in" : "formData",
+            "description": "title",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in" : "formData",
+            "description": "description",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -676,6 +690,27 @@
             "in" : "formData",
             "description": "idProduct",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "namaProduk",
+            "in" : "formData",
+            "description": "namaProduk",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "harga",
+            "in" : "formData",
+            "description": "harga",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "productDesc",
+            "in" : "formData",
+            "description": "productDesc",
+            "required": false,
             "type": "string"
           }
         ],

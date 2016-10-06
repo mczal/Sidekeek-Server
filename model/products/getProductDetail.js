@@ -20,7 +20,7 @@ var self=this;
 
 getProductDetail.prototype.handleRoutes = function(router,connection){
   router.get('/getProductDetail/:id',function(req,res){
-    var idProduct = req.params.id;
+    var idProduct = connection.escape(req.params.id);
     if(idProduct == null || idProduct == undefined || idProduct == ''){
       res.json({"message":"err.. no param received","error":"error","productName":null,"productDesc":null,"price":null,"images":null});
     }else{

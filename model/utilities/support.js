@@ -9,7 +9,7 @@ support.prototype.handleRoutes = function(router,connection,sendgrid,config){
     var subject = req.body.subject;
     var title = req.body.title;
     var message = req.body.message;
-    var sessionCode = req.body.sessionCode;
+    var sessionCode = connection.escape(req.body.sessionCode);
     if(sessionCode == null || sessionCode == undefined || sessionCode == ''){
       res.status(422).json({"message":"err.. error no param s_c rec","error":"error"});
     }else{
@@ -23,7 +23,7 @@ support.prototype.handleRoutes = function(router,connection,sendgrid,config){
             res.status(422).json({"message":"err.. error no param m rec","error":"error"});
           }else{
             // 1. lookup sessionCode
-            var query = "select host.id_host,host.email from `session_host` join `host` on session_host.id_host=host.id_host where session_code='"+sessionCode+"'";
+            var query = "select host.id_host,host.email from `session_host` join `host` on session_host.id_host=host.id_host where session_code="+sessionCode;
             connection.query(query,function(err,rows){
               if(err){
                 res.status(500).json({"message":"err.. error on checking sess quey","q":query});
@@ -41,7 +41,7 @@ support.prototype.handleRoutes = function(router,connection,sendgrid,config){
                   }, function(err, json) {
                     if (err) {
                       res.json({"message":'AAAAAHH!!',"err":err,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
-                      return console.error(err);
+                      // return console.error(err);
                     }
                     var myDate = new Date();
                     var myTimestamp = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+
@@ -53,7 +53,7 @@ support.prototype.handleRoutes = function(router,connection,sendgrid,config){
                         res.status(500).json({"message":"fail to update status, email success sent","error":"mid"});
                       }else{
                         res.json({"message":"success sending support to our customer services","error":"success","status":"support","jsonsgrid":json}); //status 0 berarti signup doang
-                        console.log(json);
+                        // console.log(json);
                       }
                     });
                   });

@@ -24,10 +24,10 @@ signUp.prototype.handleRoutes = function(router,connection,md5,config,sendgrid){
   router.post("/sign-up",function(req,res){
     var baseUrlClientPath = config.base_url_client_path;
 
-    var statTemp = req.body.statTemp;
-    var email = req.body.email;
-    var password = md5(req.body.password);
-    var confirmation = md5(req.body.confirmation);
+    var statTemp = connection.escape(req.body.statTemp);
+    var email = connection.escape(req.body.email);
+    var password = connection.escape(md5(req.body.password));
+    var confirmation = connection.escape(md5(req.body.confirmation));
     if(email==null || email==undefined || email==""){
       res.json({"message":"err.. no params em rec","error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
     }else{
@@ -39,7 +39,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5,config,sendgrid){
         }else{
             if(confirmation == password){
               //check email available...
-              connection.query("select id_host from `host` where email='"+email+"'",function(err,rows){
+              connection.query("select id_host from `host` where email="+email,function(err,rows){
                 if(err){
                   res.json({"message":"err.. error in checking availability email..","error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
                 }else{
@@ -51,68 +51,48 @@ signUp.prototype.handleRoutes = function(router,connection,md5,config,sendgrid){
                     var query="";
                     var query2="";
                     var uniqueCode = generateUniqueCode();
-                    // if(statTemp==null || statTemp==undefined || statTemp==""){
-                      query="insert into `host` (email,password,unique_code,statusz) values('"+email+"','"+password+"','"+uniqueCode+"',0)";
+                    connection.beginTransaction(function(err){
+                      if (err) {
+                        res.json({"message":"err.. error on beginTransaction","error":"error","objErr":err});
+                        return;
+                      }
+                      query="insert into `host` (email,password,unique_code,statusz) values("+email+","+password+",'"+uniqueCode+"',0)";
                       connection.query(query,function(err,rows){
                         if(err){
-                          res.json({"message":"err.. error in inserting host","query":query,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
+                          connection.rollback(function(){
+                            res.json({"message":"err.. error in inserting host","query":query,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null,"objErr":err});
+                            return;
+                          });
                         }else{
                           /*TODO: INI SEND MAIL CONFIRMATION*/
                           sendgrid.send({
-                            to:       email,
+                            to:       req.body.email,
                             from:     'noreply-sidekeek@sidekeek.co',
                             subject:  'Sidekeek Account Confirmation',
                             text:     'Please click the following link below to confirm your account on sidekeek.co',
                             html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='"+baseUrlClientPath+"#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
                           }, function(err, json) {
                             if (err) {
-                              res.json({"message":'AAAAAHH!!',"err":err,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
-                              return console.error(err);
+                              connection.rollback(function(){
+                                res.json({"message":'AAAAAHH!!',"err":err,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null,"objErr":err});
+                                return;
+                              });
+                              // return console.error(err);
                             }
-                            res.json({"message":"success inserting new host, please proceed with confirmation","error":"success","status":0,"unique_code":uniqueCode,"email":email,"jsonsgrid":json}); //status 0 berarti signup doang
-                            console.log(json);
+                            connection.commit(function(err) {
+                              if (err) {
+                                connection.rollback(function() {
+                                  res.json({"message":"err.. error commiting transaction","error":"error","objErr":err});
+                                  return;
+                                });
+                              }else{
+                                res.json({"message":"success inserting new host, please proceed with confirmation","error":"success","status":0,"unique_code":uniqueCode,"email":email,"jsonsgrid":json}); //status 0 berarti signup doang
+                              }
+                            });
                           });
                         }
                       });
-                    // }else{
-                      // query="update `host_temp` set email='"+email+"',password='"+password+"' where stat_temp='"+statTemp+"'";
-                      // query2="insert into `host` (email,password,company_name,category,title,id_tipe,statusz,unique_code) select email,password,company_name,category,title,id_tipe,0,'"+uniqueCode+"' from `host_temp` where stat_temp='"+statTemp+"'";
-                      // connection.query(query,function(err,rows){
-                      //   if(err){
-                      //     res.json({"message":"err.. error in updating host_temp","error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
-                      //   }else{
-                      //     connection.query(query2,function(err,rows){
-                      //       if(err){
-                      //         res.json({"message":"err.. error in inserting host on q2","query2":query2,"error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
-                      //       }else{
-                      //         /* TODO: INI SEND MAIL CONFIRMATION*/
-                      //         sendgrid.send({
-                      //           to:       email,
-                      //           from:     'noreply@sidekeek.co',
-                      //           subject:  'Sidekeek Account Confirmation',
-                      //           text:     'Please click the following link below to confirm your account on sidekeek.co',
-                      //           html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='"+baseUrlClientPath+"#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
-                      //         }, function(err, json) {
-                      //           if (err) {
-                      //             res.json({"message":'AAAAAHH!!',"err":err});
-                      //             return console.error(err);
-                      //           }
-                      //           console.log(json);
-                      //           // TODO: DELETE TEMP HOST ATAU TIDAK...??
-                      //           //JAWABAN :: IYAA
-                      //           connection.query("delete from `host_temp` where stat_temp = '"+statTemp+"'",function(err,rows){
-                      //             if(err){
-                      //               res.json({"message":"err.. error on deleting host_temp","error":"error","status":null,"unique_code":null,"email":email,"jsonsgrid":null});
-                      //             }else{
-                      //               res.json({"message":"success inserting new host on q2, please proceed with confirmation","error":"success","unique_code":uniqueCode,"email":email,"status":1});//status 1 berarti udah register dari awal
-                      //             }
-                      //           });
-                      //         });
-                      //       }
-                      //     });
-                      //   }
-                      // });
-                    // }
+                    });
                   }
                 }
               });

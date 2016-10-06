@@ -7,8 +7,8 @@ function isHost(router,connection){
 
 isHost.prototype.handleRoutes = function(router,connection){
   router.post('/isHost',function(req,res){
-    var email = req.body.email;
-    connection.query("select id_tipe from `host` where email='"+email+"'",function(err,rows){
+    var email = connection.escape(req.body.email);
+    connection.query("select id_tipe from `host` where email="+email+"",function(err,rows){
       if(err){
         res.json({"message":"err.. error on selecting"});
       }else{

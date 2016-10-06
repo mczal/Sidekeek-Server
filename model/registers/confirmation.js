@@ -19,11 +19,11 @@ function confirmation(router,connection,jwt,app){
 var self=this;
 confirmation.prototype.handleRoutes = function(router,connection,jwt,app){
   router.post("/confirmation",function(req,res){
-    var uniqueCode = req.body.uniqueCode;
+    var uniqueCode = connection.escape(req.body.uniqueCode);
     if(uniqueCode == null || uniqueCode == undefined || uniqueCode == ''){
       res.json({"message":"err.. no params received","error":"error","session":null,"email":null});
     }else{
-      connection.query("select email,id_host from `host` where unique_code='"+uniqueCode+"'",function(err,rows){
+      connection.query("select email,id_host from `host` where unique_code="+uniqueCode,function(err,rows){
         if(err){
           res.json({"message":"err.. error on selecting host with given uniqueCode","session":null,"email":null,"error":"error"});
         }else{

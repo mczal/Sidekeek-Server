@@ -11,7 +11,7 @@ requestChangePassword.prototype.handleRoutes = function(router,connection,jwt,se
     if(email){
       if(path){
         //1.  lookup email
-        var query = "SELECT id_host,statusz FROM `host` WHERE email='"+email+"'";
+        var query = "SELECT id_host,statusz FROM `host` WHERE email="+connection.escape(email);
         connection.query(query,function(err,rows){
           if(err){
             res.status(500).json({"message":"err.. error on lookup email #"+email,"error":"error"});

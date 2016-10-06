@@ -5,7 +5,7 @@ function getHostReview(router,connection){
 
 getHostReview.prototype.handleRoutes = function(router,connection){
   router.get('/getHostReview/:id',function(req,res){
-    var idHost = req.params.id;
+    var idHost = connection.escape(req.params.id);
     if(idHost == null || idHost == undefined || idHost == ''){
       res.status(422).json({"message":"err.. error no param i rec","error":"error"});
     }else{

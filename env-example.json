@@ -3,12 +3,14 @@
     "server_port": "3000",
     "base_url_server_path": "http://localhost/Sidekeek-Server/",
     "base_url_client_path": "http://localhost/Sidekeek-Client/",
-    "cs_email": "fahrizalseptrianto@gmail.com"
+    "cs_email": "fahrizalseptrianto@gmail.com",
+    "supersecret": "s1de^k3ek"
  },
  "production": {
    "server_port": "3000",
    "base_url_server_path": "http://localhost/Sidekeek-Server/",
    "base_url_client_path": "http://localhost/Sidekeek-Client/",
-   "cs_email": "fahrizalseptrianto@gmail.com"
+   "cs_email": "fahrizalseptrianto@gmail.com",
+   "supersecret": "s1de^k3ek"
  }
 }

@@ -1,5 +1,7 @@
 var mysql = require('mysql');
 //TESTED 27 FEBRUARI 2016
+
+// DEPRECATED
 function getCities(router,connection){
   var self=this;
   self.handleRoutes(router,connection);
@@ -7,8 +9,8 @@ function getCities(router,connection){
 
 getCities.prototype.handleRoutes = function(router,connection){
   router.get("/getCities",function(req,res){
-    var province = req.body.province;
-    if(province==null || province==undefined || province==""){
+    var province = connection.escape(req.body.province);
+    if(req.body.province==null || req.body.province==undefined || req.body.province==""){
       connection.query("select id_city,city_name from `city` order by city_name asc",function(err,rows){
         if(err){
           res.json({"message":"err.. error in selecting city"});
@@ -21,7 +23,7 @@ getCities.prototype.handleRoutes = function(router,connection){
         }
       });
     }else{
-      connection.query("select id_province from `province` where province_name='"+province+"'",function(err,rows){
+      connection.query("select id_province from `province` where province_name="+province+"",function(err,rows){
         if(err){
           res.json({"message":"err.. error in selecting province with given name"});
         }else{

@@ -20,7 +20,7 @@ var self = this;
 
 login.prototype.handleRoutes = function(router,connection,md5){
   router.post("/login",function(req,res){
-    var email = req.body.email;
+    var email = connection.escape(req.body.email);
     var password = md5(req.body.password);
     if(email==null || email==undefined || email==""){
       res.json({"message":"err.. no params em received"});
@@ -28,7 +28,7 @@ login.prototype.handleRoutes = function(router,connection,md5){
       if(password==null || password==undefined || password==""){
         res.json({"message":"err.. no params pass received"});
       }else{
-        connection.query("select unique_code,password,id_host,statusz from `host` where email='"+email+"'",function(err,rows){
+        connection.query("select unique_code,password,id_host,statusz from `host` where email="+email+"",function(err,rows){
           if(err){
             res.json({"message":"err.. error in selecting first check"});
           }else{

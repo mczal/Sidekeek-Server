@@ -10,7 +10,7 @@ var self=this;
 
 getProducts.prototype.handleRoutes = function(router,connection){
   router.get('/getProducts/:id',function(req,res){
-    var idHost = req.params.id;
+    var idHost = connection.escape(req.params.id);
     if(idHost==null || idHost==undefined || idHost==''){
       res.json({"message":"err.. no params received","error":"error","content":null});
     }else{

@@ -7,8 +7,8 @@ function integrityCheck(router,connection){
 
 integrityCheck.prototype.handleRoutes = function(router,connection){
   router.post("/integrityCheck",function(req,res){
-    var sessionCode = req.body.sessionCode;
-    connection.query("select id_session from `session_host` where session_code='"+sessionCode+"'",function(err,rows){
+    var sessionCode = connection.escape(req.body.sessionCode);
+    connection.query("select id_session from `session_host` where session_code="+sessionCode+"",function(err,rows){
       if(err){
         res.json({"message":"err.. selecting query session",});
       }else{

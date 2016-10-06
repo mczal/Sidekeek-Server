@@ -7,7 +7,7 @@ function getProductsEager(router,connection){
 
 getProductsEager.prototype.handleRoutes = function(router,connection){
   router.get('/getProductsEager/:id',function(req,res){
-    var idHost = req.params.id;
+    var idHost = connection.escape(req.params.id);
     var size = req.query.size;
     var page = req.query.page;
     if(idHost == null || idHost == undefined || idHost == ''){
