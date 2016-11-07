@@ -4,13 +4,21 @@
     "base_url_server_path": "http://localhost/Sidekeek-Server/",
     "base_url_client_path": "http://localhost/Sidekeek-Client/",
     "cs_email": "fahrizalseptrianto@gmail.com",
-    "supersecret": "s1de^k3ek"
+    "supersecret": "s1de^k3ek",
+    "db_name": "sidekeek",
+    "db_username": "root",
+    "db_password": "",
+    "host": "localhost"
  },
  "production": {
    "server_port": "3000",
    "base_url_server_path": "http://localhost/Sidekeek-Server/",
    "base_url_client_path": "http://localhost/Sidekeek-Client/",
    "cs_email": "fahrizalseptrianto@gmail.com",
-   "supersecret": "s1de^k3ek"
+   "supersecret": "s1de^k3ek",
+   "db_name": "sidekeek",
+   "db_username": "root",
+   "db_password": "",
+   "host": "localhost"
  }
 }
