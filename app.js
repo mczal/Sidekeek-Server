@@ -1,7 +1,7 @@
 var express = require("express"),
 	mysql = require("mysql"),
 	bodyParser = require("body-parser"),
-	md5 = require('MD5'),
+	md5 = require('md5'),
   http = require('http'),
 	fs = require('fs'),
 	swagger = require("swagger-node-express"),
@@ -92,7 +92,7 @@ connect.prototype.connectMysql = function() {
         multipleStatements: false,
 
 		//kalo mau coba local host
-		host     : '103.236.201.92',
+		host     : config.host,
 		user     : config.db_username,
 		password : config.db_password,
 		database : config.db_name,
@@ -303,7 +303,7 @@ connect.prototype.configureExpress = function(connection) {
 connect.prototype.startServer = function() {
 	// body...
 	app.listen(config.server_port,function(){
-          console.log("\'sidekeek-server\' listening on port:"+config.server_port+" in "+process.env.NODE_ENV+" mode");
+          console.log("\'sidekeek-server\' listening on "+config.host+":"+config.server_port+" in "+process.env.NODE_ENV+" mode");
       });
 };
 
