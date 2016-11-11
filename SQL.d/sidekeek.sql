@@ -131,7 +131,7 @@ CREATE TABLE `host` (
   `region` int(11) DEFAULT NULL,
   `sumrate_totalreview` varchar(20) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MYISAM;
 
 --
 -- Dumping data for table `host`
@@ -191,7 +191,7 @@ CREATE TABLE `product` (
   `product_desc` varchar(200) NOT NULL,
   `img_rep` varchar(255) NOT NULL,
   `price` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MYISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
