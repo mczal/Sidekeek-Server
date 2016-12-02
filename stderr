@@ -1,0 +1,6 @@
+jsonwebtoken: expiresInMinutes and expiresInSeconds is deprecated. ()
+Use "expiresIn" expressed in seconds.
+jsonwebtoken: expiresInMinutes and expiresInSeconds is deprecated. ()
+Use "expiresIn" expressed in seconds.
+jsonwebtoken: expiresInMinutes and expiresInSeconds is deprecated. ()
+Use "expiresIn" expressed in seconds.
