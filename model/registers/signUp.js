@@ -23,6 +23,7 @@ var self=this;
 signUp.prototype.handleRoutes = function(router,connection,md5,config,sendgrid){
   router.post("/sign-up",function(req,res){
     var baseUrlClientPath = config.base_url_client_path;
+var domain_name = config.domain_name;
 
     var statTemp = connection.escape(req.body.statTemp);
     var email = connection.escape(req.body.email);
@@ -70,7 +71,7 @@ signUp.prototype.handleRoutes = function(router,connection,md5,config,sendgrid){
                             from:     'noreply-sidekeek@sidekeek.co',
                             subject:  'Sidekeek Account Confirmation',
                             text:     'Please click the following link below to confirm your account on sidekeek.co',
-                            html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='"+baseUrlClientPath+"#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
+                            html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='"+domain_name+"#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
                           }, function(err, json) {
                             if (err) {
                               connection.rollback(function(){

@@ -4,3 +4,5 @@ test*
 node_modules
 templates/
 env.json
+stdout*
+stderr*
