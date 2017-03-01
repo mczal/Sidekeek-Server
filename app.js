@@ -224,6 +224,8 @@ connect.prototype.configureExpress = function(connection) {
 				var getProvince = new getProvinceModel(router,connection);
 				var getCategories = new getCategoriesModel(router,connection);
 
+				var confirmation = new confirmationModel(router,connection,jwt,app);
+
 
     // route middleware to verify a token
         router.use(function(req, res, next) {
@@ -280,7 +282,7 @@ connect.prototype.configureExpress = function(connection) {
 
 			var addNewProductDesc = new addNewProductDescModel(router,connection);
 			var addProductImage = new addProductImageModel(router,connection,config);
-			var confirmation = new confirmationModel(router,connection,jwt,app);
+			// var confirmation = new confirmationModel(router,connection,jwt,app);
 			var editProductImage = new editProductImageModel(router,connection,config);
 			// var editProfileFull = new editProfileFullModel(router,connection);
 
