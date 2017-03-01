@@ -15,8 +15,8 @@ var self=this;
 addNewPortofolio.prototype.handleRoutes = function(router,connection,config){
   router.post('/addNewPortofolio',function(req,res){
     var baseUrlPath = config.base_url_server_path;
-    var baseDocumentRoot = config.base_document_root;
-    // console.log(baseUrlPath);
+var baseDocumentRoot = config.base_document_root;
+// console.log(baseUrlPath);
 
     var sessionCode = connection.escape(req.body.sessionCode);
     var title = connection.escape(req.body.title);

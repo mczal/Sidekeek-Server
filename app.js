@@ -5,7 +5,7 @@ var express = require("express"),
   http = require('http'),
 	fs = require('fs'),
 	swagger = require("swagger-node-express"),
-	sendgrid = require('sendgrid')('mczal','*3tZR#PQYcd');;
+	sendgrid = require('sendgrid')('mczal','*3tZR#PQYcd');
 
 var subpath = express();
 var isHostModel = require("./model/isHost.js");
@@ -223,6 +223,7 @@ connect.prototype.configureExpress = function(connection) {
 				var getCities = new getCitiesModel(router,connection);
 				var getProvince = new getProvinceModel(router,connection);
 				var getCategories = new getCategoriesModel(router,connection);
+var confirmation = new confirmationModel(router,connection,jwt,app);
 
 				var confirmation = new confirmationModel(router,connection,jwt,app);
 
@@ -282,7 +283,7 @@ connect.prototype.configureExpress = function(connection) {
 
 			var addNewProductDesc = new addNewProductDescModel(router,connection);
 			var addProductImage = new addProductImageModel(router,connection,config);
-			// var confirmation = new confirmationModel(router,connection,jwt,app);
+			//var confirmation = new confirmationModel(router,connection,jwt,app);
 			var editProductImage = new editProductImageModel(router,connection,config);
 			// var editProfileFull = new editProfileFullModel(router,connection);
 
