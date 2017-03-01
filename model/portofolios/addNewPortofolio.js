@@ -15,7 +15,8 @@ var self=this;
 addNewPortofolio.prototype.handleRoutes = function(router,connection,config){
   router.post('/addNewPortofolio',function(req,res){
     var baseUrlPath = config.base_url_server_path;
-    // console.log(baseUrlPath);
+var baseDocumentRoot = config.base_document_root;    
+// console.log(baseUrlPath);
 
     var sessionCode = connection.escape(req.body.sessionCode);
     var title = connection.escape(req.body.title);
@@ -67,7 +68,7 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection,config){
                                   // if(rows.length == 1){
                                     //here
                                     var idPortofolio = rows.insertId;
-                                    var path = "assets/img/"+email+"/portofolios";
+                                    var path = baseDocumentRoot+"assets/img/"+email+"/portofolios";
                                     var split1 = req.body.imgbase64.split(";");
                                     if(split1.length <= 1){
                                       res.json({"message":"err.. error imgbase64 invalid format sp1","error":"error"});
@@ -112,7 +113,7 @@ addNewPortofolio.prototype.handleRoutes = function(router,connection,config){
                                         });
                                       }else{
                                         // console.log("message success upload img");
-                                        var imgbase64_database = baseUrlPath+path+"/"+filename;
+                                        var imgbase64_database = baseUrlPath+"assets/img/"+email+"/portofolios"+"/"+filename;
                                         //res.json({"message ":" success upload img","database" : imgbase64_database});
                                         // console.log(imgbase64_database);
                                         connection.query("update `portofolio` set img_base64='"+imgbase64_database+"' where id_portofolio="+idPortofolio,function(err,rows){
