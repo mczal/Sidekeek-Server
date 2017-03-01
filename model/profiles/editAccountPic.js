@@ -11,6 +11,7 @@ function editAccountPic(router,connection,config){
 
 editAccountPic.prototype.handleRoutes = function(router,connection,config){
   router.post('/editAccountPic',function(req,res){
+    var baseDocumentRoot = config.base_document_root;
     var baseUrlPath = config.base_url_server_path;
 
     var sessionCode = connection.escape(req.body.sessionCode);
@@ -34,7 +35,7 @@ editAccountPic.prototype.handleRoutes = function(router,connection,config){
 
               //gambarnya aadaa!!
               //IMGBASE64 Affair
-              var path = "assets/img/"+email;
+              var path = baseDocumentRoot+"assets/img/"+email;
               var split1 = imgbase64.split(";");
               if(split1.length <= 1){
                 res.json({"message":"err.. error imgbase64 invalid format sp1","error":"error"});
@@ -70,7 +71,7 @@ editAccountPic.prototype.handleRoutes = function(router,connection,config){
                   res.json({"message":"err.. error in fs.write","err":err,"error":"error"});
                 }else{
                   // console.log("message success upload img");
-                  var imgbase64_database = baseUrlPath+path+"/"+filename;
+                  var imgbase64_database = baseUrlPath+"assets/img/"+email+"/"+filename;
                   //res.json({"message ":" success upload img","database" : imgbase64_database});
                   connection.beginTransaction(function(err){
                     if (err) {

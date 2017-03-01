@@ -2,12 +2,13 @@ var fs = require('fs');
 var pathz = require('path');
 // var rimraf = require('rimraf');
 
-function deleteProduct(router,connection){
+function deleteProduct(router,connection,config){
   var self=this;
-  self.handleRoutes(router,connection);
+  self.handleRoutes(router,connection,config);
 }
 
-deleteProduct.prototype.handleRoutes = function(router,connection){
+deleteProduct.prototype.handleRoutes = function(router,connection,config){
+  var baseDocumentRoot = config.base_document_root;
   router.post('/deleteProduct',function(req,res){
     var sessionCode = connection.escape(req.body.sessionCode);
     var idProduct = connection.escape(req.body.idProduct);
@@ -70,7 +71,7 @@ deleteProduct.prototype.handleRoutes = function(router,connection){
                                   });
                                 }else{
                                   //Delete resources
-                                  var path = "assets/img/"+email+"/products/product-"+req.body.idProduct;
+                                  var path = baseDocumentRoot+"assets/img/"+email+"/products/product-"+req.body.idProduct;
                                   var rmdir = function(dir) {
                                   	var list = fs.readdirSync(dir);
                                   	for(var i = 0; i < list.length; i++) {

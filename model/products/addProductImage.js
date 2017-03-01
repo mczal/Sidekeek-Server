@@ -23,6 +23,7 @@ var self=this;
 
 addProductImage.prototype.handleRoutes = function(router,connection,config){
   router.post("/addProductImage",function(req,res){
+    var baseDocumentRoot = config.base_document_root;
     var baseUrlPath = config.base_url_server_path;
 
     var sessionCode = connection.escape(req.body.sessionCode);
@@ -66,7 +67,7 @@ addProductImage.prototype.handleRoutes = function(router,connection,config){
                         var email = rows[0].email;
                         var idHost = rows[0].id_host;
                     //step 2.
-                        var path = "assets/img/"+email+"/products/product-"+req.body.idProduct;
+                        var path = baseDocumentRoot+"assets/img/"+email+"/products/product-"+req.body.idProduct;
                         var split1 = imgbase64.split(";");
                         if(split1.length <= 1){
                           res.json({"message":"err.. error imgbase64 invalid format sp1","error":"error"});
@@ -102,7 +103,7 @@ addProductImage.prototype.handleRoutes = function(router,connection,config){
                             res.json({"message":"err.. error in fs.write","err":err});
                           }else{
                             // console.log("message success upload img");
-                            var imgbase64_database = baseUrlPath+path+"/"+filename;
+                            var imgbase64_database = baseUrlPath+"assets/img/"+email+"/products/product-"+req.body.idProduct+"/"+filename;
                             //res.json({"message ":" success upload img","database" : imgbase64_database});
 
                             connection.beginTransaction(function(err){

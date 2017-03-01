@@ -1,10 +1,11 @@
 var fs = require('fs');
-function deletePortofolio(router,connection){
+function deletePortofolio(router,connection,config){
   var self=this;
-  self.handleRoutes(router,connection);
+  self.handleRoutes(router,connection,config);
 }
 
-deletePortofolio.prototype.handleRoutes = function(router,connection){
+deletePortofolio.prototype.handleRoutes = function(router,connection,config){
+  var baseDocumentRoot = config.base_document_root;
   router.post('/deletePortofolio',function(req,res){
     var sessionCode = connection.escape(req.body.sessionCode);
     var idPortofolio = connection.escape(req.body.idPortofolio);
@@ -60,7 +61,7 @@ deletePortofolio.prototype.handleRoutes = function(router,connection){
                             }else{
                               if(img_base64 != null && img_base64 != undefined && img_base64 != ''){
                                 var splitter = img_base64.split('/');
-                                var path = "assets/img/"+email+"/portofolios/"+splitter[splitter.length-1];
+                                var path = baseDocumentRoot+"assets/img/"+email+"/portofolios/"+splitter[splitter.length-1];
                                 fs.unlink(path, function(err){
                                   // Need more handling than this
                                   if (err) {

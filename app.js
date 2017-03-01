@@ -223,7 +223,7 @@ connect.prototype.configureExpress = function(connection) {
 				var getCities = new getCitiesModel(router,connection);
 				var getProvince = new getProvinceModel(router,connection);
 				var getCategories = new getCategoriesModel(router,connection);
-var confirmation = new confirmationModel(router,connection,jwt,app);
+				var confirmation = new confirmationModel(router,connection,jwt,app);
 
 				var confirmation = new confirmationModel(router,connection,jwt,app);
 
@@ -293,9 +293,9 @@ var confirmation = new confirmationModel(router,connection,jwt,app);
 
 			var editPortofolioImg = new editPortofolioImgModel(router,connection,config);
 
-			var deleteProductImage = new deleteProductImageModel(router,connection);
-			var deleteProduct = new deleteProductModel(router,connection);
-			var deletePortofolio = new deletePortofolioModel(router,connection);
+			var deleteProductImage = new deleteProductImageModel(router,connection,config);
+			var deleteProduct = new deleteProductModel(router,connection,config);
+			var deletePortofolio = new deletePortofolioModel(router,connection,config);
 
 			var testingEmail = new testingEmailModel(router,connection);
 			var testingBase64 = new testingBase64Model(router,connection,fs);

@@ -21,6 +21,7 @@ function generateUniqueCode(){
 
 editProductImage.prototype.handleRoutes = function(router,connection,config){
   router.post('/editProductImage',function(req,res){
+    var baseDocumentRoot = config.base_document_root;
     var baseUrlPath = config.base_url_server_path;
 
     var sessionCode = connection.escape(req.body.sessionCode);
@@ -53,7 +54,7 @@ editProductImage.prototype.handleRoutes = function(router,connection,config){
                         var oldImgbase64_databse = rows[0].img_base64;
                         var idProduct = rows[0].id_product;
                         var isRepChecker = rows[0].isRepresentation;
-                        var path = "assets/img/"+email+"/products/product-"+idProduct;
+                        var path = baseDocumentRoot+"assets/img/"+email+"/products/product-"+idProduct;
                         var split1 = imgbase64.split(";");
                         if(split1.length <= 1){
                           res.json({"message":"err.. error imgbase64 invalid format sp1","error":"error"});
@@ -80,7 +81,7 @@ editProductImage.prototype.handleRoutes = function(router,connection,config){
                                 res.json({"message":"err.. error on beginTransaction","error":"error","objErr":err});
                                 return;
                               }
-                              var imgbase64_database = baseUrlPath+path+"/"+filename;
+                              var imgbase64_database = baseUrlPath+"assets/img/"+email+"/products/product-"+idProduct+"/"+filename;
                               var q10 = "update `gallery_product` set img_base64='"+imgbase64_database+"' where id="+idProductImage;
                               connection.query(q10,function(err,rows){
                                 if(err){
@@ -102,7 +103,7 @@ editProductImage.prototype.handleRoutes = function(router,connection,config){
                                       });
                                     }else{
                                       var splitterOldImg = oldImgbase64_databse.split("/");
-                                      var deletedPath = "assets/img/"+email+"/products/product-"+idProduct+"/"+splitterOldImg[splitterOldImg.length-1];
+                                      var deletedPath = baseDocumentRoot+"assets/img/"+email+"/products/product-"+idProduct+"/"+splitterOldImg[splitterOldImg.length-1];
                                       fs.unlink(deletedPath,function(err){
                                         if(err){
                                           connection.rollback(function(){

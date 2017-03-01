@@ -1,10 +1,11 @@
 var fs = require('fs');
-function deleteProductImage(router,connection){
+function deleteProductImage(router,connection,config){
   var self=this;
-  self.handleRoutes(router,connection);
+  self.handleRoutes(router,connection,config);
 }
 
-deleteProductImage.prototype.handleRoutes = function(router,connection){
+deleteProductImage.prototype.handleRoutes = function(router,connection,config){
+  var baseDocumentRoot = config.base_document_root;
   router.post('/deleteProductImage',function(req,res){
     var sessionCode = connection.escape(req.body.sessionCode);
     var idProductImage = connection.escape(req.body.idProductImage);
@@ -79,7 +80,7 @@ deleteProductImage.prototype.handleRoutes = function(router,connection){
                                   });
                                 }else{
                                   var splitter = img_base64.split('/');
-                                  var path = "assets/img/"+email+"/products/product-"+idProduct+"/"+splitter[splitter.length-1];
+                                  var path = baseDocumentRoot+"assets/img/"+email+"/products/product-"+idProduct+"/"+splitter[splitter.length-1];
                                   fs.unlink(path, function(err){
                                     if (err) {
                                       connection.rollback(function(){
@@ -137,7 +138,7 @@ deleteProductImage.prototype.handleRoutes = function(router,connection){
                               });
                             }else{
                               var splitter = img_base64.split('/');
-                              var path = "assets/img/"+email+"/products/product-"+idProduct+"/"+splitter[splitter.length-1];
+                              var path = baseDocumentRoot+"assets/img/"+email+"/products/product-"+idProduct+"/"+splitter[splitter.length-1];
                               fs.unlink(path, function(err){
                                 if (err) {
                                   connection.rollback(function(){
