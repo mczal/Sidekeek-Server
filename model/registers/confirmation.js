@@ -23,11 +23,12 @@ confirmation.prototype.handleRoutes = function(router,connection,jwt,app){
     if(uniqueCode == null || uniqueCode == undefined || uniqueCode == ''){
       res.json({"message":"err.. no params received","error":"error","session":null,"email":null});
     }else{
-      connection.query("select email,id_host from `host` where unique_code="+uniqueCode,function(err,rows){
+      connection.query("select email,id_host,id_tipe from `host` where unique_code="+uniqueCode,function(err,rows){
         if(err){
           res.json({"message":"err.. error on selecting host with given uniqueCode","session":null,"email":null,"error":"error"});
         }else{
           if(rows.length>0){
+            var idTipe = rows[0].id_tipe;
             var email = rows[0].email;
             var idHost = rows[0].id_host;
             connection.query("update `host` set statusz=1 where id_host="+idHost,function(err,rows){
@@ -65,7 +66,8 @@ confirmation.prototype.handleRoutes = function(router,connection,jwt,app){
           										}, app.get('superSecret'), {
           	                    expiresInMinutes: 1440 // expires in 24 hours
           	                  });
-                              res.json({"message":"your account has been confirmed, success updating session code, go on","error":"success","session":sessionCode,"token":token,"email":email,"idHost":idHost});
+                              var tipe = (idTipe==null ? "seeker" : (idTipe==1 ? "goods" : "services"));
+                              res.json({"message":"your account has been confirmed, success updating session code, go on","error":"success","session":sessionCode,"token":token,"email":email,"idHost":idHost,"idType":idTipe,"type":tipe});
                             }
                           });
                         }
@@ -94,7 +96,8 @@ confirmation.prototype.handleRoutes = function(router,connection,jwt,app){
           										}, app.get('superSecret'), {
           	                    expiresInMinutes: 1440 // expires in 24 hours
           	                  });
-                              res.json({"message":"your account has been confirmed, success create new session, go on","session":sessionCode,"token":token,"email":email,"idHost":idHost});
+                              var tipe = (idTipe==null ? "seeker" : (idTipe==1 ? "goods" : "services"));
+                              res.json({"message":"your account has been confirmed, success create new session, go on","session":sessionCode,"token":token,"email":email,"idHost":idHost,"idType":idTipe,"type":tipe});
                             }
                           });
                         }

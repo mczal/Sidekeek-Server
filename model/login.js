@@ -28,11 +28,12 @@ login.prototype.handleRoutes = function(router,connection,md5){
       if(password==null || password==undefined || password==""){
         res.json({"message":"err.. no params pass received"});
       }else{
-        connection.query("select unique_code,password,id_host,statusz from `host` where email="+email+"",function(err,rows){
+        connection.query("select unique_code,password,id_host,statusz,id_tipe from `host` where email="+email+"",function(err,rows){
           if(err){
             res.json({"message":"err.. error in selecting first check"});
           }else{
             if(rows.length>0){
+              var idTipe = rows[0].id_tipe;
               var statusz = rows[0].statusz;
               var uniqueCode = rows[0].unique_code;
               var idHost = rows[0].id_host;
@@ -56,7 +57,8 @@ login.prototype.handleRoutes = function(router,connection,md5){
                           if(err){
                             res.json({"message":"err.. error on updating session host","query":query});
                           }else{
-                              res.json({"message":"success updating session code, go on","session":sessionCode,"idHost":idHost});
+                              var tipe = (idTipe==null ? "seeker" : (idTipe==1 ? "goods" : "services"));
+                              res.json({"message":"success updating session code, go on","session":sessionCode,"idHost":idHost,"idType":idTipe,"type":tipe});
                           }
                         });
                       }else{
@@ -70,7 +72,8 @@ login.prototype.handleRoutes = function(router,connection,md5){
                           if(err){
                             res.json({"message":"err.. error create new session","query":query});
                           }else{
-                            res.json({"message":"success create new session, go on","session":sessionCode,"idHost":idHost});
+                            var tipe = (idTipe==null ? "seeker" : (idTipe==1 ? "goods" : "services"));
+                            res.json({"message":"success create new session, go on","session":sessionCode,"idHost":idHost,"idType":idTipe,"type":tipe});
                           }
                         });
                       }

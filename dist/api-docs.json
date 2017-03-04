@@ -1833,7 +1833,19 @@
         "session": {
           "example": ""
         },
+        "token": {
+          "example": ""
+        },
         "email": {
+          "example": ""
+        },
+        "idHost": {
+          "example": ""
+        },
+        "idType": {
+          "example": ""
+        },
+        "type": {
           "example": ""
         }
       }
@@ -2128,6 +2140,15 @@
           "example": ""
         },
         "session": {
+          "example": ""
+        },
+        "idHost": {
+          "example": ""
+        },
+        "idType": {
+          "example": ""
+        },
+        "type": {
           "example": ""
         }
       }
