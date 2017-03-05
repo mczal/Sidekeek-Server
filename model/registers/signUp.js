@@ -71,7 +71,7 @@ var domain_name = config.domain_name;
                             from:     'noreply-sidekeek@sidekeek.co',
                             subject:  'Sidekeek Account Confirmation',
                             text:     'Please click the following link below to confirm your account on sidekeek.co',
-                            html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='"+domain_name+"#/confirmation/?uq="+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
+                            html:     "<p>Please click the following link below to confirm your account on sidekeek.co</p><a href='"+domain_name+"#/confirmation/"+uniqueCode+"'><button>CLICK  ME!!!!</button><p><b>"+uniqueCode+"</b></p></a>",
                           }, function(err, json) {
                             if (err) {
                               connection.rollback(function(){
