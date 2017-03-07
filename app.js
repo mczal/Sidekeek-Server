@@ -86,26 +86,30 @@ function connect(){
 
 connect.prototype.connectMysql = function() {
 	// body...
-	var self = this;
+		var self = this;
     var pool      =    mysql.createPool({ //bisa pake create pool , bisa juga pake mySQL biasa, tapi lebih aman POOL..>>searching
         connectionLimit : 100,
         multipleStatements: false,
-
-		//kalo mau coba local host
-		host     : config.host,
-		user     : config.db_username,
-		password : config.db_password,
-		database : config.db_name,
-        datestring : true,
-        debug    :  false//console
-    });
-    pool.getConnection(function(err,connection){
-        if(err) {
-          self.stop(err);
-        } else {
-          self.configureExpress(connection);//configurasi otomatis dari express
-        }
-    });
+				waitForConnections : true,
+				queueLimit :0,
+				//kalo mau coba local host
+				host     : config.host,
+				user     : config.db_username,
+				password : config.db_password,
+				database : config.db_name,
+		    datestring : true,
+		    debug    :  false, //console
+				wait_timeout : 28800,
+        connect_timeout :10
+		    });
+				self.configureExpress(pool);
+    // pool.getConnection(function(err,connection){
+    //     if(err) {
+    //       self.stop(err);
+    //     } else {
+    //       self.configureExpress(connection);//configurasi otomatis dari express
+    //     }
+    // });
 }
 
 connect.prototype.configureExpress = function(connection) {
